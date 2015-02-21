@@ -1,5 +1,10 @@
 package bg.mentormate.academy.reservations.models;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import bg.mentormate.academy.reservations.common.Validator;
+
 /**
  * Created by Student16 on 2/5/2015.
  */
@@ -166,5 +171,18 @@ public class Reservation {
 
     public void setVenue_image(String venue_image) {
         this.venue_image = venue_image;
+    }
+
+    public String getDateBookedString() {
+        return Validator.GetDatetimeAsString(getAccepted());
+    }
+
+    public String getStatusString() {
+        switch(getAccepted()) {
+            case -1: return "Rejected";
+            case 1: return "Accepted";
+            case 0:
+            default: return "Pending";
+        }
     }
 }

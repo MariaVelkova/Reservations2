@@ -15,12 +15,17 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 public class Validator {
+
+    static final String DATEFORMAT = "dd-MM HH:mm";
 
     public static boolean isEmpty(String value) {
         String emptyString = new String("");
@@ -136,5 +141,36 @@ public class Validator {
         return resultString;
     }
 
+    public static Date GetDatetimeAsDate(long milliSeconds)
+    {
+        //note: doesn't check for null
+        return StringDateToDate(GetDatetimeAsString(milliSeconds));
+    }
 
+    public static String GetDatetimeAsString(long milliSeconds)
+    {
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        final String utcTime = sdf.format(new Date(milliSeconds));
+
+        return utcTime;
+    }
+
+    public static Date StringDateToDate(String StrDate)
+    {
+        Date dateToReturn = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATEFORMAT);
+
+        try
+        {
+            dateToReturn = (Date)dateFormat.parse(StrDate);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return dateToReturn;
+    }
 }

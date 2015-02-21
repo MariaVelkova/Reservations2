@@ -85,7 +85,7 @@ public class AdminReservationAdapter  extends BaseAdapter {
                         for (int r = 0; r < reservationsJSON.length(); r++) {
                             try {
                                 JSONObject reservationJSON = reservationsJSON.getJSONObject(r);
-                                Reservation reservation = new Reservation(reservationJSON.getInt("id"), reservationJSON.getInt("user_id"), reservationJSON.getInt("venue_id"), reservationJSON.getString("venue_name"), reservationJSON.getString("venue_phone"), reservationJSON.getString("venue_city"), reservationJSON.getString("venue_address"), reservationJSON.getInt("date_created"), reservationJSON.getInt("date_booked"), reservationJSON.getInt("people_count"), reservationJSON.getString("comment"), reservationJSON.getInt("accepted"));
+                                Reservation reservation = new Reservation(reservationJSON.getInt("id"), reservationJSON.getInt("user_id"), reservationJSON.getString("user_first_name"), reservationJSON.getString("user_last_name"), reservationJSON.getString("user_phone"), reservationJSON.getInt("venue_id"), reservationJSON.getString("venue_name"), reservationJSON.getString("venue_phone"), reservationJSON.getString("venue_city"), reservationJSON.getString("venue_address"), reservationJSON.getString("venue_image"), reservationJSON.getInt("date_created"), reservationJSON.getInt("date_booked"), reservationJSON.getInt("people_count"), reservationJSON.getString("comment"), reservationJSON.getInt("accepted"));
                                 reservationsArray.add(reservation);
                             } catch (JSONException e) {
                                 e.printStackTrace();

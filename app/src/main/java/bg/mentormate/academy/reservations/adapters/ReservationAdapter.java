@@ -167,12 +167,12 @@ public class ReservationAdapter extends BaseAdapter {
 
         Reservation currentReservation = getItem(position);
 
-//        picture.setImageResource(currentReservation.getVenue().getPicture());
-//        date.setText(currentReservation.getDate());
-//        peopleCount.setText("For " + currentReservation.getForHowMany());
-//        userName.setText(currentReservation.getUser().getFirstName() + " " + currentReservation.getUser().getLastName());
-//        venueName.setText(currentReservation.getVenue().getName());
-        userPhone.setText("0878571190");
+            //picture.setImageResource(currentReservation.getVenue_image());
+            date.setText(currentReservation.getDateBookedString());
+            peopleCount.setText("For " + currentReservation.getPeopleCount());
+            userName.setText(currentReservation.getUser_last_name() + " " + currentReservation.getUser_last_name());
+            venueName.setText(currentReservation.getVenue_name());
+            userPhone.setText(currentReservation.getVenue_phone());
 //        yes.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

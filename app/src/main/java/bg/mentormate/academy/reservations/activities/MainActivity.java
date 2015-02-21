@@ -29,6 +29,7 @@ import bg.mentormate.academy.reservations.activities.user_account.UserAccountAct
 import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.SessionData;
+import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.CustomActionBarDrawerToggle;
 import bg.mentormate.academy.reservations.models.User;
@@ -179,37 +180,10 @@ public class MainActivity extends ActionBarActivity {
      */
 
     private void showResults(String query, String venueType, String venueCity) {
-        TextView mTextView = (TextView) findViewById(R.id.text);
         ListView mListView = (ListView) findViewById(R.id.list);
 
         Log.d("QUERY IS ", query);
         Log.d("MainActivity", "showResults");
-
-//        String emptyString = new String ("");
-//        if (emptyString.equals(query)) {
-//            cursor = getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, null, null, DBConstants.DB_TABLE_VENUES_NAME);
-//        } else {
-//            cursor = getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, DBConstants.DB_TABLE_VENUES_NAME + " LIKE ?", new String[]{"%" + query + "%"}, DBConstants.DB_TABLE_VENUES_NAME);
-//        }
-//        if (!cursor.moveToFirst()) {
-//            Log.d("showResults", "There are no results");
-//            // There are no results
-//            mTextView.setText(getString(R.string.no_results, new Object[] {query}));
-//        } else {
-
-            // Display the number of results
-//            int count = cursor.getCount();
-//            String countString;
-//            if (emptyString.equals(query)) {
-//                countString = getResources().getQuantityString(R.plurals.venues_list,
-//                        count,new Object[]{count});
-//            } else {
-//                countString = getResources().getQuantityString(R.plurals.search_results,
-//                        count, new Object[]{count, query});
-//            }
-//            mTextView.setText(countString);
-//            Log.d("showResults", countString);
-
 
             VenuesAdapter adapter = new VenuesAdapter(this, query, venueType, venueCity, 0);
 
@@ -233,7 +207,20 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
-//        }
+        // Display the number of results
+        int count = adapter.getCount();
+        String countString;
+        if (Validator.isEmpty(query) && Validator.isEmpty(venueCity) && Validator.isEmpty(venueType)  ) {
+            countString = getResources().getQuantityString(R.plurals.venues_list,
+                    count,new Object[]{count});
+        } else {
+            countString = getResources().getQuantityString(R.plurals.search_results,
+                    count, new Object[]{count, query});
+        }
+        TextView mTextView = (TextView) findViewById(R.id.text);
+        mTextView.setText(countString);
+        Log.d("showResults", countString);
+
     }
 
 
