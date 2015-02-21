@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#aaff1900">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+     >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="70dp"
+        android:src="@drawable/no_profile_image"
+        android:id="@+id/avatar"
+        android:layout_marginBottom="20dp"
+        />
+        <TextView
+            style="@style/LabelStyle"
+            android:text="Name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emil Kolev"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/fullName"/>
+         <TextView
+        style="@style/LabelStyle"
+        android:text="City"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sofia"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+        android:id="@+id/city"/>
+    <TextView
+        style="@style/LabelStyle"
+        android:text="E-mail"/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="emil.kolev93@gmail.com"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/email"/>
+    <TextView
+        style="@style/LabelStyle"
+        android:text="Phone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0878571190"
+            android:textSize="20sp"
+            android:id="@+id/phone"
+            />
+</LinearLayout>
+</ScrollView>

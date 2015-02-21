@@ -1,0 +1,88 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutStyle">
+
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="Name..."
+        android:id="@+id/name"
+        />
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="City..."
+        android:id="@+id/city"
+       />
+
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="Address..."
+        android:id="@+id/address"
+       />
+
+    <EditText
+        android:hint="Phone..."
+        style="@style/TextViewStyle"
+        android:id="@+id/phone"
+        />
+
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="Work Hours..."
+        android:id="@+id/hours"
+        />
+
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="Capacity..."
+        android:id="@+id/capacity"
+        />
+
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="Latitude..."
+        android:id="@+id/latitude"
+       />
+    <EditText
+        style="@style/TextViewStyle"
+        android:hint="Longitude..."
+        android:id="@+id/longitude"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Picture"
+            android:gravity="center"
+            android:textStyle="bold|italic"
+            android:textSize="20sp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/picture_frame"
+            android:layout_weight="1"
+            android:id="@+id/venuePictureChooser"/>
+        </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:text="Create Venue"
+        android:id="@+id/buttonCreatedVenue"/>
+
+</LinearLayout>
+</ScrollView>
