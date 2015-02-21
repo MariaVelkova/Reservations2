@@ -33,9 +33,17 @@ import bg.mentormate.academy.reservations.models.Venue;
  */
 public class VenuesAdapter extends BaseAdapter {
     private Context context;
+    String query;
+    String venueType;
+    String venueCity;
+    int owner_id;
     private ArrayList<Venue> venuesArray;
     public VenuesAdapter(Context context, String query, String venueType, String venueCity, int owner_id) {
         this.context = context;
+        this.query = query;
+        this.venueType = venueType;
+        this.venueCity = venueCity;
+        this.owner_id = owner_id;
 
         this.venuesArray = new ArrayList<Venue>();
 
@@ -136,6 +144,9 @@ public class VenuesAdapter extends BaseAdapter {
             venueAddress = (TextView) convertView.getTag(R.id.venueAddress);
             venuePhone = (TextView) convertView.getTag(R.id.venuePhone);
         }
+
+
+
         Resources resources = convertView.getResources();
         final Venue currentVenue = getItem(position);
         venueName.setText(currentVenue.getName());
