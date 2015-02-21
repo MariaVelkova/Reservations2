@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+   <!--<style name="AppTheme" parent="android:Theme.Holo.Light" >-->
+        <!--<item name="android:background">#ffdfffb9</item>-->
+        <item name="android:actionBarStyle">@style/MyActionBarLogo</item>
+        <item name="actionBarStyle">@style/MyActionBarLogo</item>
+    </style>
+    <style name="MyActionBarLogo" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:logo">@drawable/ic_launcher</item>
+        <item name="android:displayOptions">useLogo|showHome|showTitle|showCustom</item>
+        <item name="logo">@drawable/ic_launcher</item>
+        <item name="displayOptions">useLogo|showHome|showTitle|showCustom</item>
+    </style>
+    <style name="TextViewStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ff787878</item>
+    </style>
+    <style name="LabelStyle" parent="@style/TextViewStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:textColor">#ff585858</item>
+    </style>
+    <style name="EditTextStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ff787878</item>
+    </style>
+    <style name="LayoutStyle" parent="@style/AppTheme">
+        <item name="android:padding">10dp</item>
+        <!--<item name="android:background">#aaff1900</item>-->
+    </style>
+</resources>

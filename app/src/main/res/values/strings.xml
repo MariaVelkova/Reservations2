@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- The name of the application. -->
+    <string name="app_name">Reservations</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_label">Reservations</string>
+
+    <!-- The hint text that appears in the search box. -->
+    <string name="search_hint">Venue name, Address...</string>
+    <string name="action_search">Venue name, address...</string>
+    <string name="action_clear">Clear Search History</string>
+    <string name="search_description">Search for venues</string>
+    <string name="title_activity_venue_detail">VenueDetailActivity</string>
+
+    <!-- The label for use as a searchable item -->
+    <string name="search_label">Dictionary</string>
+
+    <!-- The menu entry that invokes search. -->
+    <string name="menu_search">Search</string>
+
+    <!-- The description that will show up in the search settings for this source. -->
+    <string name="settings_description">Venues Information</string>
+
+    <!-- General instructions in the main activity. -->
+    <string name="search_instructions">Use the search box in the Action Bar to look up a venue</string>
+
+    <!-- Shown above search results when we receive a search request. -->
+    <plurals name="search_results">
+        <item quantity="one">%1$d result for \"%2$s\": </item>
+        <item quantity="other">%1$d results for \"%2$s\": </item>
+    </plurals>
+    <plurals name="venues_list">
+        <item quantity="one">%1$d result</item>
+        <item quantity="other">%1$d results</item>
+    </plurals>
+
+    <!-- Search failure message. -->
+    <string name="no_results">No results found for \"%s\"</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_filter">Filter Results</string>
+
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="userLoginBtn">Login</string>
+    <string name="userPass">Password</string>
+    <string name="userEmail">Email</string>
+    <string name="title_activity_authorised_base">AuthorisedBaseActivity</string>
+    <string name="no_network">No network connection available.</string>
+    <string name="empty_email_error">Email is empty</string>
+    <string name="invalid_email_error">Invalid Email</string>
+    <string name="empty_pass_error">Empty Pass</string>
+    <string name="different_pass_error">Passwords do not match</string>
+    <string name="empty_fname_error">Empty First Name</string>
+    <string name="empty_lname_error">Empty Last Name</string>
+    <string name="empty_phone_error">Empty Phone Number</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="loging">Logging In</string>
+    <string name="loading">Loading Data</string>
+    <string name="address_label">Address:</string>
+    <string name="phone_label">Phone:</string>
+    <string name="worktime_label">Working Hours:</string>
+    <string name="make_reservation">Make Reservation</string>
+    <string name="privacy_policy_last_update">16.02.2015</string>
+    <string name="privacy_policy_service">Reservations App</string>
+    <string name="privacy_policy_company">MentorMate Academy Project</string>
+    <string name="privacy_policy_country">Bulgaria</string>
+    <string name="privacy_policy_period">30</string>
+    <string name="privacy_policy">Terms and Conditions ("Terms")\n
+Last updated: (%1$s).\n
+Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using
+the %2$s (the "Service") operated by %3$s ("us", "we", or "our").\n
+Your access to and use of the Service is conditioned on your acceptance of and compliance with
+these Terms. These Terms apply to all visitors, users and others who access or use the Service.
+By accessing or using the Service you agree to be bound by these Terms. If you disagree with any
+part of the terms then you may not access the Service.\n
+Termination clause for websites that do not have accounts. If your website or mobile app allows
+users to register and have an account, create your own Terms and Conditions.\n
+Termination\n
+We may terminate or suspend access to our Service immediately, without prior notice or liability, for
+any reason whatsoever, including without limitation if you breach the Terms.\mn
+All provisions of the Terms which by their nature should survive termination shall survive
+termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and
+limitations of liability.\n
+Links To Other Web Sites\n
+Our Service may contain links to third­party web sites or services that are not owned or controlled
+by %4$s.\n
+%5$s has no control over, and assumes no responsibility for, the content,
+privacy policies, or practices of any third party web sites or services. You further acknowledge and
+agree that %6$s shall not be responsible or liable, directly or indirectly, for
+any damage or loss caused or alleged to be caused by or in connection with use of or reliance on
+any such content, goods or services available on or through any such web sites or services.
+We strongly advise you to read the terms and conditions and privacy policies of any third­party web
+sites or services that you visit.\n
+Governing Law\n
+These Terms shall be governed and construed in accordance with the laws of %7$s, without regard to its conflict of law provisions.\n
+Our failure to enforce any right or provision of these Terms will not be considered a waiver of those
+rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the
+remaining provisions of these Terms will remain in effect. These Terms constitute the entire
+agreement between us regarding our Service, and supersede and replace any prior agreements we
+might have between us regarding the Service.\n
+Changes\n
+We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a
+revision is material we will try to provide at least %8$s days notice prior to any new terms
+taking effect. What constitutes a material change will be determined at our sole discretion.\n
+By continuing to access or use our Service after those revisions become effective, you agree to be
+bound by the revised terms. If you do not agree to the new terms, please stop using the Service.
+Contact Us\n
+If you have any questions about these Terms, please contact us</string>
+    <string name="google_maps_key_instructions" templateMergeStrategy="replace">
+        <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=04:20:0F:5C:50:FC:0C:55:8A:AD:3C:97:C8:05:B3:75:F4:C5:B3:E6%3Bcom.mentoracademy.lecture16
+
+    You can also add your credentials to an existing key, using this line:
+    04:20:0F:5C:50:FC:0C:55:8A:AD:3C:97:C8:05:B3:75:F4:C5:B3:E6;com.mentoracademy.lecture16
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+        -->
+    </string>
+    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyCDJVPPnGiugBwt69KOBhpmQ_UZMaCADr4</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_privacy">PrivacyActivity</string>
+    <string name="title_activity_about">About Us</string>
+    <string name="about">MentorMate Academy\n\nAndroid App\n\nDevelopers: Maria Velkova and Emil Kolev\n\nCredits:\n<a href="http://icons8.com/web-app/3316/Rotate-Camera">Rotate camera icon credits</a></string>
+    <string name="title_activity_user_account">UserAccountActivity</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="contact_avatar_upload">Add Avatar</string>
+    <string name="avatar_upload">Add avatar</string>
+    <string name="pick_action">Select Image</string>
+    <string name="title_activity_admin">AdminActivity</string>
+    <string name="title_activity_reservations">ReservationsActivity</string>
+
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  style="@style/LayoutStyle">
+        <TextView
+            style="@style/LabelStyle"
+            android:text="Month" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerMonth" />
+        <TextView
+            style="@style/LabelStyle"
+            android:text="Day" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerDay" />
+        <TextView
+            style="@style/LabelStyle"
+            android:text="Hour" />
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerHour" />
+        <TextView
+            style="@style/LabelStyle"
+            android:text="People" />
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerPeople" />
+        <EditText
+            style="@style/EditTextStyle"
+            android:hint="Additional Information..."
+            android:id="@+id/AdditionalInfo"/>
+        <TextView
+            style="@style/TextViewStyle"
+            android:text="Summary"
+            android:id="@+id/summary" />
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Reservation"
+            android:layout_gravity="center"
+            android:id="@+id/createReservation"/>
+</LinearLayout>
