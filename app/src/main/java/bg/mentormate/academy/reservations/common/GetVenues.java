@@ -18,12 +18,21 @@ import bg.mentormate.academy.reservations.models.User;
  */
 public class GetVenues  extends AsyncTask<String, Void, String> {
 
-    private Context context;
+
+    String query;
+    String venueType;
+    String venueCity;
+    int owner_id;
+
     SessionData sessionData = SessionData.getInstance();
     User user = sessionData.getUser();
 
-    public GetVenues(Context context) {
-        this.context = context;
+    public GetVenues(String query, String venueType, String venueCity, int owner_id) {
+
+        this.query = query;
+        this.venueType = venueType;
+        this.venueCity = venueCity;
+        this.owner_id = owner_id;
     }
 
     @Override
@@ -32,7 +41,7 @@ public class GetVenues  extends AsyncTask<String, Void, String> {
         String result = "";
         HttpResponse response = null;
         HttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpGet httpGet = new HttpGet("http://mma-android.comxa.com/index.php?action=venues&city="+user.getCity());
+        HttpGet httpGet = new HttpGet("http://mma-android.comxa.com/index.php?action=venues&query=" + query + "&type=" + venueType + "&city="+venueCity + "&owner=" + Integer.toString(owner_id));
         try {
             response = httpclient.execute(httpGet);
             result = Validator.readHttpResponse(response);

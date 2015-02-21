@@ -28,8 +28,10 @@ import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.user_account.UserAccountActivity;
 import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
+import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.CustomActionBarDrawerToggle;
+import bg.mentormate.academy.reservations.models.User;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -48,7 +50,8 @@ public class MainActivity extends ActionBarActivity {
     DrawerLayout mDrawerLayout;
 
     ActionBarDrawerToggle mDrawerToggle;
-
+    SessionData sessionData = SessionData.getInstance();
+    User user = sessionData.getUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
         } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
             String query = intent.getStringExtra(SearchManager.QUERY);
-            showResults(query);
+            showResults(query, "", user.getCity());
             /*
             resultValues = getResults(query);
             String[] resultValuesArray = new String[resultValues.size()];
@@ -163,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
             adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, resultValuesArray);
             */
         } else {
-            showResults("");
+            showResults("","",user.getCity());
         }
         /*
         listView.setAdapter(adapter);
@@ -175,51 +178,41 @@ public class MainActivity extends ActionBarActivity {
      * @param query The search query
      */
 
-    private void showResults(String query) {
+    private void showResults(String query, String venueType, String venueCity) {
         TextView mTextView = (TextView) findViewById(R.id.text);
         ListView mListView = (ListView) findViewById(R.id.list);
+
         Log.d("QUERY IS ", query);
         Log.d("MainActivity", "showResults");
-        Cursor cursor;
-        String emptyString = new String ("");
-        if (emptyString.equals(query)) {
-            cursor = getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, null, null, DBConstants.DB_TABLE_VENUES_NAME);
-        } else {
-            cursor = getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, DBConstants.DB_TABLE_VENUES_NAME + " LIKE ?", new String[]{"%" + query + "%"}, DBConstants.DB_TABLE_VENUES_NAME);
-        }
-        if (!cursor.moveToFirst()) {
-            Log.d("showResults", "There are no results");
-            // There are no results
-            mTextView.setText(getString(R.string.no_results, new Object[] {query}));
-        } else {
+
+//        String emptyString = new String ("");
+//        if (emptyString.equals(query)) {
+//            cursor = getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, null, null, DBConstants.DB_TABLE_VENUES_NAME);
+//        } else {
+//            cursor = getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, DBConstants.DB_TABLE_VENUES_NAME + " LIKE ?", new String[]{"%" + query + "%"}, DBConstants.DB_TABLE_VENUES_NAME);
+//        }
+//        if (!cursor.moveToFirst()) {
+//            Log.d("showResults", "There are no results");
+//            // There are no results
+//            mTextView.setText(getString(R.string.no_results, new Object[] {query}));
+//        } else {
 
             // Display the number of results
-            int count = cursor.getCount();
-            String countString;
-            if (emptyString.equals(query)) {
-                countString = getResources().getQuantityString(R.plurals.venues_list,
-                        count,new Object[]{count});
-            } else {
-                countString = getResources().getQuantityString(R.plurals.search_results,
-                        count, new Object[]{count, query});
-            }
-            mTextView.setText(countString);
-            Log.d("showResults", countString);
+//            int count = cursor.getCount();
+//            String countString;
+//            if (emptyString.equals(query)) {
+//                countString = getResources().getQuantityString(R.plurals.venues_list,
+//                        count,new Object[]{count});
+//            } else {
+//                countString = getResources().getQuantityString(R.plurals.search_results,
+//                        count, new Object[]{count, query});
+//            }
+//            mTextView.setText(countString);
+//            Log.d("showResults", countString);
 
 
-            VenuesAdapter adapter = new VenuesAdapter(this, cursor);
+            VenuesAdapter adapter = new VenuesAdapter(this, query, venueType, venueCity, 0);
 
-//            ArrayList<String> queryResults = new ArrayList<String>();
-//            String[] resultValuesArray = new String[count];
-//            int i = 0;
-//            do {
-//                Log.d("VALUE",cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_NAME)));
-//                resultValuesArray[i] = cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_NAME));
-//                i++;
-//            } while(cursor.moveToNext());
-//
-//            //resultValuesArray = resultValues.toArray(resultValuesArray);
-//            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, resultValuesArray);
             mListView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
@@ -240,26 +233,9 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
-        }
+//        }
     }
 
-//    private ArrayList<String> getResults(String query) {
-//
-//        Log.d("QUERY IS ", query);
-//
-//        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-//                DBConstants.AUTHORITY, CustomSearchRecentSuggestionsProvider.MODE);
-//        suggestions.saveRecentQuery(query, null);
-//
-//        ArrayList<String> queryResults = new ArrayList<String>();
-//        for (int i = 0; i < values.length; i++) {
-//            //if (values[i].contains(query)) {          this is CASE SENSITIVE
-//            if (values[i].toLowerCase().contains(query.toLowerCase())) {
-//                queryResults.add(values[i]);
-//            }
-//        }
-//        return queryResults;
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -288,13 +264,6 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         switch (item.getItemId()) {
-//            case R.id.action_clear:
-//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-//                        DBConstants.AUTHORITY, CustomSearchRecentSuggestionsProvider.MODE);
-//                suggestions.clearHistory();
-//                return true;
-//            case R.id.action_settings:
-//                return true;
             case R.id.action_search:
                 onSearchRequested();
                 return true;

@@ -4,18 +4,28 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.common.GetReservations;
+import bg.mentormate.academy.reservations.common.GetVenues;
+import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.database.DBConstants;
+import bg.mentormate.academy.reservations.models.Reservation;
 import bg.mentormate.academy.reservations.models.Venue;
 
 /**
@@ -23,51 +33,87 @@ import bg.mentormate.academy.reservations.models.Venue;
  */
 public class VenuesAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<Venue> venues;
-    public VenuesAdapter(Context context, Cursor cursor) {
+    private ArrayList<Venue> venuesArray;
+    public VenuesAdapter(Context context, String query, String venueType, String venueCity, int owner_id) {
         this.context = context;
-        this.venues = new ArrayList<Venue>();
 
-        if (cursor.moveToFirst()) {
-            ContentResolver contentResolver = context.getContentResolver();
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-            long time = cal.getTimeInMillis();
-            do {
+        this.venuesArray = new ArrayList<Venue>();
 
-                Venue venue = new Venue(
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_ID)),
-                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_NAME)),
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_PHONE)),
-                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_ADDRESS)),
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_CITY_ID)),
-                        cursor.getDouble(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_LAT)),
-                        cursor.getDouble(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_LON)),
-                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_WORKTIME)),
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_CAPCITY)),
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_OWNER_ID)),
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_CREATED)),
-                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_LAST_UPDATED))
+        //this.fragmentManager = fragmentManager;
 
-                );
-                venues.add(venue);
-            } while (cursor.moveToNext());
+        GetVenues getVenuesTask = new GetVenues(query,venueType,venueCity,owner_id);
+        String result = "";
+        try {
+            result = getVenuesTask.execute().get();
+            int i = 0;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+
+        if (Validator.isEmpty(result)) {
+            //Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+        } else {
+            JSONObject resultJSON = null;
+            try {
+                resultJSON = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (resultJSON != null) {
+                int code = 0;
+                String message = "";
+                JSONObject data = null;
+                try {
+                    code = resultJSON.getInt("code");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    message = resultJSON.getString("message");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (code == 1) {
+                    JSONArray venuesJSON = null;
+                    try {
+                        venuesJSON = resultJSON.getJSONArray("venues");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (venuesJSON != null) {
+                        for (int r = 0; r < venuesJSON.length(); r++) {
+                            try {
+                                JSONObject venueJSON = venuesJSON.getJSONObject(r);
+                                Venue venue = new Venue(venueJSON.getInt("id"), venueJSON.getString("name"), venueJSON.getString("type"), venueJSON.getString("phone"), venueJSON.getString("address"), venueJSON.getString("city"), venueJSON.getDouble("lat"), venueJSON.getDouble("lon"), venueJSON.getString("worktime"), venueJSON.getInt("capacity"), venueJSON.getInt("owner_id"));
+                                venuesArray.add(venue);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
     public int getCount() {
-        return venues.size();
+        return venuesArray.size();
     }
 
     @Override
     public Venue getItem(int position) {
-        return venues.get(position);
+        return venuesArray.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return venues.get(position).getId();
+        return venuesArray.get(position).getId();
     }
 
     @Override
