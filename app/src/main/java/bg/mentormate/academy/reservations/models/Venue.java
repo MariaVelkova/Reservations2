@@ -15,8 +15,9 @@ public class Venue {
     private String worktime;
     private int capacity;
     private int owner_id;
+    private String image;
 
-    public Venue(int id, String name, String type, String phone, String address, String city, Double lat, Double lon, String worktime, int capacity, int owner_id) {
+    public Venue(int id, String name, String type, String phone, String address, String city, Double lat, Double lon, String worktime, int capacity, int owner_id, String image) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -28,6 +29,15 @@ public class Venue {
         this.worktime = worktime;
         this.capacity = capacity;
         this.owner_id = owner_id;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {

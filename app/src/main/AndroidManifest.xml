@@ -55,6 +55,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".activities.admin.NewVenue"
+            android:label="New Venue"
+            android:parentActivityName=".activities.admin.AdminVenuesList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.AdminVenuesList" />
+        </activity>
 
         <!-- Provides search suggestions for venues and their information. -->
         <provider
@@ -143,6 +151,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AdminHomeActivity"
+            android:label="@string/title_activity_admin_main"
+            android:parentActivityName=".activities.admin.AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.AdminActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AdminVenuesList"
+            android:label="@string/title_activity_admin_venues_list"
+            android:parentActivityName=".activities.admin.AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.AdminActivity" />
         </activity>
     </application>
 

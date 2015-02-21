@@ -20,7 +20,6 @@ import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.admin.AdminActivity;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.PostLogin;
-import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.models.City;
@@ -170,7 +169,7 @@ public class LoginActivity extends ActionBarActivity {
                                 e.printStackTrace();
                             }
                             try {
-                                User userObj = new User( userId, userType, userEmailValue, user.getString("password"),  user.getString("first_name"), user.getString("last_name"), user.getString("phone"),  user.getString("city"), user.getString("password")) ;
+                                User userObj = new User( userId, userType, userEmailValue, user.getString("password"),  user.getString("first_name"), user.getString("last_name"), user.getString("phone"),  user.getString("city"), user.getString("avatar")) ;
                                 sessionData.setUser(userObj);
                             } catch (JSONException e) {
                                 e.printStackTrace();

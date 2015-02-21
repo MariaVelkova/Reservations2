@@ -147,5 +147,8 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="pick_action">Select Image</string>
     <string name="title_activity_admin">AdminActivity</string>
     <string name="title_activity_reservations">ReservationsActivity</string>
+    <string name="title_activity_admin_main">AdminMainActivity</string>
+    <string name="title_activity_admin_reservations">AdminReservationsActivity</string>
+    <string name="title_activity_admin_venues_list">AdminVenuesList</string>
 
 </resources>

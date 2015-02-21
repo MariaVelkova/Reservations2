@@ -134,7 +134,7 @@ public class AdminReservationAdapter  extends BaseAdapter {
         if (convertView == null) {
 
             convertView = LayoutInflater.from(context)
-                    .inflate(R.layout.reservation_custom_row, parent, false);
+                    .inflate(R.layout.admin_reservation_custom_row, parent, false);
             date = (TextView) convertView.findViewById(R.id.reservationDate);
             peopleCount = (TextView) convertView.findViewById(R.id.count);
             venueName = (TextView) convertView.findViewById(R.id.venueName);

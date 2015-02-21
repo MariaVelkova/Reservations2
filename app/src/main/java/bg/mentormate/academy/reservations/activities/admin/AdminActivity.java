@@ -1,21 +1,12 @@
 package bg.mentormate.academy.reservations.activities.admin;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,30 +14,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.AboutActivity;
 import bg.mentormate.academy.reservations.activities.LoginActivity;
 import bg.mentormate.academy.reservations.activities.PrivacyActivity;
-import bg.mentormate.academy.reservations.activities.ReservationsActivity;
-import bg.mentormate.academy.reservations.activities.VenueDetailActivity;
-import bg.mentormate.academy.reservations.activities.user_account.UserAccountActivity;
 import bg.mentormate.academy.reservations.adapters.AdminReservationAdapter;
-import bg.mentormate.academy.reservations.adapters.ReservationAdapter;
-import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.SessionData;
-import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.CustomActionBarDrawerToggle;
 
 public class AdminActivity extends ActionBarActivity {
@@ -171,13 +148,13 @@ public class AdminActivity extends ActionBarActivity {
         Intent intent;
         switch (possition) {
             case 0:
-                intent = new Intent(this, ReservationsActivity.class);
+                intent = new Intent(this, AdminVenuesList.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
             case 1:
                 // Create a new Intent
-                intent = new Intent(this, UserAccountActivity.class);
+                intent = new Intent(this, AdminHomeActivity.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
