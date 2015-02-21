@@ -2,6 +2,7 @@ package bg.mentormate.academy.reservations.activities.admin;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -48,6 +49,16 @@ public class AdminActivity extends ActionBarActivity {
         ListView reservationsList = (ListView) findViewById(R.id.reservationsList);
         AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager());
         reservationsList.setAdapter(adapter);
+        reservationsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String phone =  sessionData.getReservations().get(position).getUser_phone();
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + phone));
+                startActivity(callIntent);
+                return false;
+            }
+        });
         //checkLogin();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.myDrawer);

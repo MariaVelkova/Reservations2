@@ -1,11 +1,13 @@
 package bg.mentormate.academy.reservations.activities.admin;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -23,6 +25,8 @@ public class AdminVenuesList extends ActionBarActivity {
         setContentView(R.layout.admin_venues_list);
         list = (ListView) findViewById(R.id.listView2);
         list.setAdapter(new VenuesAdapter(this, "","","", sessionData.getUser().getId()));
+
+
         addVenue = (Button) findViewById(R.id.addVenueButton);
         addVenue.setOnClickListener(new View.OnClickListener() {
             @Override
