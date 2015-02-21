@@ -142,7 +142,7 @@ public class UserAccountFragment extends Fragment {
         userAvatarValue = user.getAvatar();
         userAvatarValue = userAvatarValue.trim();
 
-        if (userAvatarValue != "") {
+        if (!Validator.isEmpty(userAvatarValue)) {
             byte[] userAvatarBytes = Base64.decode(userAvatarValue, Base64.URL_SAFE);
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(userAvatarBytes);
             BitmapDrawable avatar  = new BitmapDrawable(byteArrayInputStream);

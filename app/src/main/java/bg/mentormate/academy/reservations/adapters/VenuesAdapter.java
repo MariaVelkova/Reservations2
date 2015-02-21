@@ -137,11 +137,14 @@ public class VenuesAdapter extends BaseAdapter {
             convertView.setTag(R.id.venueAddress, venueAddress);
             venuePhone = (TextView) convertView.findViewById(R.id.venuePhone);
             convertView.setTag(R.id.venuePhone, venuePhone);
+            venueImage = (ImageView) convertView.findViewById(R.id.venueImage);
+            convertView.setTag(R.id.venueImage, venueImage);
         } else {
             venueImage = (ImageView) convertView.getTag(R.id.venueImage);
             venueName = (TextView) convertView.getTag(R.id.venueName);
             venueAddress = (TextView) convertView.getTag(R.id.venueAddress);
             venuePhone = (TextView) convertView.getTag(R.id.venuePhone);
+            venueImage = (ImageView) convertView.getTag(R.id.venueImage);
         }
 
 
@@ -149,13 +152,16 @@ public class VenuesAdapter extends BaseAdapter {
         Resources resources = convertView.getResources();
         final Venue currentVenue = getItem(position);
         String pictureArray = currentVenue.getImage();
-        byte[] imgbytes = Base64.decode(pictureArray, Base64.URL_SAFE);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
-        venueImage.setImageDrawable(bitmapDrawable);
+        if (!Validator.isEmpty(pictureArray)) {
+            byte[] imgbytes = Base64.decode(pictureArray, Base64.URL_SAFE);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
+            venueImage.setImageDrawable(bitmapDrawable);
+        }
         venueName.setText(currentVenue.getName());
         venueAddress.setText(currentVenue.getAddress());
         venuePhone.setText(currentVenue.getPhone());
+        String venueImageValue = currentVenue.getImage();
         return convertView;
     }
 }

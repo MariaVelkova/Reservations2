@@ -1,7 +1,9 @@
 package bg.mentormate.academy.reservations.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -122,8 +125,6 @@ public class ReservationAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ImageView picture;
-        ImageView yes;
-        ImageView no;
         TextView date;
         TextView peopleCount;
         TextView venueName;
@@ -134,15 +135,13 @@ public class ReservationAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = LayoutInflater.from(context)
-                    .inflate(R.layout.admin_reservation_custom_row, parent, false);
+                    .inflate(R.layout.reservation_custom_row, parent, false);
             date = (TextView) convertView.findViewById(R.id.reservationDate);
             peopleCount = (TextView) convertView.findViewById(R.id.count);
             venueName = (TextView) convertView.findViewById(R.id.venueName);
             userName = (TextView) convertView.findViewById(R.id.userName);
             userPhone = (TextView) convertView.findViewById(R.id.userPhone);
             picture = (ImageView) convertView.findViewById(R.id.venueImage);
-//            yes = (ImageView) convertView.findViewById(R.id.buttonYes);
-//            no = (ImageView) convertView.findViewById(R.id.buttonNo);
 
             convertView.setTag(R.id.reservationDate, date);
             convertView.setTag(R.id.count, peopleCount);
@@ -150,8 +149,6 @@ public class ReservationAdapter extends BaseAdapter {
             convertView.setTag(R.id.userName, userName);
             convertView.setTag(R.id.userPhone, userPhone);
             convertView.setTag(R.id.venueImage, picture);
-//            convertView.setTag(R.id.buttonYes, yes);
-//            convertView.setTag(R.id.buttonNo, no);
         } else {
 
             date = (TextView) convertView.getTag(R.id.reservationDate);
@@ -160,49 +157,24 @@ public class ReservationAdapter extends BaseAdapter {
             userName = (TextView) convertView.getTag(R.id.userName);
             userPhone = (TextView) convertView.getTag(R.id.userPhone);
             picture = (ImageView) convertView.getTag(R.id.venueImage);
-//            yes = (ImageView) convertView.getTag(R.id.buttonYes);
-//            no = (ImageView) convertView.getTag(R.id.buttonNo);
         }
 
         Reservation currentReservation = getItem(position);
 
-            //picture.setImageResource(currentReservation.getVenue_image());
-            date.setText(currentReservation.getDateBookedString());
-            peopleCount.setText("For " + currentReservation.getPeopleCount());
-            userName.setText(currentReservation.getUser_last_name() + " " + currentReservation.getUser_last_name());
-            venueName.setText(currentReservation.getVenue_name());
-            userPhone.setText(currentReservation.getVenue_phone());
-//        yes.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                /*DialogFragment dialog = new CustomDialogFragment();
-//                Bundle args = new Bundle();
-//                args.putString("message", "Accept Reservation?");
-//                args.putString("positive", "Yes");
-//                args.putString("negative", "No");
-//                dialog.setArguments(args);
-//                dialog.setTargetFragment(Constants.REQUEST_CODE_APPROVE);
-//                dialog.show(fragmentManager, "TAG");
-//                */
-//                Toast.makeText(context, "Reservation Approved", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        no.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               /* DialogFragment dialog = new CustomDialogFragment();
-//                Bundle args = new Bundle();
-//                args.putString("message", "Reject Reservation?");
-//                args.putString("positive", "Yes");
-//                args.putString("negative", "No");
-//                dialog.setArguments(args);
-//               // dialog.setTargetFragment(fragmentManager.getFragment(bundle,"key"), Constants.REQUEST_CODE_REJECT);
-//                dialog.show(fragmentManager, "TAG");
-//                */
-//                Toast.makeText(context, "Reservation Denied", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        String venueImageValue = currentReservation.getVenue_image();
+        venueImageValue = venueImageValue.trim();
+
+        if (!Validator.isEmpty(venueImageValue)) {
+            byte[] userAvatarBytes = Base64.decode(venueImageValue, Base64.URL_SAFE);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(userAvatarBytes);
+            BitmapDrawable venueImageDrawable  = new BitmapDrawable(byteArrayInputStream);
+            picture.setImageDrawable(venueImageDrawable);
+        }
+        date.setText(currentReservation.getDateBookedString());
+        peopleCount.setText("For " + currentReservation.getPeopleCount());
+        userName.setText(currentReservation.getUser_last_name() + " " + currentReservation.getUser_last_name());
+        venueName.setText(currentReservation.getVenue_name());
+        userPhone.setText(currentReservation.getVenue_phone());
 
         return convertView;
 
