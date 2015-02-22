@@ -22,10 +22,9 @@ import java.net.URL;
  */
 public class GetCities extends AsyncTask<String, Void, String> {
 
-    private Context context;
 
-    public GetCities(Context context) {
-        this.context = context;
+    public GetCities() {
+
     }
 
     @Override

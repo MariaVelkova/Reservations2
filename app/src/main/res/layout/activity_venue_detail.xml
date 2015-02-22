@@ -18,77 +18,83 @@
 -->
 <!-- Layout for WordActivity.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="5dp">
+    android:layout_height="fill_parent">
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:padding="5dp">
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/venueImage"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:background="#ddd" />
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            >
-            <TextView
-                android:layout_width="match_parent"
+            android:padding="5dp">
+            <ImageView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/venueName"
-                android:textSize="24sp"
-                android:textColor="?android:textColorPrimary"
-                />
-            <TextView
-                style="@style/TextViewStyle"
-                android:id="@+id/venueAddress"
-                />
-            <TextView
-                style="@style/TextViewStyle"
-                android:id="@+id/venuePhone"
-                />
+                android:id="@+id/venueImage"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:background="#ddd" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/venueName"
+                    android:textSize="24sp"
+                    android:textColor="?android:textColorPrimary"
+                    />
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:id="@+id/venueAddress"
+                    />
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:id="@+id/venuePhone"
+                    />
+            </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            style="@style/LabelStyle"
+            android:id="@+id/venueTypeLabel"
+            android:text="@string/type_label" />
+        <TextView
+            style="@style/TextViewStyle"
+            android:id="@+id/venueType"/>
+
+        <TextView
+            style="@style/LabelStyle"
+            android:id="@+id/venueWorktimeLabel"
+            android:text="@string/worktime_label" />
+        <TextView
+            style="@style/TextViewStyle"
+            android:id="@+id/venueWorktime"/>
+
+        <TextView
+            style="@style/LabelStyle"
+            android:id="@+id/venueCapacityLabel"
+            android:text="@string/capacity_label" />
+        <TextView
+            style="@style/TextViewStyle"
+            android:id="@+id/venueCapacity"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/make_reservation"
+            android:id="@+id/reservationBtn"
+            android:layout_gravity="center_horizontal" />
+        <fragment android:layout_width="match_parent"
+            android:layout_height="fill_parent" android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
     </LinearLayout>
 
-    <TextView
-        style="@style/LabelStyle"
-        android:id="@+id/venueTypeLabel"
-        android:text="@string/type_label" />
-    <TextView
-        style="@style/TextViewStyle"
-        android:id="@+id/venueType"/>
-
-    <TextView
-        style="@style/LabelStyle"
-        android:id="@+id/venueWorktimeLabel"
-        android:text="@string/worktime_label" />
-    <TextView
-        style="@style/TextViewStyle"
-        android:id="@+id/venueWorktime"/>
-
-    <TextView
-        style="@style/LabelStyle"
-        android:id="@+id/venueCapacityLabel"
-        android:text="@string/capacity_label" />
-    <TextView
-        style="@style/TextViewStyle"
-        android:id="@+id/venueCapacity"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/make_reservation"
-        android:id="@+id/reservationBtn"
-        android:layout_gravity="center_horizontal" />
-    <fragment android:layout_width="match_parent"
-        android:layout_height="fill_parent" android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
-</LinearLayout>
+</ScrollView>

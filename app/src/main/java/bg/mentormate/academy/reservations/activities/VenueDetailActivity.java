@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -41,6 +42,7 @@ public class VenueDetailActivity extends ActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
+    Venue venue = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,6 @@ public class VenueDetailActivity extends ActionBarActivity {
             }
         }
 
-        Venue venue = null;
         Intent callerIntent = getIntent();
         if (callerIntent != null) {
             String venueString = callerIntent.getStringExtra("venue");
@@ -97,7 +98,7 @@ public class VenueDetailActivity extends ActionBarActivity {
             venuePhone.setText(venue.getPhone());
             venueType.setText(venue.getType());
             venueWorkTime.setText(venue.getWorktime());
-            venueCapacity.setText(String.format(getResources().getString(R.string.venue_capacity),venue.getCapacity()));
+            venueCapacity.setText(String.format(getResources().getString(R.string.venue_capacity), venue.getCapacity()));
 
 
             Button reservationBtn = (Button) findViewById(R.id.reservationBtn);
@@ -156,13 +157,17 @@ public class VenueDetailActivity extends ActionBarActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        if (venue != null) {
+            LatLng venuePosition = new LatLng(venue.getLat(), venue.getLon());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venuePosition, 15));
+            mMap.addMarker(new MarkerOptions().position(venuePosition).title(venue.getName()));
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_blank, menu);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,9 +38,14 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.common.FileHelper;
+import bg.mentormate.academy.reservations.common.GetCities;
+import bg.mentormate.academy.reservations.common.GetVenues;
 import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
+import bg.mentormate.academy.reservations.models.City;
+import bg.mentormate.academy.reservations.models.Venue;
 
 public class RegistrationActivity extends ActionBarActivity {
 
@@ -64,6 +70,8 @@ public class RegistrationActivity extends ActionBarActivity {
 
     byte[] avatarByteArray = null;
 
+    SessionData sessionData = SessionData.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,36 +90,71 @@ public class RegistrationActivity extends ActionBarActivity {
         userCity = (Spinner) findViewById(R.id.userCity);
         // Create an ArrayAdapter using the string array and a default spinner layout
         List<String> list = new ArrayList<String>();
-        JSONArray cities = null;
-        if (cities == null) {
+        ArrayList<City> citiesArray = null;
+        citiesArray = sessionData.getCities();
+        if (citiesArray == null) {
+            citiesArray = new ArrayList<City>();
+            GetCities getCitiesTask = new GetCities();
+            String result = "";
             try {
-                cities = new JSONArray("[{\"id\":\"4\",\"name\":\"Burgas\"},{\"id\":\"6\",\"name\":\"Pleven\"},{\"id\":\"2\",\"name\":\"Plovdiv\"},{\"id\":\"1\",\"name\":\"Sofia\"},{\"id\":\"3\",\"name\":\"Varna\"},{\"id\":\"5\",\"name\":\"Veliko Tarnovo\"}]");
-            } catch (JSONException e) {
+                result = getCitiesTask.execute().get();
+                int i = 0;
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-//            HttpRequest httpRequest = new HttpRequest(this);
-//
-//            try {
-//                JSONObject result = httpRequest.getCities();
-//                cities = result.getJSONArray("cities");
-//                SessionData.getInstance().setCities(cities);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            } catch (NetworkErrorException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-        }
-        for (int i = 0; i < cities.length(); i++) {
-            try {
-                JSONObject city = cities.getJSONObject(i);
-                list.add(city.getString("name"));
-            } catch (JSONException e) {
+            } catch (ExecutionException e) {
                 e.printStackTrace();
             }
 
+            if (Validator.isEmpty(result)) {
+                //Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+            } else {
+                JSONObject resultJSON = null;
+                try {
+                    resultJSON = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (resultJSON != null) {
+                    int code = 0;
+                    String message = "";
+                    JSONObject data = null;
+                    try {
+                        code = resultJSON.getInt("code");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        message = resultJSON.getString("message");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (code == 1) {
+                        JSONArray citiesJSON = null;
+                        try {
+                            citiesJSON = resultJSON.getJSONArray("cities");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (citiesJSON != null) {
+                            for (int r = 0; r < citiesJSON.length(); r++) {
+                                try {
+                                    JSONObject cityJSON = citiesJSON.getJSONObject(r);
+                                    City city = new City(cityJSON.getInt("id"), cityJSON.getString("name"));
+                                    citiesArray.add(city);
+                                    list.add(city.getName());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            sessionData.setCities(citiesArray);
+                        }
+                    }
+                }
+            }
         }
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -306,11 +349,18 @@ public class RegistrationActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
                 if (resultJSON != null) {
+                    int userId = 0;
                     int code = 0;
                     String message = "";
                     JSONObject data = null;
                     try {
                         code = resultJSON.getInt("code");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        userId = resultJSON.getInt("user_id");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -327,8 +377,18 @@ public class RegistrationActivity extends ActionBarActivity {
                         Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
                     }
                     if (code == 1) {
-                        Log.d("ATTENTION","IMPLEMENT LOGIN HERE");
-                        //dismiss();
+                        JSONObject userJsonObject = null;
+                        try {
+                            userJsonObject = new JSONObject();
+                            userJsonObject.put("id", userId);
+                            userJsonObject.put("email", userEmailValue);
+                            userJsonObject.put("password", userPasswordValue);
+                            FileHelper.writeFile(this, userJsonObject.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent = new Intent(this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 } else {
                     Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
@@ -336,6 +396,15 @@ public class RegistrationActivity extends ActionBarActivity {
 
             }
         }
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_blank, menu);
+        return true;
     }
 
 }
