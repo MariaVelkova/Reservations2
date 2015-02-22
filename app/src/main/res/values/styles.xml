@@ -7,7 +7,7 @@
         <item name="android:actionBarStyle">@style/MyActionBarLogo</item>
         <item name="actionBarStyle">@style/MyActionBarLogo</item>
     </style>
-    <style name="MyActionBarLogo" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="MyActionBarLogo" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:logo">@drawable/ic_launcher</item>
         <item name="android:displayOptions">useLogo|showHome|showTitle|showCustom</item>
         <item name="logo">@drawable/ic_launcher</item>
@@ -31,6 +31,24 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#ff787878</item>
+    </style>
+    <style name="LinkStyle" parent="@style/TextViewStyle">
+        <item name="android:textColor">#ff59abf5</item>
+    </style>
+    <style name="PendingStyle" parent="@style/TextViewStyle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:background">#ffff8724</item>
+    </style>
+    <style name="AcceptedStyle" parent="@style/TextViewStyle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:background">#ff2a9b3a</item>
+    </style>
+    <style name="DeniedStyle" parent="@style/TextViewStyle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:background">#ff8d3222</item>
     </style>
     <style name="LayoutStyle" parent="@style/AppTheme">
         <item name="android:padding">10dp</item>

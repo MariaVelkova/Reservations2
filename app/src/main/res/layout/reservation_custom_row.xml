@@ -30,6 +30,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textColor="#fff"
                 android:id="@+id/reservationStatus"/>
         </LinearLayout>
         <TextView
@@ -51,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/venuePhone"
+            android:textColor="#ff59abf5"
             />
     </LinearLayout>
 </LinearLayout>

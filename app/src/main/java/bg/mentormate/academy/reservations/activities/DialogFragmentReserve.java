@@ -1,8 +1,11 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.app.Dialog;
+import android.support.v4.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
@@ -68,15 +74,19 @@ public class DialogFragmentReserve extends DialogFragment {
 
         getDialog().setTitle("Make Reservation");
         venueId = getArguments().getInt("venueId", 0);
-        String[] months = {"January", "February", "March", "April", "May", "June", "July",
-            "August", "September", "October", "November", "December"};
+        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         String[] days = new String[31];
         for (int i = 0; i < days.length ; i++) {
             days[i] = "" + (i+1);
         }
-        String hours[] = new String[24];
-        for (int i = 0; i < hours.length ; i++) {
-            hours[i] = "" + (i+1);
+        List<String> hours = new ArrayList<String>();
+        for (int i = 0; i < 23 ; i++) {
+            String hour = Integer.toString(i);
+            if (hour.length() == 1) {
+                hour = "0"+hour;
+            }
+            hours.add(hour + ":00");
+            hours.add(hour + ":30");
         }
         String[] peopleCount = new String[10];
         for (int i = 0; i < peopleCount.length ; i++) {
@@ -135,6 +145,7 @@ public class DialogFragmentReserve extends DialogFragment {
 
             }
         });
+
 
         month.setAdapter(adapterMonths);
         day.setAdapter(adapterDays);
@@ -215,4 +226,5 @@ public class DialogFragmentReserve extends DialogFragment {
                hour.getSelectedItem() + " o'clock for " + people.getSelectedItem() + " people";
         summary.setText(summaryText);
     }
+
 }

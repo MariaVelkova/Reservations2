@@ -2,6 +2,7 @@ package bg.mentormate.academy.reservations.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
@@ -183,6 +184,11 @@ public class ReservationAdapter extends BaseAdapter {
         venueAddress.setText(currentReservation.getVenue_address());
         reservationStatus.setText(currentReservation.getStatusString());
 
+        switch (currentReservation.getAccepted()) {
+            case 1: reservationStatus.setBackgroundColor(Color.parseColor("#ffff8724")); break;
+            case 2: reservationStatus.setBackgroundColor(Color.parseColor("#ff2a9b3a")); break;
+            case -1: reservationStatus.setBackgroundColor(Color.parseColor("#ff8d3222")); break;
+        }
         venuePhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

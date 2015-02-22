@@ -1,8 +1,9 @@
 package bg.mentormate.academy.reservations.activities;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
+import android.app.Dialog;
 import android.app.SearchManager;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
+import java.util.Calendar;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.SessionData;
@@ -115,7 +119,7 @@ public class VenueDetailActivity extends ActionBarActivity {
             Button reservationBtn = (Button) findViewById(R.id.reservationBtn);
 
             if (sessionData.getUser().getType() == 2) {
-                reservationBtn.setVisibility(View.INVISIBLE);
+                reservationBtn.setVisibility(View.GONE);
             } else {
                 reservationBtn.setOnClickListener(new View.OnClickListener() {
                     @Override

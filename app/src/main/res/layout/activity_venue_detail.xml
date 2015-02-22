@@ -56,7 +56,7 @@
                     android:id="@+id/venueAddress"
                     />
                 <TextView
-                    style="@style/TextViewStyle"
+                    style="@style/LinkStyle"
                     android:id="@+id/venuePhone"
                     />
             </LinearLayout>
