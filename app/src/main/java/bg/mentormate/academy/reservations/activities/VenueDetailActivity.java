@@ -78,6 +78,7 @@ public class VenueDetailActivity extends ActionBarActivity {
 
         if (venue != null) {
             final int venueId = venue.getId();
+            final String venuePhoneNumber = venue.getPhone();
             ImageView venueImage = (ImageView) findViewById(R.id.venueImage);
             TextView venueName = (TextView) findViewById(R.id.venueName);
             TextView venueAddress = (TextView) findViewById(R.id.venueAddress);
@@ -95,7 +96,16 @@ public class VenueDetailActivity extends ActionBarActivity {
             }
             venueName.setText(venue.getName());
             venueAddress.setText(venue.getCity() + ", " + venue.getAddress());
-            venuePhone.setText(venue.getPhone());
+            venuePhone.setText(venuePhoneNumber);
+            venuePhone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!Validator.isEmpty(venuePhoneNumber)) {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + venuePhoneNumber));
+                        startActivity(intent);
+                    }
+                }
+            });
             venueType.setText(venue.getType());
             venueWorkTime.setText(venue.getWorktime());
             venueCapacity.setText(String.format(getResources().getString(R.string.venue_capacity), venue.getCapacity()));
@@ -168,34 +178,7 @@ public class VenueDetailActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_blank, menu);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-            if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setIconifiedByDefault(false);
-            }
-        }
-
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                onSearchRequested();
-                return true;
-            case android.R.id.home:
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            default:
-                return false;
-        }
-    }
-
 
 }

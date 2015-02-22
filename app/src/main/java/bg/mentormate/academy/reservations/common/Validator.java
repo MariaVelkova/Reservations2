@@ -28,6 +28,13 @@ public class Validator {
     static final String DATEFORMAT = "E d MMM 'at' HH:mm";
 
     public static boolean isEmpty(String value) {
+        if (value == null) {
+            return true;
+        }
+        String nullString =  new String("null");
+        if (nullString.equals(value)) {
+            return true;
+        }
         String emptyString = new String("");
         if (emptyString.equals(value)) {
             return true;

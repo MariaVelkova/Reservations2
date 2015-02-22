@@ -1,7 +1,9 @@
 package bg.mentormate.academy.reservations.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.util.Base64;
 import android.util.Log;
@@ -163,7 +165,7 @@ public class ReservationAdapter extends BaseAdapter {
             picture = (ImageView) convertView.getTag(R.id.venueImage);
         }
 
-        Reservation currentReservation = getItem(position);
+        final Reservation currentReservation = getItem(position);
 
         String venueImageValue = currentReservation.getVenue_image();
         venueImageValue = venueImageValue.trim();
@@ -180,6 +182,17 @@ public class ReservationAdapter extends BaseAdapter {
         venueName.setText(currentReservation.getVenue_name());
         venueAddress.setText(currentReservation.getVenue_address());
         reservationStatus.setText(currentReservation.getStatusString());
+
+        venuePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String venuePhoneNumber =  currentReservation.getVenue_phone();
+                if (!Validator.isEmpty(venuePhoneNumber)) {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + venuePhoneNumber));
+                    context.startActivity(intent);
+                }
+            }
+        });
         return convertView;
 
     }
