@@ -43,6 +43,7 @@ public class VenueDetailActivity extends ActionBarActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     Venue venue = null;
+    SessionData sessionData = SessionData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,13 +113,18 @@ public class VenueDetailActivity extends ActionBarActivity {
 
 
             Button reservationBtn = (Button) findViewById(R.id.reservationBtn);
-            reservationBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DialogFragment dialog = DialogFragmentReserve.getInstance(venueId);
-                    dialog.show(getSupportFragmentManager(), "DialogFragmentReserve");
-                }
-            });
+
+            if (sessionData.getUser().getType() == 2) {
+                reservationBtn.setVisibility(View.INVISIBLE);
+            } else {
+                reservationBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DialogFragment dialog = DialogFragmentReserve.getInstance(venueId);
+                        dialog.show(getSupportFragmentManager(), "DialogFragmentReserve");
+                    }
+                });
+            }
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
