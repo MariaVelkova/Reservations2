@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.activities.VenueDetailActivity;
 import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.SessionData;
+import bg.mentormate.academy.reservations.models.Venue;
 
 public class AdminVenuesList extends ActionBarActivity {
     ListView list;
@@ -26,6 +28,19 @@ public class AdminVenuesList extends ActionBarActivity {
         list = (ListView) findViewById(R.id.listView2);
         list.setAdapter(new VenuesAdapter(this, "","","", sessionData.getUser().getId()));
 
+        // Define the on-click listener for the list items
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Build the Intent used to open VenueDetailActivity with a specific word Uri
+                Intent intent = new Intent(getApplicationContext(), VenueDetailActivity.class);
+                Venue venue = (Venue) parent.getAdapter().getItem(position);
+                String venueString = venue.toString();
+                intent.putExtra("venue", venueString);
+                startActivity(intent);
+            }
+        });
 
         addVenue = (Button) findViewById(R.id.addVenueButton);
         addVenue.setOnClickListener(new View.OnClickListener() {
