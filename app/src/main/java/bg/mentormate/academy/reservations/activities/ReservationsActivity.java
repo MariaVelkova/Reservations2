@@ -42,7 +42,7 @@ public class ReservationsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_reservations);
 
-        TextView reservationsInfo = (TextView) findViewById(R.id.reservationsInfo);
+        //TextView reservationsInfo = (TextView) findViewById(R.id.reservationsInfo);
         ListView reservationsList = (ListView) findViewById(R.id.reservationsList);
         ReservationAdapter adapter = new ReservationAdapter(this, getSupportFragmentManager());
         reservationsList.setAdapter(adapter);

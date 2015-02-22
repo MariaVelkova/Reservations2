@@ -128,8 +128,9 @@ public class ReservationAdapter extends BaseAdapter {
         TextView date;
         TextView peopleCount;
         TextView venueName;
-        TextView userName;
-        TextView userPhone;
+        TextView venuePhone;
+        TextView venueAddress;
+        TextView reservationStatus;
 
 
         if (convertView == null) {
@@ -139,23 +140,26 @@ public class ReservationAdapter extends BaseAdapter {
             date = (TextView) convertView.findViewById(R.id.reservationDate);
             peopleCount = (TextView) convertView.findViewById(R.id.count);
             venueName = (TextView) convertView.findViewById(R.id.venueName);
-            userName = (TextView) convertView.findViewById(R.id.userName);
-            userPhone = (TextView) convertView.findViewById(R.id.userPhone);
+            venuePhone = (TextView) convertView.findViewById(R.id.venuePhone);
+            venueAddress = (TextView) convertView.findViewById(R.id.venueAddress);
+            reservationStatus = (TextView) convertView.findViewById(R.id.reservationStatus);
             picture = (ImageView) convertView.findViewById(R.id.venueImage);
 
             convertView.setTag(R.id.reservationDate, date);
             convertView.setTag(R.id.count, peopleCount);
             convertView.setTag(R.id.venueName, venueName);
-            convertView.setTag(R.id.userName, userName);
-            convertView.setTag(R.id.userPhone, userPhone);
+            convertView.setTag(R.id.venuePhone, venuePhone);
+            convertView.setTag(R.id.venueAddress, venueAddress);
+            convertView.setTag(R.id.reservationStatus, reservationStatus);
             convertView.setTag(R.id.venueImage, picture);
         } else {
 
             date = (TextView) convertView.getTag(R.id.reservationDate);
             peopleCount = (TextView) convertView.getTag(R.id.count);
             venueName = (TextView) convertView.getTag(R.id.venueName);
-            userName = (TextView) convertView.getTag(R.id.userName);
-            userPhone = (TextView) convertView.getTag(R.id.userPhone);
+            venuePhone = (TextView) convertView.getTag(R.id.venuePhone);
+            venueAddress = (TextView) convertView.getTag(R.id.venueAddress);
+            reservationStatus = (TextView) convertView.getTag(R.id.venueAddress);
             picture = (ImageView) convertView.getTag(R.id.venueImage);
         }
 
@@ -172,10 +176,10 @@ public class ReservationAdapter extends BaseAdapter {
         }
         date.setText(currentReservation.getDateBookedString());
         peopleCount.setText("For " + currentReservation.getPeopleCount());
-        userName.setText(currentReservation.getUser_last_name() + " " + currentReservation.getUser_last_name());
+        venuePhone.setText(currentReservation.getVenue_phone());
         venueName.setText(currentReservation.getVenue_name());
-        userPhone.setText(currentReservation.getVenue_phone());
-
+        venueAddress.setText(currentReservation.getVenue_address());
+        reservationStatus.setText(currentReservation.getStatusString());
         return convertView;
 
     }

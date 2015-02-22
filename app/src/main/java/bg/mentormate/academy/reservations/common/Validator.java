@@ -25,7 +25,7 @@ import java.util.TimeZone;
 
 public class Validator {
 
-    static final String DATEFORMAT = "dd-MM HH:mm";
+    static final String DATEFORMAT = "E d MMM 'at' HH:mm";
 
     public static boolean isEmpty(String value) {
         String emptyString = new String("");
