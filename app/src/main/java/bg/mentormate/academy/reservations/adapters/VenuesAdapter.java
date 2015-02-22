@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.GetVenues;
+import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.models.Venue;
 
@@ -34,6 +36,9 @@ public class VenuesAdapter extends BaseAdapter {
     String venueCity;
     int owner_id;
     private ArrayList<Venue> venuesArray;
+
+    SessionData sessionData = SessionData.getInstance();
+
     public VenuesAdapter(Context context, String query, String venueType, String venueCity, int owner_id) {
         this.context = context;
         this.query = query;
@@ -43,64 +48,75 @@ public class VenuesAdapter extends BaseAdapter {
 
         this.venuesArray = new ArrayList<Venue>();
 
-        //this.fragmentManager = fragmentManager;
+        ArrayList<Venue> sessionVenues = sessionData.getVenues();
 
-        GetVenues getVenuesTask = new GetVenues(query,venueType,venueCity,owner_id);
-        String result = "";
-        try {
-            result = getVenuesTask.execute().get();
-            int i = 0;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        Log.d("CurrentGMTTime", Long.toString(Validator.getCurrentGMTTime()));
+        Log.d("VenuesUpdatedAt", Long.toString(sessionData.getVenuesUpdatedAt()));
+        Log.d("CurrentGMTTime - VenuesUpdatedAt", Long.toString(Validator.getCurrentGMTTime() - sessionData.getVenuesUpdatedAt()));
+        if (sessionVenues == null || Validator.getCurrentGMTTime() - sessionData.getVenuesUpdatedAt() > 2*60*1000) { //2 minutes
 
-        if (Validator.isEmpty(result)) {
-            //Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
-        } else {
-            JSONObject resultJSON = null;
+            //this.fragmentManager = fragmentManager;
+
+            GetVenues getVenuesTask = new GetVenues(query, venueType, venueCity, owner_id);
+            String result = "";
             try {
-                resultJSON = new JSONObject(result);
-            } catch (JSONException e) {
+                result = getVenuesTask.execute().get();
+                int i = 0;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if (resultJSON != null) {
-                int code = 0;
-                String message = "";
-                JSONObject data = null;
+
+            if (Validator.isEmpty(result)) {
+                //Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+            } else {
+                JSONObject resultJSON = null;
                 try {
-                    code = resultJSON.getInt("code");
+                    resultJSON = new JSONObject(result);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                try {
-                    message = resultJSON.getString("message");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (code == 1) {
-                    JSONArray venuesJSON = null;
+                if (resultJSON != null) {
+                    int code = 0;
+                    String message = "";
+                    JSONObject data = null;
                     try {
-                        venuesJSON = resultJSON.getJSONArray("venues");
+                        code = resultJSON.getInt("code");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (venuesJSON != null) {
-                        for (int r = 0; r < venuesJSON.length(); r++) {
-                            try {
-                                JSONObject venueJSON = venuesJSON.getJSONObject(r);
-                                Venue venue = new Venue(venueJSON.getInt("id"), venueJSON.getString("name"), venueJSON.getString("type"), venueJSON.getString("phone"), venueJSON.getString("address"), venueJSON.getString("city"), venueJSON.getDouble("lat"), venueJSON.getDouble("lon"), venueJSON.getString("worktime"), venueJSON.getInt("capacity"), venueJSON.getInt("owner_id"), venueJSON.getString("image"));
-                                venuesArray.add(venue);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
+                    try {
+                        message = resultJSON.getString("message");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (code == 1) {
+                        JSONArray venuesJSON = null;
+                        try {
+                            venuesJSON = resultJSON.getJSONArray("venues");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (venuesJSON != null) {
+                            for (int r = 0; r < venuesJSON.length(); r++) {
+                                try {
+                                    JSONObject venueJSON = venuesJSON.getJSONObject(r);
+                                    Venue venue = new Venue(venueJSON.getInt("id"), venueJSON.getString("name"), venueJSON.getString("type"), venueJSON.getString("phone"), venueJSON.getString("address"), venueJSON.getString("city"), venueJSON.getDouble("lat"), venueJSON.getDouble("lon"), venueJSON.getString("worktime"), venueJSON.getInt("capacity"), venueJSON.getInt("owner_id"), venueJSON.getString("image"));
+                                    venuesArray.add(venue);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                            sessionData.setVenues(venuesArray);
                         }
                     }
                 }
             }
+        } else {
+            venuesArray = sessionVenues;
         }
 
     }

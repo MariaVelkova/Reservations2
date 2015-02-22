@@ -33,6 +33,7 @@ import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.CustomActionBarDrawerToggle;
 import bg.mentormate.academy.reservations.models.User;
+import bg.mentormate.academy.reservations.models.Venue;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -196,14 +197,11 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // Build the Intent used to open VenueDetailActivity with a specific word Uri
-                    Intent wordIntent = new Intent(getApplicationContext(), VenueDetailActivity.class);
-                    Uri data = Uri.withAppendedPath(DBConstants.CONTENT_URI_VENUES,
-                            String.valueOf(id));
-                    Log.d("ID1",String.valueOf(id));
-                    Log.d("ID",String.valueOf(parent.getSelectedItemId()));
-                    Log.d("URI", data.toString());
-                    wordIntent.setData(data);
-                    startActivity(wordIntent);
+                    Intent intent = new Intent(getApplicationContext(), VenueDetailActivity.class);
+                    Venue venue = (Venue) parent.getAdapter().getItem(position);
+                    String venueString = venue.toString();
+                    intent.putExtra("venue", venueString);
+                    startActivity(intent);
                 }
             });
 
@@ -308,10 +306,8 @@ public class MainActivity extends ActionBarActivity {
     private class DrawerItemClickListener implements
             ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position,  long id) {
             SelectItem(position);
-
         }
     }
 }

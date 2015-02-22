@@ -22,6 +22,10 @@ public class SessionData {
     private ArrayList<City> cities;
     private ArrayList<Reservation> reservations;
     private ArrayList<Venue> venues;
+    long userUpdatedAt = 0;
+    long venuesUpdatedAt = 0;
+    long reservationsUpdatedAt = 0;
+    long citiesUpdatedAt = 0;
 
     private SessionData() {
     }
@@ -39,6 +43,7 @@ public class SessionData {
 
     public void setUser(User user) {
         this.user = user;
+        setUserUpdatedAt();
     }
 
     public ArrayList<City> getCities() {
@@ -47,6 +52,7 @@ public class SessionData {
 
     public void setCities(ArrayList<City> cities) {
         this.cities = cities;
+        setCitiesUpdatedAt();
     }
 
     public ArrayList<Reservation> getReservations() {
@@ -55,6 +61,7 @@ public class SessionData {
 
     public void setReservations(ArrayList<Reservation> reservations) {
         this.reservations = reservations;
+        setReservationsUpdatedAt();
     }
 
     public ArrayList<Venue> getVenues() {
@@ -63,5 +70,38 @@ public class SessionData {
 
     public void setVenues(ArrayList<Venue> venues) {
         this.venues = venues;
+        setVenuesUpdatedAt();
+    }
+
+    public long getUserUpdatedAt() {
+        return userUpdatedAt;
+    }
+
+    public void setUserUpdatedAt() {
+        this.userUpdatedAt = Validator.getCurrentGMTTime();
+    }
+
+    public long getVenuesUpdatedAt() {
+        return venuesUpdatedAt;
+    }
+
+    public void setVenuesUpdatedAt() {
+        this.venuesUpdatedAt = Validator.getCurrentGMTTime();
+    }
+
+    public long getReservationsUpdatedAt() {
+        return reservationsUpdatedAt;
+    }
+
+    public void setReservationsUpdatedAt() {
+        this.reservationsUpdatedAt = Validator.getCurrentGMTTime();
+    }
+
+    public long getCitiesUpdatedAt() {
+        return citiesUpdatedAt;
+    }
+
+    public void setCitiesUpdatedAt() {
+        this.citiesUpdatedAt = Validator.getCurrentGMTTime();
     }
 }

@@ -1,5 +1,8 @@
 package bg.mentormate.academy.reservations.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Student16 on 2/5/2015.
  */
@@ -126,5 +129,29 @@ public class Venue {
 
     public void setOwner_id(int owner_id) {
         this.owner_id = owner_id;
+    }
+
+    @Override
+    public String toString()
+    {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("id", Integer.toString(getId()));
+            obj.put("name", getName());
+            obj.put("type", getType());
+            obj.put("phone", getPhone());
+            obj.put("address", getAddress());
+            obj.put("city", getCity());
+            obj.put("lat", Double.toString(getLat()));
+            obj.put("lon", Double.toString(getLon()));
+            obj.put("worktime", getWorktime());
+            obj.put("capacity", Integer.toString(getCapacity()));
+            obj.put("owner_id", Integer.toString(getOwner_id()));
+            obj.put("image", getImage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj.toString();
     }
 }

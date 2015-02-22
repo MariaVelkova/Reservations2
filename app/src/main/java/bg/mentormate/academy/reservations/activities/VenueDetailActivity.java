@@ -23,8 +23,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.database.DBConstants;
+import bg.mentormate.academy.reservations.models.Venue;
 
 public class VenueDetailActivity extends ActionBarActivity {
 
@@ -43,33 +48,48 @@ public class VenueDetailActivity extends ActionBarActivity {
             }
         }
 
+        final Venue venue = null;
+        Intent callerIntent = getIntent();
+        if (callerIntent != null) {
+            String venueString = callerIntent.getStringExtra("venue");
+            JSONObject venueJSON = null;
+            try {
+                venueJSON = new JSONObject(venueString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        Uri uri = getIntent().getData();
-        final Cursor cursor = managedQuery(uri, null, null, null, null);
+            if (venueJSON != null) {
+                try {
+                    venue = new Venue(venueJSON.getInt("id"), venueJSON.getString("name"), venueJSON.getString("type"), venueJSON.getString("phone"), venueJSON.getString("address"), venueJSON.getString("city"), venueJSON.getDouble("lat"), venueJSON.getDouble("lon"), venueJSON.getString("worktime"), venueJSON.getInt("capacity"), venueJSON.getInt("owner_id"), venueJSON.getString("image"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-        if (cursor == null) {
-            finish();
-        } else {
-            cursor.moveToFirst();
+            }
+        }
+
+        if (venue != null) {
 
             TextView venueName = (TextView) findViewById(R.id.venueName);
             TextView venueAddress = (TextView) findViewById(R.id.venueAddress);
 
-            int venueNameIndex = cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_NAME);
-            int venueAddressIndex = cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_ADDRESS);
-
-            venueName.setText(cursor.getString(venueNameIndex));
-            venueAddress.setText(cursor.getString(venueAddressIndex));
+            venueName.setText(venue.getName());
+            venueAddress.setText(venue.getAddress());
 
             Button reservationBtn = (Button) findViewById(R.id.reservationBtn);
             reservationBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogFragment dialog = DialogFragmentReserve.getInstance(cursor.getInt(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_ID)));
+                    DialogFragment dialog = DialogFragmentReserve.getInstance(venue.getId());
                     dialog.show(getSupportFragmentManager(), "DialogFragmentReserve");
                 }
             });
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
+
     }
 
     @Override
