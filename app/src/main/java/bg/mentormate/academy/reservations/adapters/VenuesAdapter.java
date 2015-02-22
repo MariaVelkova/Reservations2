@@ -153,14 +153,11 @@ public class VenuesAdapter extends BaseAdapter {
             convertView.setTag(R.id.venueAddress, venueAddress);
             venuePhone = (TextView) convertView.findViewById(R.id.venuePhone);
             convertView.setTag(R.id.venuePhone, venuePhone);
-            venueImage = (ImageView) convertView.findViewById(R.id.venueImage);
-            convertView.setTag(R.id.venueImage, venueImage);
         } else {
             venueImage = (ImageView) convertView.getTag(R.id.venueImage);
             venueName = (TextView) convertView.getTag(R.id.venueName);
             venueAddress = (TextView) convertView.getTag(R.id.venueAddress);
             venuePhone = (TextView) convertView.getTag(R.id.venuePhone);
-            venueImage = (ImageView) convertView.getTag(R.id.venueImage);
         }
 
 

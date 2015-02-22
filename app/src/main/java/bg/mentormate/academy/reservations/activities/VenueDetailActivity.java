@@ -6,15 +6,18 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -26,8 +29,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.SessionData;
+import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.Venue;
 
@@ -48,7 +54,7 @@ public class VenueDetailActivity extends ActionBarActivity {
             }
         }
 
-        final Venue venue = null;
+        Venue venue = null;
         Intent callerIntent = getIntent();
         if (callerIntent != null) {
             String venueString = callerIntent.getStringExtra("venue");
@@ -70,18 +76,35 @@ public class VenueDetailActivity extends ActionBarActivity {
         }
 
         if (venue != null) {
-
+            final int venueId = venue.getId();
+            ImageView venueImage = (ImageView) findViewById(R.id.venueImage);
             TextView venueName = (TextView) findViewById(R.id.venueName);
             TextView venueAddress = (TextView) findViewById(R.id.venueAddress);
+            TextView venuePhone = (TextView) findViewById(R.id.venuePhone);
+            TextView venueWorkTime = (TextView) findViewById(R.id.venueWorktime);
+            TextView venueCapacity = (TextView) findViewById(R.id.venueCapacity);
+            TextView venueType = (TextView) findViewById(R.id.venueType);
 
+            String pictureArray = venue.getImage();
+            if (!Validator.isEmpty(pictureArray)) {
+                byte[] imgbytes = Base64.decode(pictureArray, Base64.URL_SAFE);
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
+                BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
+                venueImage.setImageDrawable(bitmapDrawable);
+            }
             venueName.setText(venue.getName());
-            venueAddress.setText(venue.getAddress());
+            venueAddress.setText(venue.getCity() + ", " + venue.getAddress());
+            venuePhone.setText(venue.getPhone());
+            venueType.setText(venue.getType());
+            venueWorkTime.setText(venue.getWorktime());
+            venueCapacity.setText(String.format(getResources().getString(R.string.venue_capacity),venue.getCapacity()));
+
 
             Button reservationBtn = (Button) findViewById(R.id.reservationBtn);
             reservationBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogFragment dialog = DialogFragmentReserve.getInstance(venue.getId());
+                    DialogFragment dialog = DialogFragmentReserve.getInstance(venueId);
                     dialog.show(getSupportFragmentManager(), "DialogFragmentReserve");
                 }
             });

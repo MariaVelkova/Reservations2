@@ -40,7 +40,7 @@ public class ReservationAdapter extends BaseAdapter {
 
         reservationsArray = new ArrayList<Reservation>();
 
-        GetReservations getReservationsTask = new GetReservations();
+        GetReservations getReservationsTask = new GetReservations(0);
         String result = "";
         try {
             result = getReservationsTask.execute().get();

@@ -49,58 +49,39 @@
                 android:textColor="?android:textColorPrimary"
                 />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/TextViewStyle"
                 android:id="@+id/venueAddress"
                 />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/TextViewStyle"
                 android:id="@+id/venuePhone"
                 />
         </LinearLayout>
     </LinearLayout>
-<!--
+
     <TextView
-        android:id="@+id/venueAddressLabel"
-        android:textSize="18dp"
-        android:textColor="?android:textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/address_label" />
+        style="@style/LabelStyle"
+        android:id="@+id/venueTypeLabel"
+        android:text="@string/type_label" />
     <TextView
-        android:id="@+id/venueAddress"
-        android:textSize="18dp"
-        android:textColor="?android:textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        style="@style/TextViewStyle"
+        android:id="@+id/venueType"/>
+
     <TextView
-        android:id="@+id/venuePhoneLabel"
-        android:textSize="18dp"
-        android:textColor="?android:textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/phone_label" />
-    <TextView
-        android:id="@+id/venuePhone"
-        android:textSize="18dp"
-        android:textColor="?android:textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
+        style="@style/LabelStyle"
         android:id="@+id/venueWorktimeLabel"
-        android:textSize="18dp"
-        android:textColor="?android:textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/worktime_label" />
     <TextView
-        android:id="@+id/venueWorktime"
-        android:textSize="18dp"
-        android:textColor="?android:textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
--->
+        style="@style/TextViewStyle"
+        android:id="@+id/venueWorktime"/>
+
+    <TextView
+        style="@style/LabelStyle"
+        android:id="@+id/venueCapacityLabel"
+        android:text="@string/capacity_label" />
+    <TextView
+        style="@style/TextViewStyle"
+        android:id="@+id/venueCapacity"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -150,5 +150,8 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="title_activity_admin_main">AdminMainActivity</string>
     <string name="title_activity_admin_reservations">AdminReservationsActivity</string>
     <string name="title_activity_admin_venues_list">AdminVenuesList</string>
+    <string name="type_label">Type</string>
+    <string name="capacity_label">Capacity</string>
+    <string name="venue_capacity">%1$d people</string>
 
 </resources>

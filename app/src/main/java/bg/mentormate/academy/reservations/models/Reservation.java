@@ -180,8 +180,8 @@ public class Reservation {
     public String getStatusString() {
         switch(getAccepted()) {
             case -1: return "Rejected";
-            case 1: return "Accepted";
-            case 0:
+            case 2: return "Accepted";
+            case 1:
             default: return "Pending";
         }
     }

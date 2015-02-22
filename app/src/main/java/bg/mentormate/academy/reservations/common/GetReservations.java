@@ -18,10 +18,12 @@ import bg.mentormate.academy.reservations.models.User;
  */
 public class GetReservations extends AsyncTask<String, Void, String> {
 
+    int status;
     SessionData sessionData = SessionData.getInstance();
     User user = sessionData.getUser();
 
-    public GetReservations() {
+    public GetReservations(int status) {
+        this.status = status;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class GetReservations extends AsyncTask<String, Void, String> {
         String result = "";
         HttpResponse response = null;
         HttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpGet httpGet = new HttpGet("http://mma-android.comxa.com/index.php?action=reservations&id="+Integer.toString(user.getId()));
+        HttpGet httpGet = new HttpGet("http://mma-android.comxa.com/index.php?action=reservations&id="+Integer.toString(user.getId()) + "&status=" + Integer.toString(status));
         try {
             response = httpclient.execute(httpGet);
             result = Validator.readHttpResponse(response);

@@ -47,7 +47,7 @@ public class AdminActivity extends ActionBarActivity {
 
         //TextView reservationsInfo = (TextView) findViewById(R.id.reservationsInfo);
         ListView reservationsList = (ListView) findViewById(R.id.reservationsList);
-        AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager());
+        AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager(),1);
         reservationsList.setAdapter(adapter);
         reservationsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

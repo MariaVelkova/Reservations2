@@ -36,13 +36,13 @@ public class AdminReservationAdapter  extends BaseAdapter {
     private FragmentManager fragmentManager;
     private ArrayList<Reservation> reservationsArray;
 
-    public AdminReservationAdapter(Context context, FragmentManager fragmentManager) {
+    public AdminReservationAdapter(Context context, FragmentManager fragmentManager, int status) {
         this.context = context;
         this.fragmentManager = fragmentManager;
 
         reservationsArray = new ArrayList<Reservation>();
 
-        GetReservations getReservationsTask = new GetReservations();
+        GetReservations getReservationsTask = new GetReservations(status);
         String result = "";
         try {
             result = getReservationsTask.execute().get();
