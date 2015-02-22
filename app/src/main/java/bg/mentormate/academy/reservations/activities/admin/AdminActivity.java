@@ -2,7 +2,6 @@ package bg.mentormate.academy.reservations.activities.admin;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +21,7 @@ import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.AboutActivity;
 import bg.mentormate.academy.reservations.activities.LoginActivity;
 import bg.mentormate.academy.reservations.activities.PrivacyActivity;
+import bg.mentormate.academy.reservations.activities.user_account.UserAccountActivity;
 import bg.mentormate.academy.reservations.adapters.AdminReservationAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.SessionData;
@@ -48,27 +48,22 @@ public class AdminActivity extends ActionBarActivity {
         //TextView reservationsInfo = (TextView) findViewById(R.id.reservationsInfo);
         ListView reservationsList = (ListView) findViewById(R.id.reservationsList);
         AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager(),1);
+        View view = View.inflate(this, R.layout.empty_list_view, null);
+        reservationsList.setEmptyView(view);
         reservationsList.setAdapter(adapter);
-        reservationsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String phone =  sessionData.getReservations().get(position).getUser_phone();
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + phone));
-                startActivity(callIntent);
-                return false;
-            }
-        });
+
         //checkLogin();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.myDrawer);
 
         mLeftItems = new ArrayList<String>();
-        mLeftItems.add(0, "My Venues");
-        mLeftItems.add(1, "My Account");
-        mLeftItems.add(2, "About");
-        mLeftItems.add(3, "Terms & Conditions");
-        mLeftItems.add(4, "Logout");
+        mLeftItems.add(0, "Accepted Reservations");
+        mLeftItems.add(1, "Rejected Reservations");
+        mLeftItems.add(2, "My Venues");
+        mLeftItems.add(3, "My Account");
+        mLeftItems.add(4, "About");
+        mLeftItems.add(5, "Terms & Conditions");
+        mLeftItems.add(6, "Logout");
         mLeftDrawer = (ListView) findViewById(R.id.leftListView);
         mLeftDrawer.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -103,11 +98,9 @@ public class AdminActivity extends ActionBarActivity {
         //listView = (ListView) findViewById(R.id.listView);
 /*
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
-
         int resourceId = R.drawable.dro;
         Drawable drawableFromRes = getResources().getDrawable(resourceId);
         imageView.setBackground(drawableFromRes);
-
         String resourceName = "dro";
         String resourceFormat = ".png";
         String resource = resourceName + resourceFormat;
@@ -153,35 +146,45 @@ public class AdminActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void SelectItem(int possition) {
+    public void SelectItem(int position) {
         mDrawerLayout.closeDrawer(mLeftDrawer);
-        Log.d("Possition", Integer.toString(possition));
+        Log.d("Position", Integer.toString(position));
         Intent intent;
-        switch (possition) {
+        switch (position) {
             case 0:
-                intent = new Intent(this, AdminVenuesList.class);
+                intent = new Intent(this, AcceptedReservations.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
             case 1:
-                // Create a new Intent
-                intent = new Intent(this, AdminHomeActivity.class);
+                intent = new Intent(this, RejectedReservations.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
             case 2:
-                // Create a new Intent
-                intent = new Intent(this, AboutActivity.class);
+                intent = new Intent(this, AdminVenuesList.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
             case 3:
                 // Create a new Intent
-                intent = new Intent(this, PrivacyActivity.class);
+                intent = new Intent(this, UserAccountActivity.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
             case 4:
+                // Create a new Intent
+                intent = new Intent(this, AboutActivity.class);
+                // Launch the Activity
+                this.startActivity(intent);
+                break;
+            case 5:
+                // Create a new Intent
+                intent = new Intent(this, PrivacyActivity.class);
+                // Launch the Activity
+                this.startActivity(intent);
+                break;
+            case 6:
                 FileHelper.writeFile(this, "");
                 // Create a new Intent
                 intent = new Intent(this, LoginActivity.class);
