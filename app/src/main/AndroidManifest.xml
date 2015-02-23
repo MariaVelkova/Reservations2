@@ -172,18 +172,18 @@
         <activity
             android:name=".activities.admin.AcceptedReservations"
             android:label="@string/title_activity_accepted_reservations"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.admin.AdminActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".activities.admin.AdminActivity" />
         </activity>
         <activity
             android:name=".activities.admin.RejectedReservations"
             android:label="@string/title_activity_rejected_reservations"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.admin.AdminActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".activities.admin.AdminActivity" />
         </activity>
     </application>
 

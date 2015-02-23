@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.adapters.AdminReservationAdapter;
@@ -14,10 +15,16 @@ public class AcceptedReservations extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accepted_reservations);
-        ListView reservationsList = (ListView) findViewById(R.id.listViewAccepted);
         AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager(),2);
-        reservationsList.setAdapter(adapter);
+        if(adapter.getCount() == 0) {
+            setContentView(R.layout.empty_list_view);
+            TextView emptyListText = (TextView) findViewById(R.id.emptyListText);
+            emptyListText.setText("This list is still empty");
+        } else {
+            setContentView(R.layout.activity_accepted_reservations);
+            ListView reservationsList = (ListView) findViewById(R.id.listViewAccepted);
+            reservationsList.setAdapter(adapter);
+        }
     }
 
 

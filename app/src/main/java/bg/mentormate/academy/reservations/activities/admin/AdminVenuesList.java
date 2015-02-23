@@ -1,7 +1,6 @@
 package bg.mentormate.academy.reservations.activities.admin;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -24,24 +23,28 @@ public class AdminVenuesList extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_venues_list);
-        list = (ListView) findViewById(R.id.listView2);
-        list.setAdapter(new VenuesAdapter(this, "","","", sessionData.getUser().getId()));
+        VenuesAdapter venuesAdapter = new VenuesAdapter(this, "","","", sessionData.getUser().getId());
+        if(venuesAdapter.getCount() == 0) {
+            setContentView(R.layout.admin_empty_venues_list);
+        } else {
+            setContentView(R.layout.admin_venues_list);
+            list = (ListView) findViewById(R.id.listView2);
+            list.setAdapter(venuesAdapter);
 
-        // Define the on-click listener for the list items
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // Define the on-click listener for the list items
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Build the Intent used to open VenueDetailActivity with a specific word Uri
-                Intent intent = new Intent(getApplicationContext(), VenueDetailActivity.class);
-                Venue venue = (Venue) parent.getAdapter().getItem(position);
-                String venueString = venue.toString();
-                intent.putExtra("venue", venueString);
-                startActivity(intent);
-            }
-        });
-
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Build the Intent used to open VenueDetailActivity with a specific word Uri
+                    Intent intent = new Intent(getApplicationContext(), VenueDetailActivity.class);
+                    Venue venue = (Venue) parent.getAdapter().getItem(position);
+                    String venueString = venue.toString();
+                    intent.putExtra("venue", venueString);
+                    startActivity(intent);
+                }
+            });
+        }
         addVenue = (Button) findViewById(R.id.addVenueButton);
         addVenue.setOnClickListener(new View.OnClickListener() {
             @Override

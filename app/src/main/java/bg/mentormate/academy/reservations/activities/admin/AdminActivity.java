@@ -42,30 +42,31 @@ public class AdminActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-
-
-        //TextView reservationsInfo = (TextView) findViewById(R.id.reservationsInfo);
-        ListView reservationsList = (ListView) findViewById(R.id.reservationsList);
         AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager(),1);
-        View view = View.inflate(this, R.layout.empty_list_view, null);
-        reservationsList.setEmptyView(view);
-        reservationsList.setAdapter(adapter);
+        if(adapter.getCount() == 0) {
+            setContentView(R.layout.empty_list_view);
+        } else {
+            setContentView(R.layout.activity_admin);
+            //TextView reservationsInfo = (TextView) findViewById(R.id.reservationsInfo);
+            ListView reservationsList = (ListView) findViewById(R.id.reservationsList);
+            // View view = View.inflate(this, R.layout.empty_list_view, null);
+            //  reservationsList.setEmptyView(view);
+            reservationsList.setAdapter(adapter);
+        }
+            //checkLogin();
 
-        //checkLogin();
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.myDrawer);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.myDrawer);
-
-        mLeftItems = new ArrayList<String>();
-        mLeftItems.add(0, "Accepted Reservations");
-        mLeftItems.add(1, "Rejected Reservations");
-        mLeftItems.add(2, "My Venues");
-        mLeftItems.add(3, "My Account");
-        mLeftItems.add(4, "About");
-        mLeftItems.add(5, "Terms & Conditions");
-        mLeftItems.add(6, "Logout");
-        mLeftDrawer = (ListView) findViewById(R.id.leftListView);
-        mLeftDrawer.setOnItemClickListener(new DrawerItemClickListener());
+            mLeftItems = new ArrayList<String>();
+            mLeftItems.add(0, "Accepted Reservations");
+            mLeftItems.add(1, "Rejected Reservations");
+            mLeftItems.add(2, "My Venues");
+            mLeftItems.add(3, "My Account");
+            mLeftItems.add(4, "About");
+            mLeftItems.add(5, "Terms & Conditions");
+            mLeftItems.add(6, "Logout");
+            mLeftDrawer = (ListView) findViewById(R.id.leftListView);
+            mLeftDrawer.setOnItemClickListener(new DrawerItemClickListener());
 
 
 //        mRightItems = new ArrayList<String>();
@@ -73,29 +74,29 @@ public class AdminActivity extends ActionBarActivity {
 //        mRightDrawer = (ListView) findViewById(R.id.rightListView);
 
 
-        Toolbar mDrawerToolbar = new Toolbar(this);
-        //mDrawerToolbar.setNavigationIcon(R.drawable.ic_drawer);
+            Toolbar mDrawerToolbar = new Toolbar(this);
+            //mDrawerToolbar.setNavigationIcon(R.drawable.ic_drawer);
 
-        mDrawerToggle = new CustomActionBarDrawerToggle(this, mDrawerLayout, mDrawerToolbar, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle = new CustomActionBarDrawerToggle(this, mDrawerLayout, mDrawerToolbar, R.string.drawer_open, R.string.drawer_close);
 
-        mLeftAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLeftItems);
-        mLeftDrawer.setAdapter(mLeftAdapter);
+            mLeftAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLeftItems);
+            mLeftDrawer.setAdapter(mLeftAdapter);
 
 //        mRightAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mRightItems);
 //        mRightDrawer.setAdapter(mRightAdapter);
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
-        String s = "Debug-infos:";
-        s += "\n OS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
-        s += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
-        s += "\n Device: " + android.os.Build.DEVICE;
-        s += "\n Model (and Product): " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
-        Log.d("DEBUG", s);
-        //listView = (ListView) findViewById(R.id.listView);
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            //getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
+            String s = "Debug-infos:";
+            s += "\n OS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
+            s += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
+            s += "\n Device: " + android.os.Build.DEVICE;
+            s += "\n Model (and Product): " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
+            Log.d("DEBUG", s);
+            //listView = (ListView) findViewById(R.id.listView);
 /*
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         int resourceId = R.drawable.dro;
@@ -168,7 +169,7 @@ public class AdminActivity extends ActionBarActivity {
                 break;
             case 3:
                 // Create a new Intent
-                intent = new Intent(this, UserAccountActivity.class);
+                intent = new Intent(this, AdminHomeActivity.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;

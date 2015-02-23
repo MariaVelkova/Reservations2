@@ -113,6 +113,7 @@ public class AdminReservationAdapter  extends BaseAdapter {
         return reservationsArray.size();
     }
 
+
     // getItem(int) in Adapter returns Object but we can override
     // it to User thanks to Java return type covariance
     @Override
