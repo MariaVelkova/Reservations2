@@ -2,4 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="bg.mentormate.academy.reservations.activities.admin.AdminActivity">
+    <item android:id="@+id/refresh"
+          android:title="@string/refresh"
+          android:icon="@drawable/refresh_icon"
+          app:showAsAction="ifRoom" />
 </menu>

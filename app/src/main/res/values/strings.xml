@@ -150,5 +150,6 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="venue_capacity">%1$d people</string>
     <string name="pick_time">Pick Time</string>
     <string name="pick_date">Pick Date</string>
+    <string name="refresh">Refresh</string>
 
 </resources>

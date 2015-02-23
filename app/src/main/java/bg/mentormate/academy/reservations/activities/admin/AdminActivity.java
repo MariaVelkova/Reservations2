@@ -21,7 +21,6 @@ import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.AboutActivity;
 import bg.mentormate.academy.reservations.activities.LoginActivity;
 import bg.mentormate.academy.reservations.activities.PrivacyActivity;
-import bg.mentormate.academy.reservations.activities.user_account.UserAccountActivity;
 import bg.mentormate.academy.reservations.adapters.AdminReservationAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.SessionData;
@@ -142,6 +141,15 @@ public class AdminActivity extends ActionBarActivity {
 //                mDrawerLayout.closeDrawer(mRightDrawer);
 //            }
             return true;
+        }
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.refresh) {
+            finish();
+            startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);

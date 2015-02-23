@@ -45,6 +45,9 @@ public class AcceptedReservations extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }  else if (id == R.id.refresh) {
+            finish();
+            startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);

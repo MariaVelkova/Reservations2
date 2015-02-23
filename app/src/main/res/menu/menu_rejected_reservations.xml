@@ -4,4 +4,8 @@
     tools:context="bg.mentormate.academy.reservations.activities.admin.RejectedReservations">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/refresh"
+          android:title="@string/refresh"
+          android:icon="@drawable/refresh_icon"
+          app:showAsAction="ifRoom" />
 </menu>

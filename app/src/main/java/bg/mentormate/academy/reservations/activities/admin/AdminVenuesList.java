@@ -3,6 +3,7 @@ package bg.mentormate.academy.reservations.activities.admin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ public class AdminVenuesList extends ActionBarActivity {
     SessionData sessionData = SessionData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Refreshed", "Yes");
         super.onCreate(savedInstanceState);
         VenuesAdapter venuesAdapter = new VenuesAdapter(this, "","","", sessionData.getUser().getId());
         if(venuesAdapter.getCount() == 0) {
@@ -73,6 +75,9 @@ public class AdminVenuesList extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.refresh) {
+            finish();
+            startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);
