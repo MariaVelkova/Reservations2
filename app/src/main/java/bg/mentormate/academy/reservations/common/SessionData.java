@@ -1,10 +1,5 @@
 package bg.mentormate.academy.reservations.common;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import bg.mentormate.academy.reservations.models.City;
@@ -26,6 +21,7 @@ public class SessionData {
     long venuesUpdatedAt = 0;
     long reservationsUpdatedAt = 0;
     long citiesUpdatedAt = 0;
+    int curerntVenueId = 0;
 
     private SessionData() {
     }
@@ -103,5 +99,13 @@ public class SessionData {
 
     public void setCitiesUpdatedAt() {
         this.citiesUpdatedAt = Validator.getCurrentGMTTime();
+    }
+
+    public int getCurerntVenueId() {
+        return curerntVenueId;
+    }
+
+    public void setCurerntVenueId(int curerntVenueId) {
+        this.curerntVenueId = curerntVenueId;
     }
 }

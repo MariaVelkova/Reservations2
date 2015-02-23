@@ -4,27 +4,39 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   style="@style/LayoutStyle">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pick_date"
+            android:id="@+id/pickDateBtn" />
+
         <TextView
-            style="@style/LabelStyle"
-            android:text="Month" />
-        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinnerMonth" />
+            android:id="@+id/reservationDate"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pick_time"
+            android:id="@+id/pickTimeBtn"/>
+
         <TextView
-            style="@style/LabelStyle"
-            android:text="Day" />
-        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinnerDay" />
-        <TextView
-            style="@style/LabelStyle"
-            android:text="Hour" />
-        <Spinner
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnerHour" />
+            android:id="@+id/reservationTime" />
+
+    </LinearLayout>
+
         <TextView
             style="@style/LabelStyle"
             android:text="People" />
@@ -32,14 +44,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerPeople" />
-        <EditText
-            style="@style/EditTextStyle"
-            android:hint="Additional Information..."
-            android:id="@+id/AdditionalInfo"/>
-        <TextView
-            style="@style/TextViewStyle"
-            android:text="Summary"
-            android:id="@+id/summary" />
+
         <Button
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"

@@ -1,17 +1,18 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.support.v4.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,23 +22,20 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.PostMakeReservation;
-import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 
 /**
  * Created by PC on 11.2.2015 г..
  */
-public class DialogFragmentReserve extends DialogFragment {
+public class DialogFragmentReserve extends DialogFragment implements View.OnClickListener {
 
     int venueId;
     Spinner month;
@@ -48,7 +46,8 @@ public class DialogFragmentReserve extends DialogFragment {
     TextView summary;
     Button create;
     String summaryText;
-
+    public static TextView reservationTime;
+    public static TextView reservationDate;
     /**
      * Create a new instance of FragmentBookTicketDialog, providing "movieId" and "cinemaId"
      * as arguments.
@@ -73,100 +72,62 @@ public class DialogFragmentReserve extends DialogFragment {
         View view = inflater.inflate(R.layout.create_reservation_dialog, container, false);
 
         getDialog().setTitle("Make Reservation");
+
         venueId = getArguments().getInt("venueId", 0);
-        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        String[] days = new String[31];
-        for (int i = 0; i < days.length ; i++) {
-            days[i] = "" + (i+1);
-        }
-        List<String> hours = new ArrayList<String>();
-        for (int i = 0; i < 23 ; i++) {
-            String hour = Integer.toString(i);
-            if (hour.length() == 1) {
-                hour = "0"+hour;
-            }
-            hours.add(hour + ":00");
-            hours.add(hour + ":30");
-        }
+
         String[] peopleCount = new String[10];
         for (int i = 0; i < peopleCount.length ; i++) {
             peopleCount[i] = "" + (i+1);
         }
-        ArrayAdapter<String> adapterMonths = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, months);
-        ArrayAdapter<String> adapterDays = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, days);
-        ArrayAdapter<String> adapterHours = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, hours);
         ArrayAdapter<String> adapterPeople = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, peopleCount);
 
-        month = (Spinner) view.findViewById(R.id.spinnerMonth);
-        day = (Spinner) view.findViewById(R.id.spinnerDay);
-        hour = (Spinner) view.findViewById(R.id.spinnerHour);
         people = (Spinner) view.findViewById(R.id.spinnerPeople);
-        info = (EditText) view.findViewById(R.id.AdditionalInfo);
-        summary = (TextView) view.findViewById(R.id.summary);
         create = (Button) view.findViewById(R.id.createReservation);
+        create.setOnClickListener(this);
 
-        month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateSummary();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        day.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateSummary();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        hour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateSummary();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        people.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateSummary();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        month.setAdapter(adapterMonths);
-        day.setAdapter(adapterDays);
-        hour.setAdapter(adapterHours);
         people.setAdapter(adapterPeople);
 
-        create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        reservationDate = (TextView) view.findViewById(R.id.reservationDate);
+        Button pickDateBtn = (Button) view.findViewById(R.id.pickDateBtn);
+        pickDateBtn.setOnClickListener(this);
+
+        reservationTime = (TextView) view.findViewById(R.id.reservationTime);
+        Button pickTimeBtn = (Button) view.findViewById(R.id.pickTimeBtn);
+        pickTimeBtn.setOnClickListener(this);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        DialogFragment newFragment;
+        switch (v.getId()) {
+            case R.id.pickTimeBtn:
+                newFragment = new TimePickerFragment();
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                break;
+            case R.id.pickDateBtn:
+                newFragment = new DatePickerFragment();
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                break;
+            case R.id.createReservation:
+
                 int userId = 0;
                 userId = SessionData.getInstance().getUser().getId();
+                String reservationDateString = reservationDate.getText().toString();
+                String reservationTimeString = reservationTime.getText().toString();
 
-                Date date = new Date();
-                date.setDate(day.getSelectedItemPosition());
-                date.setMonth(month.getSelectedItemPosition());
-                date.setYear(2015);
-                date.setHours(hour.getSelectedItemPosition());
+                Date date = Validator.StringDateToDate(reservationDateString + " " + reservationTimeString);
                 Calendar GMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
                 GMTCalendar.setTime(date);
 
-                PostMakeReservation reservationTask = new PostMakeReservation(userId, venueId, GMTCalendar.getTimeInMillis(), people.getSelectedItemPosition(), info.getText().toString());
+                PostMakeReservation reservationTask = new PostMakeReservation(userId, venueId, date.getTime()/1000, people.getSelectedItemPosition()+1, "");
                 String result = "";
                 try {
                     result = reservationTask.execute().get();
@@ -214,17 +175,53 @@ public class DialogFragmentReserve extends DialogFragment {
                     }
 
                 }
-                //dismiss();
-            }
-        });
 
-        return view;
+
+
+                break;
+        }
     }
 
-    private void updateSummary() {
-        summaryText = "Date: 2015/" + month.getSelectedItem() + "/" + day.getSelectedItem() + "/" +
-               hour.getSelectedItem() + " o'clock for " + people.getSelectedItem() + " people";
-        summary.setText(summaryText);
+    public static class DatePickerFragment  extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new CustomDatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            reservationDate.setText(String.format("%4d-%02d-%02d",year,month+1,day));
+        }
+
     }
 
+    public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new CustomTimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+           reservationTime.setText(String.format("%02d:%02d",hourOfDay,minute));
+        }
+    }
 }

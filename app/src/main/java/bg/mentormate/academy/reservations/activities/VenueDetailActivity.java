@@ -1,28 +1,20 @@
 package bg.mentormate.academy.reservations.activities;
 
 import android.app.ActionBar;
-import android.app.Dialog;
-import android.app.SearchManager;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
-import android.text.format.DateFormat;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,19 +26,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
-import java.util.Calendar;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
-import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.Venue;
 
-public class VenueDetailActivity extends ActionBarActivity {
+public class VenueDetailActivity extends ActionBarActivity implements View.OnClickListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     Venue venue = null;
+    DialogFragment reservationDialog = null;
     SessionData sessionData = SessionData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +74,8 @@ public class VenueDetailActivity extends ActionBarActivity {
 
         if (venue != null) {
             final int venueId = venue.getId();
+            sessionData.setCurerntVenueId(venueId);
+            reservationDialog = DialogFragmentReserve.getInstance(venueId);
             final String venuePhoneNumber = venue.getPhone();
             ImageView venueImage = (ImageView) findViewById(R.id.venueImage);
             TextView venueName = (TextView) findViewById(R.id.venueName);
@@ -121,13 +114,7 @@ public class VenueDetailActivity extends ActionBarActivity {
             if (sessionData.getUser().getType() == 2) {
                 reservationBtn.setVisibility(View.GONE);
             } else {
-                reservationBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogFragment dialog = DialogFragmentReserve.getInstance(venueId);
-                        dialog.show(getSupportFragmentManager(), "DialogFragmentReserve");
-                    }
-                });
+                reservationBtn.setOnClickListener(this);
             }
         } else {
             Intent intent = new Intent(this, MainActivity.class);
@@ -177,9 +164,11 @@ public class VenueDetailActivity extends ActionBarActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+
         if (venue != null) {
+            Log.d("setUpMap", venue.getName());
             LatLng venuePosition = new LatLng(venue.getLat(), venue.getLon());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venuePosition, 15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venuePosition, 5));
             mMap.addMarker(new MarkerOptions().position(venuePosition).title(venue.getName()));
         }
     }
@@ -189,6 +178,14 @@ public class VenueDetailActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_blank, menu);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.reservationBtn:
+                reservationDialog.show(getSupportFragmentManager(), "DialogFragmentReserve");
+        }
     }
 
 }

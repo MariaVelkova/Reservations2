@@ -4,6 +4,8 @@ package bg.mentormate.academy.reservations.common;
  * Created by Maria on 2/15/2015.
  */
 
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -17,15 +19,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class Validator {
 
     static final String DATEFORMAT = "E d MMM 'at' HH:mm";
+    static final String DATEFORMATSTRING = "yyyy-MM-dd HH:mm";
 
     public static boolean isEmpty(String value) {
         if (value == null) {
@@ -166,12 +169,15 @@ public class Validator {
 
     public static Date StringDateToDate(String StrDate)
     {
+        Log.d("StrDate", StrDate);
         Date dateToReturn = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATEFORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATEFORMATSTRING);
 
         try
         {
             dateToReturn = (Date)dateFormat.parse(StrDate);
+            long time = dateToReturn.getTime();
+            int d = 0;
         }
         catch (ParseException e)
         {

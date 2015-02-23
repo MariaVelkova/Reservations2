@@ -114,22 +114,21 @@ By continuing to access or use our Service after those revisions become effectiv
 bound by the revised terms. If you do not agree to the new terms, please stop using the Service.
 Contact Us\n
 If you have any questions about these Terms, please contact us</string>
-    <string name="google_maps_key_instructions" templateMergeStrategy="replace">
-        <!--
+    <string name="google_maps_key_instructions" templateMergeStrategy="replace"><!--
+
     TODO: Before you run your application, you need a Google Maps API key.
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=04:20:0F:5C:50:FC:0C:55:8A:AD:3C:97:C8:05:B3:75:F4:C5:B3:E6%3Bcom.mentoracademy.lecture16
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=2D:3B:09:17:40:95:03:43:1C:11:7E:9A:41:65:0F:4D:94:9E:24:CB%3Bbg.mentormate.academy.reservations
 
     You can also add your credentials to an existing key, using this line:
-    04:20:0F:5C:50:FC:0C:55:8A:AD:3C:97:C8:05:B3:75:F4:C5:B3:E6;com.mentoracademy.lecture16
+    2D:3B:09:17:40:95:03:43:1C:11:7E:9A:41:65:0F:4D:94:9E:24:CB;bg.mentormate.academy.reservations
 
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
-        -->
-    </string>
-    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyCDJVPPnGiugBwt69KOBhpmQ_UZMaCADr4</string>
+    --></string>
+    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyAthpOoxah7GXTGW8eq7oSnNY86D1Q4RyU</string>
     <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_privacy">Terms and Conditions</string>
     <string name="title_activity_about">About Us</string>
@@ -150,5 +149,6 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="capacity_label">Capacity</string>
     <string name="venue_capacity">%1$d people</string>
     <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
 
 </resources>
