@@ -1,8 +1,5 @@
 package bg.mentormate.academy.reservations.models;
 
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import bg.mentormate.academy.reservations.common.Validator;
 
 /**
@@ -20,13 +17,13 @@ public class Reservation {
     private String venue_city;
     private String venue_address;
     private String venue_image;
-    private int date_created;
-    private int date_booked;
+    private long date_created;
+    private long date_booked;
     private int people_count;
     private String comment;
     private int accepted;
 
-    public Reservation(int id, int user_id, String user_first_name, String user_last_name, String user_phone, int venue_id, String venue_name, String venue_phone, String venue_city, String venue_address, String venue_image, int date_created, int date_booked, int people_count, String comment, int accepted) {
+    public Reservation(int id, int user_id, String user_first_name, String user_last_name, String user_phone, int venue_id, String venue_name, String venue_phone, String venue_city, String venue_address, String venue_image, long date_created, long date_booked, int people_count, String comment, int accepted) {
         this.id = id;
         this.user_id = user_id;
         this.user_first_name = user_first_name;
@@ -69,19 +66,19 @@ public class Reservation {
         this.venue_id = venue_id;
     }
 
-    public int getDateCreated() {
+    public long getDateCreated() {
         return date_created;
     }
 
-    public void setDateCreated(int date_created) {
+    public void setDateCreated(long date_created) {
         this.date_created = date_created;
     }
 
-    public int getDateBooked() {
+    public long getDateBooked() {
         return date_booked;
     }
 
-    public void setDateBooked(int date_booked) {
+    public void setDateBooked(long date_booked) {
         this.date_booked = date_booked;
     }
 
@@ -174,7 +171,7 @@ public class Reservation {
     }
 
     public String getDateBookedString() {
-        return Validator.GetDatetimeAsString(getAccepted());
+        return Validator.GetDatetimeAsString(getDateBooked()*1000);
     }
 
     public String getStatusString() {

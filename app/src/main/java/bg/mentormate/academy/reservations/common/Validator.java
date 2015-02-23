@@ -163,7 +163,7 @@ public class Validator {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         final String utcTime = sdf.format(new Date(milliSeconds));
-
+int i = 0;
         return utcTime;
     }
 
