@@ -164,7 +164,7 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_privacy">Terms and Conditions</string>
     <string name="title_activity_about">About Us</string>
-    <string name="about">MentorMate Academy\n\nAndroid App\n\nDevelopers: Maria Velkova and Emil Kolev\n\nCredits:\n<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div><div>Icons made by <a href="http://www.sm-artists.com" title="spovv">spovv</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div></string>
+    <string name="about"></string>
     <string name="title_activity_user_account">My Account</string>
     <string name="title_activity_registration">Sign Up</string>
     <string name="contact_avatar_upload">Add Avatar</string>

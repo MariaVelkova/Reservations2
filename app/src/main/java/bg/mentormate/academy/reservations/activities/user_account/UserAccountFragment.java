@@ -157,7 +157,7 @@ public class UserAccountFragment extends Fragment {
         userEmail.setText(userEmailValue);
         userPhone = (EditText) activity.findViewById(R.id.userPhone);
         userPhone.setText(userPhoneValue);
-//        userCity = (Spinner) activity.findViewById(R.id.userCity);
+        userCity = (Spinner) activity.findViewById(R.id.userCity);
 //        // Create an ArrayAdapter using the string array and a default spinner layout
 //        List<String> list = new ArrayList<String>();
 //        ArrayList<City> cities = SessionData.getInstance().getCities();

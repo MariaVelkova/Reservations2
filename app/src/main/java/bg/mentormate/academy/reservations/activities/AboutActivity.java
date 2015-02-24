@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 import bg.mentormate.academy.reservations.R;
 
@@ -13,6 +14,19 @@ public class AboutActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        WebView webView = (WebView) findViewById(R.id.about_content);
+        String summary = "<html>\n" +
+                "<body style=\"background: #f9f9f9\">\n" +
+                "<h2>MentorMate Academy</h2>\n" +
+                "<h3>Android App</h3>\n" +
+                "<p><strong>Developers:</strong> Maria Velkova and Emil Kolev</p>\n" +
+                "<p><strong>Credits:</strong></p>\n" +
+                "<div>Icons made by \n" +
+                "<a href=\"http://www.freepik.com\" title=\"Freepik\">Freepik</a> and " +
+                "<a href=\"http://www.sm-artists.com\" title=\"spovv\">spovv</a> \n" +
+                "from <a href=\"http://www.flaticon.com\" title=\"Flaticon\">www.flaticon.com</a> is licensed by <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\">CC BY 3.0</a></div>\n" +
+                "</body></html>";
+        webView.loadData(summary, "text/html", null);
     }
 
 
