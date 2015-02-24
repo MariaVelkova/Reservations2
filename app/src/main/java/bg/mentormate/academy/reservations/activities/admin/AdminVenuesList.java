@@ -1,6 +1,7 @@
 package bg.mentormate.academy.reservations.activities.admin;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,6 +16,7 @@ import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.VenueDetailActivity;
 import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.SessionData;
+import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.Venue;
 
 public class AdminVenuesList extends ActionBarActivity {
@@ -40,9 +42,15 @@ public class AdminVenuesList extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // Build the Intent used to open VenueDetailActivity with a specific word Uri
                     Intent intent = new Intent(getApplicationContext(), VenueDetailActivity.class);
-                    Venue venue = (Venue) parent.getAdapter().getItem(position);
-                    String venueString = venue.toString();
-                    intent.putExtra("venue", venueString);
+//                    Venue venue = (Venue) parent.getAdapter().getItem(position);
+//                    String venueString = venue.toString();
+//                    intent.putExtra("venue", venueString);
+                    Uri data = Uri.withAppendedPath(DBConstants.CONTENT_URI_VENUES,
+                            String.valueOf(id));
+                    Log.d("ID1",String.valueOf(id));
+                    Log.d("ID",String.valueOf(parent.getSelectedItemId()));
+                    Log.d("URI", data.toString());
+                    intent.setData(data);
                     startActivity(intent);
                 }
             });
