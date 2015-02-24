@@ -20,6 +20,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             >
             <TextView
                 android:layout_width="0dp"
@@ -32,13 +33,14 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:textColor="#fff"
+                android:background="#ffff8724"
                 android:id="@+id/reservationStatus"/>
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/count"
-            android:layout_marginBottom="10dp"/>
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/count"-->
+            <!--android:layout_marginBottom="10dp"/>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

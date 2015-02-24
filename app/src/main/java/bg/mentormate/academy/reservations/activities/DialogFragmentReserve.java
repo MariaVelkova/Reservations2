@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
@@ -122,58 +123,76 @@ public class DialogFragmentReserve extends DialogFragment implements View.OnClic
                 userId = SessionData.getInstance().getUser().getId();
                 String reservationDateString = reservationDate.getText().toString();
                 String reservationTimeString = reservationTime.getText().toString();
+                int peopleCount = people.getSelectedItemPosition()+1;
 
-                Date date = Validator.StringDateToDate(reservationDateString + " " + reservationTimeString);
-                Calendar GMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-                GMTCalendar.setTime(date);
-
-                PostMakeReservation reservationTask = new PostMakeReservation(userId, venueId, date.getTime()/1000, people.getSelectedItemPosition()+1, "");
-                String result = "";
-                try {
-                    result = reservationTask.execute().get();
-                    int i = 0;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                ArrayList<String> errors = new ArrayList<String>();
+                if (Validator.isEmpty(reservationDateString)) {
+                    errors.add("Pick Date");
                 }
-                if (Validator.isEmpty(result)) {
-                    Toast.makeText(getActivity(), "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                if (Validator.isEmpty(reservationTimeString)) {
+                    errors.add("Pick Time");
+                }
+                if (peopleCount == 0 ) {
+                    errors.add("Pick People Count");
+                }
+
+                if (errors.size() > 0) {
+                    String validationString = TextUtils.join("\n", errors);
+                    Toast.makeText(getActivity(), validationString, Toast.LENGTH_SHORT).show();
                 } else {
-                    JSONObject resultJSON = null;
+
+                    Date date = Validator.StringDateToDate(reservationDateString + " " + reservationTimeString);
+                    Calendar GMTCalendar = Calendar.getInstance();
+                    GMTCalendar.setTime(date);
+
+                    PostMakeReservation reservationTask = new PostMakeReservation(userId, venueId, date.getTime() / 1000, people.getSelectedItemPosition() + 1, "");
+                    String result = "";
                     try {
-                        resultJSON = new JSONObject(result);
-                    } catch (JSONException e) {
+                        result = reservationTask.execute().get();
+                        int i = 0;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-                    if (resultJSON != null) {
-                        int code = 0;
-                        String message = "";
-                        JSONObject data = null;
+                    if (Validator.isEmpty(result)) {
+                        Toast.makeText(getActivity(), "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                    } else {
+                        JSONObject resultJSON = null;
                         try {
-                            code = resultJSON.getInt("code");
+                            resultJSON = new JSONObject(result);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        if (resultJSON != null) {
+                            int code = 0;
+                            String message = "";
+                            JSONObject data = null;
+                            try {
+                                code = resultJSON.getInt("code");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
-                        try {
-                            message = resultJSON.getString("message");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                            try {
+                                message = resultJSON.getString("message");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
-                        if (!Validator.isEmpty(message)) {
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            if (!Validator.isEmpty(message)) {
+                                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                            }
+                            if (code == 1) {
+                                dismiss();
+                            }
                         } else {
                             Toast.makeText(getActivity(), "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
                         }
-                        if (code == 1) {
-                            dismiss();
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
-                    }
 
+                    }
                 }
 
 

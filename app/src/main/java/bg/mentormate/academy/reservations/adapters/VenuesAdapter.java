@@ -2,9 +2,10 @@ package bg.mentormate.academy.reservations.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
-import bg.mentormate.academy.reservations.common.GetVenues;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
+import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.Venue;
 
 /**
@@ -48,8 +44,61 @@ public class VenuesAdapter extends BaseAdapter {
 
         this.venuesArray = new ArrayList<Venue>();
 
-        ArrayList<Venue> sessionVenues = sessionData.getVenues();
 
+
+        Cursor cursor;
+        ArrayList<String> selection_args = new ArrayList<String>();
+        ArrayList<String> args = new ArrayList<String>();
+
+        if (!Validator.isEmpty(query)) {
+            selection_args.add(DBConstants.DB_TABLE_VENUES_NAME + " LIKE ?");
+            args.add("%" + query + "%");
+        }
+        if (!Validator.isEmpty(venueCity)) {
+            selection_args.add(DBConstants.DB_TABLE_VENUES_CITY + " = ?");
+            args.add(venueCity);
+        }
+        if (!Validator.isEmpty(venueType)) {
+            selection_args.add(DBConstants.DB_TABLE_VENUES_TYPE + " = ?");
+            args.add(venueType);
+        }
+        if (owner_id > 0) {
+            selection_args.add(DBConstants.DB_TABLE_VENUES_OWNER_ID + " = ?");
+            args.add(Integer.toString(owner_id));
+        }
+        String selectionString = null;
+        if (selection_args.size() > 0) {
+            selectionString = TextUtils.join(" AND ", selection_args);
+        }
+        cursor = context.getContentResolver().query(DBConstants.CONTENT_URI_VENUES, null, selectionString, args.toArray(new String[args.size()]), DBConstants.DB_TABLE_VENUES_NAME);
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                Venue venue = new Venue(
+                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_ID)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_NAME)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_TYPE)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_PHONE)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_ADDRESS)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_CITY)),
+                        cursor.getDouble(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_LAT)),
+                        cursor.getDouble(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_LON)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_WORKTIME)),
+                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_CAPCITY)),
+                        cursor.getInt(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_OWNER_ID)),
+                        cursor.getString(cursor.getColumnIndex(DBConstants.DB_TABLE_VENUES_IMAGE))
+
+                );
+                venuesArray.add(venue);
+            } while (cursor.moveToNext());
+        }
+
+
+
+
+        /*
+        ArrayList<Venue> sessionVenues = sessionData.getVenues();
         Log.d("CurrentGMTTime", Long.toString(Validator.getCurrentGMTTime()));
         Log.d("VenuesUpdatedAt", Long.toString(sessionData.getVenuesUpdatedAt()));
         Log.d("CurrentGMTTime - VenuesUpdatedAt", Long.toString(Validator.getCurrentGMTTime() - sessionData.getVenuesUpdatedAt()));
@@ -118,6 +167,7 @@ public class VenuesAdapter extends BaseAdapter {
         } else {
             venuesArray = sessionVenues;
         }
+        */
 
     }
 
@@ -145,12 +195,16 @@ public class VenuesAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context)
                     .inflate(R.layout.venue_row, parent, false);
+
             venueName = (TextView) convertView.findViewById(R.id.venueName);
             convertView.setTag(R.id.venueName, venueName);
+
             venueImage = (ImageView) convertView.findViewById(R.id.venueImage);
             convertView.setTag(R.id.venueImage, venueImage);
+
             venueAddress = (TextView) convertView.findViewById(R.id.venueAddress);
             convertView.setTag(R.id.venueAddress, venueAddress);
+
             venuePhone = (TextView) convertView.findViewById(R.id.venuePhone);
             convertView.setTag(R.id.venuePhone, venuePhone);
         } else {
@@ -174,7 +228,6 @@ public class VenuesAdapter extends BaseAdapter {
         venueName.setText(currentVenue.getName());
         venueAddress.setText(currentVenue.getAddress());
         venuePhone.setText(currentVenue.getPhone());
-        String venueImageValue = currentVenue.getImage();
         return convertView;
     }
 }

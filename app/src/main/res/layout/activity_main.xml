@@ -25,6 +25,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center"/>
+
         </LinearLayout>
 
         <ListView
@@ -36,15 +37,50 @@
             android:dividerHeight="2dp"
             android:divider="#020202"
             android:background="#f2f2f2"/>
-        <ListView
+        <LinearLayout
             android:id="@+id/rightListView"
+            android:orientation="vertical"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:choiceMode="singleChoice"
-            android:dividerHeight="2dp"
-            android:divider="#020202"
-            android:background="#f2f2f2"/>
+            android:padding="16dp"
+            android:background="#f2f2f2">
+            <TextView
+                style="@style/LabelStyle"
+                android:text="Type"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/venueType"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                style="@style/LabelStyle"
+                android:text="City"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/venueCity"
+                android:layout_marginBottom="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filter"
+                    android:id="@+id/venueFilter"
+                />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear"
+                    android:id="@+id/venueClearFilter"
+                    />
+            </LinearLayout>
+        </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
 
 

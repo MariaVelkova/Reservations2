@@ -11,27 +11,27 @@ android:padding="5dp">
     android:src="@drawable/no_image"
     android:layout_marginRight="10dp"
     android:layout_gravity="fill_vertical"/>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    >
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/venueName"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/venueAddress"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/venuePhone"
-        />
-</LinearLayout>
+        android:layout_weight="1"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/venueName"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/venueAddress"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/venuePhone"
+            />
+    </LinearLayout>
 
 </LinearLayout>

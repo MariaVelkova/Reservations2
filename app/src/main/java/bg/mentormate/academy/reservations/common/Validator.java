@@ -4,8 +4,6 @@ package bg.mentormate.academy.reservations.common;
  * Created by Maria on 2/15/2015.
  */
 
-import android.util.Log;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -21,7 +19,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,7 +93,8 @@ public class Validator {
 
 
     public static long getCurrentGMTTime() {
-        Calendar GMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        //Calendar GMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        Calendar GMTCalendar = Calendar.getInstance();
         long currentGMTTime = GMTCalendar.getTimeInMillis(); //or getTime() //.get(Calendar.HOUR_OF_DAY)
         return currentGMTTime;
     }
@@ -160,16 +158,14 @@ public class Validator {
     public static String GetDatetimeAsString(long milliSeconds)
     {
         final SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         final String utcTime = sdf.format(new Date(milliSeconds));
-int i = 0;
         return utcTime;
     }
 
     public static Date StringDateToDate(String StrDate)
     {
-        Log.d("StrDate", StrDate);
         Date dateToReturn = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATEFORMATSTRING);
 
@@ -177,7 +173,6 @@ int i = 0;
         {
             dateToReturn = (Date)dateFormat.parse(StrDate);
             long time = dateToReturn.getTime();
-            int d = 0;
         }
         catch (ParseException e)
         {

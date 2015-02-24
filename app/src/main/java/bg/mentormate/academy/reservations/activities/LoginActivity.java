@@ -37,7 +37,21 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
+        String userEmailValue = "";
+        Intent callerIntent = getIntent();
+        if (callerIntent != null) {
+            userEmailValue = callerIntent.getStringExtra("userEmail");
+        }
+        EditText userEmail = (EditText) findViewById(R.id.userEmail);
+        userEmail.setText(userEmailValue);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*
         String fileContent = FileHelper.readFile(this);
         Log.d("USER",fileContent);
         if (!Validator.isEmpty(fileContent)) {
@@ -61,16 +75,7 @@ public class LoginActivity extends ActionBarActivity {
                 login(false);
             }
         }
-
-        setContentView(R.layout.activity_login);
-
-        String userEmailValue = "";
-        Intent callerIntent = getIntent();
-        if (callerIntent != null) {
-            userEmailValue = callerIntent.getStringExtra("userEmail");
-        }
-        EditText userEmail = (EditText) findViewById(R.id.userEmail);
-        userEmail.setText(userEmailValue);
+        */
     }
 
 
@@ -89,15 +94,14 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void login(Boolean buttonPreesed) {
-        String emptyString = new String("");
         ArrayList<String> errors = new ArrayList<String>();
 
-        if (emptyString.equals(userEmailValue)) {
+        if (Validator.isEmpty(userEmailValue)) {
             errors.add("Empty Email");
         } else if (!Validator.validateEmailAddress(userEmailValue)) {
             errors.add("Invalid Email");
         }
-        if (emptyString.equals(userPassValue)) {
+        if (Validator.isEmpty(userPassValue)) {
             errors.add("Empty Password");
         }
 
@@ -150,33 +154,6 @@ public class LoginActivity extends ActionBarActivity {
                             e.printStackTrace();
                         }
                     } else {
-                        try {
-                            user = resultJSON.getJSONObject("user");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (user == null) {
-                            message = "Invalid Email and/or Password";
-                        } else {
-                            try {
-                                userId = user.getInt("id");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                userType = user.getInt("type");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                User userObj = new User( userId, userType, userEmailValue, user.getString("password"),  user.getString("first_name"), user.getString("last_name"), user.getString("phone"),  user.getString("city"), user.getString("avatar")) ;
-                                sessionData.setUser(userObj);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            goToHomePage(userId, userType);
-                        }
 
                         try {
                             cities = resultJSON.getJSONArray("cities");
@@ -205,6 +182,38 @@ public class LoginActivity extends ActionBarActivity {
                             }
                             sessionData.setCities(citiesList);
                         }
+
+                        try {
+                            user = resultJSON.getJSONObject("user");
+                            int g = 0;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (user == null) {
+                            message = "Invalid Email and/or Password";
+                        } else {
+                            try {
+                                userId = user.getInt("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                userType = user.getInt("type");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                User userObj = new User( userId, userType, userEmailValue, user.getString("password"),  user.getString("first_name"), user.getString("last_name"), user.getString("phone"),  user.getString("city"), user.getString("avatar")) ;
+                                sessionData.setUser(userObj);
+                                FileHelper.writeFile(this, user.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            goToHomePage(userId, userType);
+                        }
+
+
                         //dismiss();
 
                     }

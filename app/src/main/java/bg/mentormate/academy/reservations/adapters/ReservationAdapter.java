@@ -129,7 +129,7 @@ public class ReservationAdapter extends BaseAdapter {
 
         ImageView picture;
         TextView date;
-        TextView peopleCount;
+        //TextView peopleCount;
         TextView venueName;
         TextView venuePhone;
         TextView venueAddress;
@@ -141,7 +141,7 @@ public class ReservationAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context)
                     .inflate(R.layout.reservation_custom_row, parent, false);
             date = (TextView) convertView.findViewById(R.id.reservationDate);
-            peopleCount = (TextView) convertView.findViewById(R.id.count);
+            //peopleCount = (TextView) convertView.findViewById(R.id.count);
             venueName = (TextView) convertView.findViewById(R.id.venueName);
             venuePhone = (TextView) convertView.findViewById(R.id.venuePhone);
             venueAddress = (TextView) convertView.findViewById(R.id.venueAddress);
@@ -149,7 +149,7 @@ public class ReservationAdapter extends BaseAdapter {
             picture = (ImageView) convertView.findViewById(R.id.venueImage);
 
             convertView.setTag(R.id.reservationDate, date);
-            convertView.setTag(R.id.count, peopleCount);
+            //convertView.setTag(R.id.count, peopleCount);
             convertView.setTag(R.id.venueName, venueName);
             convertView.setTag(R.id.venuePhone, venuePhone);
             convertView.setTag(R.id.venueAddress, venueAddress);
@@ -158,11 +158,11 @@ public class ReservationAdapter extends BaseAdapter {
         } else {
 
             date = (TextView) convertView.getTag(R.id.reservationDate);
-            peopleCount = (TextView) convertView.getTag(R.id.count);
+            //peopleCount = (TextView) convertView.getTag(R.id.count);
             venueName = (TextView) convertView.getTag(R.id.venueName);
             venuePhone = (TextView) convertView.getTag(R.id.venuePhone);
             venueAddress = (TextView) convertView.getTag(R.id.venueAddress);
-            reservationStatus = (TextView) convertView.getTag(R.id.venueAddress);
+            reservationStatus = (TextView) convertView.getTag(R.id.reservationStatus);
             picture = (ImageView) convertView.getTag(R.id.venueImage);
         }
 
@@ -177,15 +177,14 @@ public class ReservationAdapter extends BaseAdapter {
             BitmapDrawable venueImageDrawable  = new BitmapDrawable(byteArrayInputStream);
             picture.setImageDrawable(venueImageDrawable);
         }
-        date.setText(currentReservation.getDateBookedString());
-        peopleCount.setText("For " + currentReservation.getPeopleCount());
+        date.setText(currentReservation.getDateBookedString() + " / for " + currentReservation.getPeopleCount());
+        //peopleCount.setText("For " + currentReservation.getPeopleCount());
         venuePhone.setText(currentReservation.getVenue_phone());
         venueName.setText(currentReservation.getVenue_name());
         venueAddress.setText(currentReservation.getVenue_address());
         reservationStatus.setText(currentReservation.getStatusString());
 
         switch (currentReservation.getAccepted()) {
-            case 1: reservationStatus.setBackgroundColor(Color.parseColor("#ffff8724")); break;
             case 2: reservationStatus.setBackgroundColor(Color.parseColor("#ff2a9b3a")); break;
             case -1: reservationStatus.setBackgroundColor(Color.parseColor("#ff8d3222")); break;
         }

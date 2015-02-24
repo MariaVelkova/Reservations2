@@ -40,12 +40,10 @@ import java.util.concurrent.ExecutionException;
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.GetCities;
-import bg.mentormate.academy.reservations.common.GetVenues;
 import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.models.City;
-import bg.mentormate.academy.reservations.models.Venue;
 
 public class RegistrationActivity extends ActionBarActivity {
 
@@ -152,6 +150,10 @@ public class RegistrationActivity extends ActionBarActivity {
                         }
                     }
                 }
+            }
+        } else {
+            for (int c=0; c < citiesArray.size(); c++) {
+                list.add(citiesArray.get(c).getName());
             }
         }
 

@@ -20,7 +20,7 @@ public class DBConstants {
         public static final String AUTHORITY                = "bg.mentormate.academy.reservations.providers.CustomContentProvider";
         //public static final String SUGGESTION_AUTHORITY     = "bg.mentormate.academy.reservations.providers.CustomSearchRecentSuggestionsProvider";
         public static final String DB_NAME                  = "Reservations.db";
-        public static final int DB_VERSION                  = 3;
+        public static final int DB_VERSION                  = 6;
 
         // MIME types used for searching venues
         public static final String VENUES_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE +
@@ -138,27 +138,29 @@ public class DBConstants {
         public static final String DB_TABLE_VENUES_TYPE             = "type"; //1 - restaurant, 2 - club, 3 - bar, 4 - cafe
         public static final String DB_TABLE_VENUES_PHONE            = "phone";
         public static final String DB_TABLE_VENUES_ADDRESS          = "address";
-        public static final String DB_TABLE_VENUES_CITY_ID          = "city_id";
+        public static final String DB_TABLE_VENUES_CITY             = "city";
         public static final String DB_TABLE_VENUES_LAT              = "lat";
         public static final String DB_TABLE_VENUES_LON              = "lon";
         public static final String DB_TABLE_VENUES_WORKTIME         = "worktime";
         public static final String DB_TABLE_VENUES_CAPCITY          = "capacity";
         public static final String DB_TABLE_VENUES_OWNER_ID         = "owner_id";
+        public static final String DB_TABLE_VENUES_IMAGE            = "image";
         public static final String DB_TABLE_VENUES_CREATED          = "created";
         public static final String DB_TABLE_VENUES_LAST_UPDATED     = "last_updated";
 
         public static final String CREATE_TABLE_VENUES = " CREATE TABLE " + DB_TABLE_VENUES +
                 " (" + DB_TABLE_VENUES_ID + " INTEGER PRIMARY KEY, " +
                 DB_TABLE_VENUES_NAME + " TEXT NOT NULL, " +
-                DB_TABLE_VENUES_TYPE + " INTEGER NOT NULL, " +
+                DB_TABLE_VENUES_TYPE + " TEXT NOT NULL, " +
                 DB_TABLE_VENUES_PHONE + " TEXT NULL, " +
                 DB_TABLE_VENUES_ADDRESS + " TEXT NULL, " +
-                DB_TABLE_VENUES_CITY_ID + " INTEGER NOT NULL, " +
+                DB_TABLE_VENUES_CITY + " TEXT NOT NULL, " +
                 DB_TABLE_VENUES_LAT + " DOUBLE NOT NULL, " +
                 DB_TABLE_VENUES_LON + " DOUBLE NOT NULL, " +
                 DB_TABLE_VENUES_WORKTIME + " TEXT NULL, " +
                 DB_TABLE_VENUES_CAPCITY + " INTEGER NULL, " +
                 DB_TABLE_VENUES_OWNER_ID + " INTEGER NOT NULL, " +
+                DB_TABLE_VENUES_IMAGE + " BLOB NULL, " +
                 DB_TABLE_VENUES_CREATED + " INTEGER NOT NULL, " +
                 DB_TABLE_VENUES_LAST_UPDATED + " INTEGER NOT NULL);";
 
@@ -170,7 +172,7 @@ public class DBConstants {
         public static final String DB_TABLE_USERS_FIRST_NAME        = "first_name";
         public static final String DB_TABLE_USERS_LAST_NAME         = "last_name";
         public static final String DB_TABLE_USERS_PHONE             = "phone";
-        public static final String DB_TABLE_USERS_CITY_ID           = "city_id";
+        public static final String DB_TABLE_USERS_CITY              = "city";
         public static final String DB_TABLE_USERS_AVATAR            = "avatar";
 
         public static final String CREATE_TABLE_USERS = " CREATE TABLE " + DB_TABLE_USERS +
@@ -181,8 +183,8 @@ public class DBConstants {
                 DB_TABLE_USERS_FIRST_NAME + " TEXT NOT NULL, " +
                 DB_TABLE_USERS_LAST_NAME + " TEXT NOT NULL, " +
                 DB_TABLE_USERS_PHONE + " TEXT NOT NULL, " +
-                DB_TABLE_USERS_CITY_ID + " INTEGER NOT NULL, " +
-                DB_TABLE_USERS_AVATAR + " TEXT NULL);";
+                DB_TABLE_USERS_CITY + " TEXT NOT NULL, " +
+                DB_TABLE_USERS_AVATAR + " BLOB NULL);";
 
         //RESERVATIONS
         public static final String DB_TABLE_RESERVATIONS_ID             = "id";
@@ -221,39 +223,24 @@ public class DBConstants {
 
         }
 
-    // Set to true to turn on verbose logging
-    public static final boolean LOGV = false;
 
     // Set to true to turn on debug logging
     public static final boolean LOGD = true;
 
     // Custom actions
 
-    public static final String ACTION_VIEW_IMAGE =
-            "com.example.android.threadsample.ACTION_VIEW_IMAGE";
-
-    public static final String ACTION_ZOOM_IMAGE =
-            "com.example.android.threadsample.ACTION_ZOOM_IMAGE";
-
     // Defines a custom Intent action
-    public static final String BROADCAST_ACTION = "com.example.android.threadsample.BROADCAST";
-
-    // Fragment tags
-    public static final String PHOTO_FRAGMENT_TAG =
-            "com.example.android.threadsample.PHOTO_FRAGMENT_TAG";
-
-    public static final String THUMBNAIL_FRAGMENT_TAG =
-            "com.example.android.threadsample.THUMBNAIL_FRAGMENT_TAG";
+    public static final String BROADCAST_ACTION = "bg.mentormate.academy.reservations.BROADCAST";
 
     // Defines the key for the status "extra" in an Intent
-    public static final String EXTENDED_DATA_STATUS = "com.example.android.threadsample.STATUS";
+    public static final String EXTENDED_DATA_STATUS = "cbg.mentormate.academy.reservations.STATUS";
 
     // Defines the key for the log "extra" in an Intent
-    public static final String EXTENDED_STATUS_LOG = "com.example.android.threadsample.LOG";
+    public static final String EXTENDED_STATUS_LOG = "bg.mentormate.academy.reservations.LOG";
 
     // Defines the key for storing fullscreen state
     public static final String EXTENDED_FULLSCREEN =
-            "com.example.android.threadsample.EXTENDED_FULLSCREEN";
+            "bg.mentormate.academy.reservations.EXTENDED_FULLSCREEN";
 
     /*
      * A user-agent string that's sent to the HTTP site. It includes information about the device
@@ -270,7 +257,8 @@ public class DBConstants {
     public static final int STATE_ACTION_STARTED = 0;
 
     public static final int STATE_ACTION_LOGING = 5;
-    public static final int STATE_ACTION_LOGGED = 6;
+    public static final int STATE_ACTION_LOGGED_USER = 6;
+    public static final int STATE_ACTION_LOGGED_ADMIN = 7;
     public static final int STATE_ACTION_LOGING_FAILED = -5;
 
     // The background thread is connecting to the RSS feed
