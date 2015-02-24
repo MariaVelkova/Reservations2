@@ -27,16 +27,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".activities.LoginIntentService"
             android:exported="false" >
         </service>
+
         <receiver android:name=".activities.LoginServiceReceiver" >
             <intent-filter>
                 <action android:name="bg.mentormate.academy.reservations.CUSTOM_INTENT" />
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
@@ -95,11 +98,13 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <!-- <service android:name=".activities.LoginService"> -->
         <!-- </service> -->
@@ -187,6 +192,22 @@
         <activity
             android:name=".activities.admin.RejectedReservations"
             android:label="@string/title_activity_rejected_reservations"
+            android:parentActivityName=".activities.admin.AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.AdminActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AdminAboutActivity"
+            android:label="@string/title_activity_admin_about"
+            android:parentActivityName=".activities.admin.AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.AdminActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AdminTermsActivity"
+            android:label="@string/title_activity_admin_terms"
             android:parentActivityName=".activities.admin.AdminActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
