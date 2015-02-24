@@ -221,11 +221,10 @@ public class RegistrationActivity extends ActionBarActivity {
 
             avatarImage.setImageBitmap(avatar);
 
-            Charset UTF8_CHARSET = Charset.forName("UTF-8");
             ByteArrayOutputStream streamS = new ByteArrayOutputStream();
-            avatar.compress(Bitmap.CompressFormat.JPEG, 90, streamS);
-
+            avatar.compress(Bitmap.CompressFormat.PNG, 100, streamS);
             avatarByteArray = streamS.toByteArray();
+
         }
     }
 
@@ -327,10 +326,10 @@ public class RegistrationActivity extends ActionBarActivity {
         } else {
             Log.d("REGISTRATION","VALID");
             userPasswordValue = Validator.md5(userPasswordValue);
-            String encodedImage = "";
+            String encodedImage = null;
             if (avatarByteArray != null) {
-            encodedImage = Base64.encodeToString(avatarByteArray, Base64.DEFAULT);
-            String yourText = new String(avatarByteArray, UTF8_CHARSET);
+            encodedImage = Base64.encodeToString(avatarByteArray, Base64.URL_SAFE);
+          //  String yourText = new String(avatarByteArray, UTF8_CHARSET);
             }
             PostRequest registrationTask = null;
             try {

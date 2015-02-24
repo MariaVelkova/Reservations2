@@ -49,6 +49,14 @@
         <item>Club</item>
     </string-array>
 
+    <string-array name="venues_type_array">
+        <item>All</item>
+        <item>Restaurant</item>
+        <item>Cafe</item>
+        <item>Bar</item>
+        <item>Club</item>
+    </string-array>
+
     <string name="title_activity_login">Sign In</string>
     <string name="userLoginBtn">Sign In</string>
     <string name="userPass">Password</string>
@@ -139,13 +147,13 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="contact_avatar_upload">Add Avatar</string>
     <string name="avatar_upload">Add avatar</string>
     <string name="pick_action">Select Image</string>
-    <string name="title_activity_admin">AdminActivity</string>
+    <string name="title_activity_admin">New Reservations</string>
     <string name="title_activity_reservations">My Reservations</string>
-    <string name="title_activity_admin_main">AdminMainActivity</string>
+    <string name="title_activity_admin_main">Home</string>
     <string name="title_activity_admin_reservations">AdminReservationsActivity</string>
-    <string name="title_activity_admin_venues_list">AdminVenuesList</string>
-    <string name="title_activity_rejected_reservations">Accepted Reservations</string>
-    <string name="title_activity_accepted_reservations">Rejected Reservations</string>
+    <string name="title_activity_admin_venues_list">My Venues</string>
+    <string name="title_activity_rejected_reservations">Rejected Reservations</string>
+    <string name="title_activity_accepted_reservations">Accepted Reservations</string>
     <string name="type_label">Type</string>
     <string name="capacity_label">Capacity</string>
     <string name="venue_capacity">%1$d people</string>

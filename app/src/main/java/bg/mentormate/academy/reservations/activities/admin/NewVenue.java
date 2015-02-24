@@ -21,9 +21,10 @@ import java.io.InputStream;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.PostRequestVenue;
+import bg.mentormate.academy.reservations.common.SessionData;
 
 public class NewVenue extends ActionBarActivity {
-
+    SessionData sessionData = SessionData.getInstance();
     ImageView picChooser;
     Button createVenue;
     public static final int REQUEST_CODE = 1;
@@ -58,12 +59,12 @@ public class NewVenue extends ActionBarActivity {
         cityField = (EditText) findViewById(R.id.city);
         addressField = (EditText) findViewById(R.id.address);
         phoneField = (EditText) findViewById(R.id.phone);
-        latitudeField = (EditText) findViewById(R.id.latitude);
-        longitudeField = (EditText) findViewById(R.id.longitude);
+       // latitudeField = (EditText) findViewById(R.id.latitude);
+       // longitudeField = (EditText) findViewById(R.id.longitude);
         hoursField = (EditText) findViewById(R.id.hours);
         capacityField = (EditText) findViewById(R.id.capacity);
         workTimeField = (EditText) findViewById(R.id.hours);
-        owner_id = getIntent().getIntExtra("owner_id", 0);
+        owner_id = sessionData.getUser().getId();
 
 
         picChooser = (ImageView) findViewById(R.id.venuePictureChooser);
@@ -118,6 +119,7 @@ public class NewVenue extends ActionBarActivity {
                         try {
                             postRequestVenue = new PostRequestVenue(NewVenue.this, name, "1", phone, city, address, latitude, longitude,
                                     workTime, capacity, (owner_id + " "), encodedImage);
+                            int a =2;
                         } catch (NetworkErrorException e) {
                             e.printStackTrace();
                         }
