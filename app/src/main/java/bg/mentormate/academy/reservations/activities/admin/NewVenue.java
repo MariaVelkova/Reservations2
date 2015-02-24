@@ -141,6 +141,7 @@ public class NewVenue extends ActionBarActivity {
 
                     InputStream stream = getContentResolver().openInputStream(data.getData());
                     bitmap = BitmapFactory.decodeStream(stream);
+                    picChooser.setImageResource(R.drawable.yes);
                     stream.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
