@@ -87,6 +87,7 @@ public class RegistrationActivity extends ActionBarActivity {
         userType = (CheckBox) findViewById(R.id.owner);
 
         userCity = (Spinner) findViewById(R.id.userCity);
+/*
         // Create an ArrayAdapter using the string array and a default spinner layout
         List<String> list = new ArrayList<String>();
         ArrayList<City> citiesArray = null;
@@ -158,10 +159,20 @@ public class RegistrationActivity extends ActionBarActivity {
             }
         }
 
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userCity.setAdapter(dataAdapter);
+*/
+        ArrayAdapter<CharSequence> cityAdapter;
+        cityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.cities_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        userCity.setAdapter(cityAdapter);
+
     }
 
     public void openUploadImageDialog(View v) {

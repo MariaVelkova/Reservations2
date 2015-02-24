@@ -174,7 +174,7 @@ public class LoginIntentService extends IntentService {
                         int code = 0;
                         String message = "";
                         JSONObject user = null;
-                        JSONArray cities = null;
+//                        JSONArray cities = null;
                         int userId = 0;
                         int userType = 0;
                         try {
@@ -183,33 +183,33 @@ public class LoginIntentService extends IntentService {
                             e.printStackTrace();
                         }
                         if (code == 1) {
-                            try {
-                                cities = resultJSON.getJSONArray("cities");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            if (cities != null) {
-                                ArrayList<City> citiesList = new ArrayList<City>();
-                                City cityObj;
-                                for (int j = 0; j < cities.length(); j++) {
-                                    JSONObject cityJsonObj = null;
-                                    try {
-                                        cityJsonObj = cities.getJSONObject(j);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    if (cityJsonObj != null) {
-                                        try {
-                                            cityObj = new City(cityJsonObj.getInt("id"), cityJsonObj.getString("name"));
-                                            citiesList.add(cityObj);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        };
-                                    }
-                                }
-                                sessionData.setCities(citiesList);
-                            }
+//                            try {
+//                                cities = resultJSON.getJSONArray("cities");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            if (cities != null) {
+//                                ArrayList<City> citiesList = new ArrayList<City>();
+//                                City cityObj;
+//                                for (int j = 0; j < cities.length(); j++) {
+//                                    JSONObject cityJsonObj = null;
+//                                    try {
+//                                        cityJsonObj = cities.getJSONObject(j);
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                    if (cityJsonObj != null) {
+//                                        try {
+//                                            cityObj = new City(cityJsonObj.getInt("id"), cityJsonObj.getString("name"));
+//                                            citiesList.add(cityObj);
+//                                        } catch (JSONException e) {
+//                                            e.printStackTrace();
+//                                        };
+//                                    }
+//                                }
+//                                sessionData.setCities(citiesList);
+//                            }
 
                             try {
                                 user = resultJSON.getJSONObject("user");

@@ -82,7 +82,7 @@ public class NewVenue extends ActionBarActivity {
         owner_id = sessionData.getUser().getId();
         cities = (Spinner) findViewById(R.id.city);
         types = (Spinner) findViewById(R.id.type);
-        ArrayAdapter<CharSequence> venueCityAdapter;
+
         ArrayAdapter<CharSequence> venueTypeAdapter;
 
         venueTypeAdapter = ArrayAdapter.createFromResource(this,
@@ -92,10 +92,11 @@ public class NewVenue extends ActionBarActivity {
         // Apply the adapter to the spinner
         types.setAdapter(venueTypeAdapter);
 
+        ArrayAdapter<CharSequence> venueCityAdapter;
         venueCityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.cities_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        venueTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        venueCityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         cities.setAdapter(venueCityAdapter);
 

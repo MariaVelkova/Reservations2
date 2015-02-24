@@ -157,19 +157,26 @@ public class UserAccountFragment extends Fragment {
         userEmail.setText(userEmailValue);
         userPhone = (EditText) activity.findViewById(R.id.userPhone);
         userPhone.setText(userPhoneValue);
-        userCity = (Spinner) activity.findViewById(R.id.userCity);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        List<String> list = new ArrayList<String>();
-        ArrayList<City> cities = SessionData.getInstance().getCities();
-        for (int i = 0; i < cities.size(); i++) {
-            list.add(cities.get(i).getName());
-        }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        userCity.setAdapter(dataAdapter);
+//        userCity = (Spinner) activity.findViewById(R.id.userCity);
+//        // Create an ArrayAdapter using the string array and a default spinner layout
+//        List<String> list = new ArrayList<String>();
+//        ArrayList<City> cities = SessionData.getInstance().getCities();
+//        for (int i = 0; i < cities.size(); i++) {
+//            list.add(cities.get(i).getName());
+//        }
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity,
+//                android.R.layout.simple_spinner_item, list);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        userCity.setAdapter(dataAdapter);
+        ArrayAdapter<CharSequence> cityAdapter;
+        cityAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.cities_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        userCity.setAdapter(cityAdapter);
         if (!emptyString.equals(userCityValue)) {
-            int spinnerPostion = dataAdapter.getPosition(userCityValue);
+            int spinnerPostion = cityAdapter.getPosition(userCityValue);
             userCity.setSelection(spinnerPostion);
             spinnerPostion = 0;
         }

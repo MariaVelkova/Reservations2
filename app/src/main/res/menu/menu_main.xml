@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_search"
         android:title="@string/action_search"
-        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:icon="@drawable/ic_search"
         app:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView" />
     <item android:id="@+id/action_filter"
         android:title="@string/action_filter"
-        android:icon="@drawable/ic_filter_empty"
+        android:icon="@drawable/ic_filter"
         app:showAsAction="ifRoom" />
 </menu>

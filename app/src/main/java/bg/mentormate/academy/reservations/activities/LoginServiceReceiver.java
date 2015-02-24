@@ -53,13 +53,13 @@ public class LoginServiceReceiver extends BroadcastReceiver {
                     break;
                 case DBConstants.STATE_ACTION_LOGGED_USER:
                     redirectIntent = new Intent(context,MainActivity.class);
-                    redirectIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    redirectIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(redirectIntent);
                     context.stopService(intent);
                     break;
                 case DBConstants.STATE_ACTION_LOGGED_ADMIN:
                     redirectIntent = new Intent(context, AdminActivity.class);
-                    redirectIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    redirectIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(redirectIntent);
                     context.stopService(intent);
                     break;

@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     ArrayAdapter mLeftAdapter;
     ListView mLeftDrawer;
     Spinner venueCitySpinner;
-    ArrayAdapter<String> venueCityAdapter;
+    ArrayAdapter<CharSequence> venueCityAdapter;
     Spinner venueTypeSpinner;
     ArrayAdapter<CharSequence> venueTypeAdapter;
     Button venueFilterBtn;
@@ -102,7 +102,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 //        mRightItems.add("First Right Item");
         mRightDrawer = (LinearLayout) findViewById(R.id.rightListView);
         venueCitySpinner = (Spinner) findViewById(R.id.venueCity);
+        venueCityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.cities_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        venueCityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        venueCitySpinner.setAdapter(venueCityAdapter);
         // Create an ArrayAdapter using the string array and a default spinner layout
+        /*
         List<String> list = new ArrayList<String>();
         ArrayList<City> citiesArray = null;
         citiesArray = sessionData.getCities();
@@ -172,10 +179,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 list.add(citiesArray.get(c).getName());
             }
         }
+
         venueCityAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         venueCityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         venueCitySpinner.setAdapter(venueCityAdapter);
+        */
         if (!Validator.isEmpty(user.getCity())) {
             int spinnerPostion = venueCityAdapter.getPosition(user.getCity());
             venueCitySpinner.setSelection(spinnerPostion);
