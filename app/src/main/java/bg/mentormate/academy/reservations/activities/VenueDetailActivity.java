@@ -2,6 +2,7 @@ package bg.mentormate.academy.reservations.activities;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
+import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.Venue;
 
 public class VenueDetailActivity extends ActionBarActivity implements View.OnClickListener {
@@ -42,8 +44,27 @@ public class VenueDetailActivity extends ActionBarActivity implements View.OnCli
             }
         }
 
+
         Intent callerIntent = getIntent();
         if (callerIntent != null) {
+            Uri uri = callerIntent.getData();
+            Cursor cursor = managedQuery(uri, null, null, null, null);
+
+            if (cursor == null) {
+                finish();
+            } else {
+                cursor.moveToFirst();
+
+                TextView venueName = (TextView) findViewById(R.id.venueName);
+                TextView venueAddress = (TextView) findViewById(R.id.venueAddress);
+
+                int venueNameIndex = cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_NAME);
+                int venueAddressIndex = cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_ADDRESS);
+
+                venueName.setText(cursor.getString(venueNameIndex));
+                venueAddress.setText(cursor.getString(venueAddressIndex));
+            }
+            /****/
             String venueString = callerIntent.getStringExtra("venue");
             JSONObject venueJSON = null;
             try {

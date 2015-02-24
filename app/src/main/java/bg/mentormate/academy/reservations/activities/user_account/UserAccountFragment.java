@@ -219,7 +219,9 @@ public class UserAccountFragment extends Fragment {
                             Toast.makeText(activity, validationString, Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d("REGISTRATION", "VALID");
-                            userPasswordValue = Validator.md5(userPasswordValue);
+                            if (!Validator.isEmpty(userPasswordValue)) {
+                                userPasswordValue = Validator.md5(userPasswordValue);
+                            }
                             String encodedImage = "";
                             if (avatarByteArray != null) {
                                 encodedImage = Base64.encodeToString(avatarByteArray, Base64.DEFAULT);
