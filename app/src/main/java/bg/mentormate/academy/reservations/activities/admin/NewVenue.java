@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -48,6 +50,8 @@ public class NewVenue extends ActionBarActivity {
     String capacity;
     String workTime;
     String encodedImage;
+    Spinner cities;
+    Spinner types;
     int owner_id;
 
     @Override
@@ -56,7 +60,7 @@ public class NewVenue extends ActionBarActivity {
         setContentView(R.layout.activity_new_venue);
 
         nameField = (EditText) findViewById(R.id.name);
-        cityField = (EditText) findViewById(R.id.city);
+        //cityField = (EditText) findViewById(R.id.city);
         addressField = (EditText) findViewById(R.id.address);
         phoneField = (EditText) findViewById(R.id.phone);
        // latitudeField = (EditText) findViewById(R.id.latitude);
@@ -65,6 +69,25 @@ public class NewVenue extends ActionBarActivity {
         capacityField = (EditText) findViewById(R.id.capacity);
         workTimeField = (EditText) findViewById(R.id.hours);
         owner_id = sessionData.getUser().getId();
+        cities = (Spinner) findViewById(R.id.city);
+        types = (Spinner) findViewById(R.id.type);
+        ArrayAdapter<CharSequence> venueCityAdapter;
+        ArrayAdapter<CharSequence> venueTypeAdapter;
+
+        venueTypeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.venues_type_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        venueTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        types.setAdapter(venueTypeAdapter);
+
+        venueCityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.cities_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        venueTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        cities.setAdapter(venueCityAdapter);
+
 
 
         picChooser = (ImageView) findViewById(R.id.venuePictureChooser);

@@ -39,39 +39,18 @@
         android:id="@+id/capacity"
         />
 
-    <LinearLayout
-        style="@style/TextViewStyle"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Venue Type: "
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="#ff787878"
-            android:layout_weight="3"/>
+
         <Spinner
         style="@style/TextViewStyle"
         android:id="@+id/type"
-            android:layout_weight="1"
-        /></LinearLayout>
-    <LinearLayout
-        style="@style/TextViewStyle"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="City : "
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="#ff787878"
-            android:layout_weight="3"/>
+        android:layout_marginBottom="20dp"
+        ></Spinner>
         <Spinner
             style="@style/TextViewStyle"
             android:id="@+id/city"
-            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
-            /></LinearLayout>
+         ></Spinner>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
