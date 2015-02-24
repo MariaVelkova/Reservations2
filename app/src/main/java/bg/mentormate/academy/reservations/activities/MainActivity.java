@@ -39,6 +39,7 @@ import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.GetCities;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
+import bg.mentormate.academy.reservations.database.DBConstants;
 import bg.mentormate.academy.reservations.models.City;
 import bg.mentormate.academy.reservations.models.CustomActionBarDrawerToggle;
 import bg.mentormate.academy.reservations.models.User;
@@ -315,9 +316,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Build the Intent used to open VenueDetailActivity with a specific word Uri
                 Intent intent = new Intent(getApplicationContext(), VenueDetailActivity.class);
-                Venue venue = (Venue) parent.getAdapter().getItem(position);
-                String venueString = venue.toString();
-                intent.putExtra("venue", venueString);
+                Uri data = Uri.withAppendedPath(DBConstants.CONTENT_URI_VENUES,
+                        String.valueOf(id));
+                Log.d("ID1",String.valueOf(id));
+                Log.d("ID",String.valueOf(parent.getSelectedItemId()));
+                Log.d("URI", data.toString());
+                intent.setData(data);
+//                Venue venue = (Venue) parent.getAdapter().getItem(position);
+//                String venueString = venue.toString();
+//                intent.putExtra("venue", venueString);
                 startActivity(intent);
             }
         });

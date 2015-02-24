@@ -50,21 +50,30 @@ public class VenueDetailActivity extends ActionBarActivity implements View.OnCli
             Uri uri = callerIntent.getData();
             Cursor cursor = managedQuery(uri, null, null, null, null);
 
-            if (cursor == null) {
-                finish();
-            } else {
+            if (cursor != null) {
+
                 cursor.moveToFirst();
 
-                TextView venueName = (TextView) findViewById(R.id.venueName);
-                TextView venueAddress = (TextView) findViewById(R.id.venueAddress);
-
-                int venueNameIndex = cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_NAME);
-                int venueAddressIndex = cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_ADDRESS);
-
-                venueName.setText(cursor.getString(venueNameIndex));
-                venueAddress.setText(cursor.getString(venueAddressIndex));
+                try {
+                    venue = new Venue(
+                            cursor.getInt(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_ID)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_NAME)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_TYPE)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_PHONE)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_ADDRESS)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_CITY)),
+                            cursor.getDouble(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_LAT)),
+                            cursor.getDouble(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_LON)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_WORKTIME)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_CAPCITY)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_OWNER_ID)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DBConstants.DB_TABLE_VENUES_IMAGE)));
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
             }
-            /****/
+
+            /****
             String venueString = callerIntent.getStringExtra("venue");
             JSONObject venueJSON = null;
             try {
@@ -81,6 +90,7 @@ public class VenueDetailActivity extends ActionBarActivity implements View.OnCli
                 }
 
             }
+             */
         }
 
         if (venue != null) {
