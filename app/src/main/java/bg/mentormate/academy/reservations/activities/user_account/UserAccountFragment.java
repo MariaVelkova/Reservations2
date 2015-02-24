@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.activities.user_account;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
-import bg.mentormate.academy.reservations.common.GetUserAccount;
 import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
@@ -226,15 +225,22 @@ public class UserAccountFragment extends Fragment {
                                 encodedImage = Base64.encodeToString(avatarByteArray, Base64.DEFAULT);
                                 String yourText = new String(avatarByteArray, UTF8_CHARSET);
                             }
-                            PostRequest registrationTask = new PostRequest(userId, userEmailValue, userPasswordValue, Integer.toString(userTypeValue) , userFirstNameValue, userLastNameValue, userCityValue, userPhoneValue, encodedImage);
-                            String result = "";
+                            PostRequest registrationTask = null;
                             try {
-                                result = registrationTask.execute().get();
-                                int i = 0;
-                            } catch (InterruptedException e) {
+                                registrationTask = new PostRequest(getActivity(),userId, userEmailValue, userPasswordValue, Integer.toString(userTypeValue) , userFirstNameValue, userLastNameValue, userCityValue, userPhoneValue, encodedImage);
+                            } catch (NetworkErrorException e) {
                                 e.printStackTrace();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
+                            }
+                            String result = "";
+                            if (registrationTask != null) {
+                                try {
+                                    result = registrationTask.execute().get();
+                                    int i = 0;
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             if (Validator.isEmpty(result)) {
                                 Toast.makeText(activity, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();

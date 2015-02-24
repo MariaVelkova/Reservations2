@@ -1,5 +1,7 @@
 package bg.mentormate.academy.reservations.common;
 
+import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,6 +18,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bg.mentormate.academy.reservations.R;
+
 /**
  * Created by PC on 16.2.2015 г..
  */
@@ -31,7 +35,9 @@ public class PostRequestVenue extends AsyncTask<String, Void, String> {
     private String capacity;
     private String owner;
 
-    public PostRequestVenue(String name, String type, String phone, String city, String address, String lat, String lon, String worktime, String capacity, String owner, String photo) {
+    Context context;
+
+    public PostRequestVenue(Context context, String name, String type, String phone, String city, String address, String lat, String lon, String worktime, String capacity, String owner, String photo) throws NetworkErrorException {
         this.name = name;
         this.type = type;
         this.phone = phone;
@@ -43,6 +49,12 @@ public class PostRequestVenue extends AsyncTask<String, Void, String> {
         this.capacity = capacity;
         this.owner = owner;
         this.photo = photo;
+
+        this.context = context;
+
+        if (!Validator.hasNetworkConnection(context)) {
+            throw new NetworkErrorException(context.getResources().getString(R.string.no_network));
+        }
     }
 
     private String photo;

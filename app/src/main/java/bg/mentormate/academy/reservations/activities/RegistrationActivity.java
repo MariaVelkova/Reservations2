@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.accounts.NetworkErrorException;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -331,15 +332,22 @@ public class RegistrationActivity extends ActionBarActivity {
             encodedImage = Base64.encodeToString(avatarByteArray, Base64.DEFAULT);
             String yourText = new String(avatarByteArray, UTF8_CHARSET);
             }
-            PostRequest registrationTask = new PostRequest(0, userEmailValue, userPasswordValue, Integer.toString(userTypeValue) , userFirstNameValue, userLastNameValue, userCityValue, userPhoneValue, encodedImage);
-            String result = "";
+            PostRequest registrationTask = null;
             try {
-                result = registrationTask.execute().get();
-                int i = 0;
-            } catch (InterruptedException e) {
+                registrationTask = new PostRequest(RegistrationActivity.this, 0, userEmailValue, userPasswordValue, Integer.toString(userTypeValue) , userFirstNameValue, userLastNameValue, userCityValue, userPhoneValue, encodedImage);
+            } catch (NetworkErrorException e) {
                 e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+            }
+            String result = "";
+            if (registrationTask != null) {
+                try {
+                    result = registrationTask.execute().get();
+                    int i = 0;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
             if (Validator.isEmpty(result)) {
                 Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();

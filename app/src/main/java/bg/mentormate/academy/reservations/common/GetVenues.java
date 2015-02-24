@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.common;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -11,6 +12,7 @@ import org.apache.http.params.BasicHttpParams;
 
 import java.io.IOException;
 
+import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.models.User;
 
 /**
@@ -27,12 +29,20 @@ public class GetVenues  extends AsyncTask<String, Void, String> {
     SessionData sessionData = SessionData.getInstance();
     User user = sessionData.getUser();
 
-    public GetVenues(String query, String venueType, String venueCity, int owner_id) {
+    Context context;
+
+    public GetVenues(Context context, String query, String venueType, String venueCity, int owner_id) throws NetworkErrorException {
 
         this.query = query;
         this.venueType = venueType;
         this.venueCity = venueCity;
         this.owner_id = owner_id;
+
+        this.context = context;
+
+        if (!Validator.hasNetworkConnection(context)) {
+            throw new NetworkErrorException(context.getResources().getString(R.string.no_network));
+        }
     }
 
     @Override

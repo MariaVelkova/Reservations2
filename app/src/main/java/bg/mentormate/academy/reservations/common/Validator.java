@@ -4,6 +4,10 @@ package bg.mentormate.academy.reservations.common;
  * Created by Maria on 2/15/2015.
  */
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -180,5 +184,20 @@ public class Validator {
         }
 
         return dateToReturn;
+    }
+
+
+    public static boolean hasNetworkConnection(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo;
+//        networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//        boolean isWifiConn = networkInfo.isConnected();
+//        networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+//        boolean isMobileConn = networkInfo.isConnected();
+//        Log.d(DEBUG_TAG, "Wifi connected: " + isWifiConn);
+//        Log.d(DEBUG_TAG, "Mobile connected: " + isMobileConn);
+
+        networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

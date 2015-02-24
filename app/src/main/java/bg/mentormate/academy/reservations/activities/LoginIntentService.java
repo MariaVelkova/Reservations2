@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.accounts.NetworkErrorException;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -44,15 +45,22 @@ public class LoginIntentService extends IntentService {
 
             Log.d("LoginIntentService", "Updating the data");
             mBroadcaster.broadcastIntentWithState(DBConstants.STATE_ACTION_STARTED);
-            GetVenues getVenuesTask = new GetVenues("", "", "", 0);
-            String venuesResult = "";
+            GetVenues getVenuesTask = null;
             try {
-                venuesResult = getVenuesTask.execute().get();
-                int fi = 0;
-            } catch (InterruptedException e) {
+                getVenuesTask = new GetVenues(this, "", "", "", 0);
+            } catch (NetworkErrorException e) {
                 e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+            }
+            String venuesResult = "";
+            if (getVenuesTask != null) {
+                try {
+                    venuesResult = getVenuesTask.execute().get();
+                    int fi = 0;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
             if (!Validator.isEmpty(venuesResult)) {
                     JSONObject resultJSON = null;
@@ -138,15 +146,22 @@ public class LoginIntentService extends IntentService {
             }
             int uu = 5;
             if (!Validator.isEmpty(userEmailValue) && Validator.validateEmailAddress(userEmailValue) && !Validator.isEmpty(userPassValue)) {
-                PostLogin loginTask = new PostLogin(userEmailValue, userPassValue);
-                String result = "";
+                PostLogin loginTask = null;
                 try {
-                    result = loginTask.execute().get();
-                    int i = 0;
-                } catch (InterruptedException e) {
+                    loginTask = new PostLogin(this, userEmailValue, userPassValue);
+                } catch (NetworkErrorException e) {
                     e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                }
+                String result = "";
+                if (loginTask != null) {
+                    try {
+                        result = loginTask.execute().get();
+                        int i = 0;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (!Validator.isEmpty(result)) {
                     JSONObject resultJSON = null;

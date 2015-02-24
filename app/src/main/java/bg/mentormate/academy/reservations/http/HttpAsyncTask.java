@@ -24,7 +24,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.FileHelper;
+import bg.mentormate.academy.reservations.common.Validator;
 
 /**
  * Created by Maria on 1/13/2015.
@@ -41,9 +43,13 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
     private Context context;
     private String action;
 
-    public HttpAsyncTask(Context context, String action) {
+    public HttpAsyncTask(Context context, String action) throws NetworkErrorException {
         this.context = context;
         this.action = action;
+
+        if (!Validator.hasNetworkConnection(context)) {
+            throw new NetworkErrorException(context.getResources().getString(R.string.no_network));
+        }
     }
 
     @Override
@@ -63,8 +69,6 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             e.printStackTrace();
             return "Unable to retrieve web page. URL may be invalid.";
-        } catch (NetworkErrorException e) {
-            e.printStackTrace();
         }
         return  result;
     }
@@ -139,7 +143,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
     // Given a URL, establishes an HttpUrlConnection and retrieves
     // the web page content as a InputStream, which it returns as
     // a string.
-    private String downloadUrl(URL url) throws IOException, NetworkErrorException {
+    private String downloadUrl(URL url) throws IOException {
         InputStreamReader byteReader;
         InputStream inputStream = null;
         String resultString = "";
@@ -147,18 +151,34 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
         Log.d("READ FROM", "WEB");
         HttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
         HttpGet httpGet = new HttpGet(String.valueOf(url));
-        HttpResponse response = httpclient.execute(httpGet);
-        HttpEntity entity = response.getEntity();
-
-        inputStream = entity.getContent();
-        byteReader = new InputStreamReader(inputStream, "UTF-8");
-
-        resultString = createString(byteReader);
-
-        if(inputStream != null && inputStream.available() != 0) {
-            inputStream.close();
+        HttpResponse response = null;
+        try {
+            response = httpclient.execute(httpGet);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        if (response != null) {
+            HttpEntity entity = response.getEntity();
 
+            try {
+                inputStream = entity.getContent();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (inputStream != null) {
+                byteReader = new InputStreamReader(inputStream, "UTF-8");
+
+                resultString = createString(byteReader);
+
+                if (inputStream != null && inputStream.available() != 0) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
         return resultString;
         //return "Success";
     }

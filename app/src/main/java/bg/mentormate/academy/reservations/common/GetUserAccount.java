@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import bg.mentormate.academy.reservations.http.HttpRequest;
+import bg.mentormate.academy.reservations.R;
 
 /**
  * Created by Student09 on 2/21/2015.
@@ -31,9 +31,13 @@ public class GetUserAccount  extends AsyncTask<String, Void, String> {
     private Context context;
     private int userId;
 
-    public GetUserAccount(Context context, int userId) {
+    public GetUserAccount(Context context, int userId) throws NetworkErrorException {
         this.context = context;
         this.userId = userId;
+
+        if (!Validator.hasNetworkConnection(context)) {
+            throw new NetworkErrorException(context.getResources().getString(R.string.no_network));
+        }
     }
 
     @Override

@@ -1,9 +1,9 @@
 package bg.mentormate.academy.reservations.common;
 
-import android.content.Entity;
+import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.os.AsyncTask;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -13,11 +13,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+import bg.mentormate.academy.reservations.R;
 
 /**
  * Created by Student09 on 2/19/2015.
@@ -29,12 +29,19 @@ public class PostMakeReservation extends AsyncTask<String, Void, String> {
     private int count;
     private String comment;
 
-    public PostMakeReservation(int user, int venue, long date, int count, String comment) {
+    Context context;
+    public PostMakeReservation(Context context, int user, int venue, long date, int count, String comment) throws NetworkErrorException {
         this.user = user;
         this.venue = venue;
         this.date = date;
         this.count = count;
         this.comment = comment;
+
+        this.context = context;
+
+        if (!Validator.hasNetworkConnection(context)) {
+            throw new NetworkErrorException(context.getResources().getString(R.string.no_network));
+        }
     }
 
     @Override

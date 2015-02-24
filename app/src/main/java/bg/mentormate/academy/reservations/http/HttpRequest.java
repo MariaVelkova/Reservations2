@@ -2,8 +2,6 @@ package bg.mentormate.academy.reservations.http;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -15,7 +13,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -56,19 +53,6 @@ public class HttpRequest {
         this.mBroadcaster = new BroadcastNotifier(context);
     }
 
-    public boolean hasNetworkConnection() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo;
-        networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        boolean isWifiConn = networkInfo.isConnected();
-        networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        boolean isMobileConn = networkInfo.isConnected();
-        Log.d(DEBUG_TAG, "Wifi connected: " + isWifiConn);
-        Log.d(DEBUG_TAG, "Mobile connected: " + isMobileConn);
-
-        networkInfo = connectivityManager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
     private String downloadUrl(URL url) throws IOException, NetworkErrorException {
         InputStreamReader byteReader;
@@ -96,7 +80,7 @@ public class HttpRequest {
 
     public JSONObject getData(URL url, String action) throws NetworkErrorException, IOException {
 
-        if (!hasNetworkConnection()) {
+        if (!Validator.hasNetworkConnection(context)) {
             throw new NetworkErrorException(context.getResources().getString(R.string.no_network));
         }
         //new HttpAsyncTask(context, action).execute(url.toString());

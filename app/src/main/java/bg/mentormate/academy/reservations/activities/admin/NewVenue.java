@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.activities.admin;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -113,9 +114,16 @@ public class NewVenue extends ActionBarActivity {
                         byte[] byteArray = streamS.toByteArray();
                         encodedImage = Base64.encodeToString(byteArray, Base64.URL_SAFE);
 
-                        PostRequestVenue postRequestVenue = new PostRequestVenue(name, "1", phone, city, address, latitude, longitude,
-                                workTime, capacity, (owner_id + " "), encodedImage);
-                        postRequestVenue.execute();
+                        PostRequestVenue postRequestVenue = null;
+                        try {
+                            postRequestVenue = new PostRequestVenue(NewVenue.this, name, "1", phone, city, address, latitude, longitude,
+                                    workTime, capacity, (owner_id + " "), encodedImage);
+                        } catch (NetworkErrorException e) {
+                            e.printStackTrace();
+                        }
+                        if (postRequestVenue != null) {
+                            postRequestVenue.execute();
+                        }
                     }
                 }
             }

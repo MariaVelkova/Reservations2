@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.accounts.NetworkErrorException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -114,20 +115,28 @@ public class LoginActivity extends ActionBarActivity {
             if (buttonPreesed) {
                 userPassValue = Validator.md5(userPassValue);
             }
-            PostLogin loginTask = new PostLogin(userEmailValue, userPassValue);
-            String result = "";
+            PostLogin loginTask = null;
             try {
-                result = loginTask.execute().get();
-                int i = 0;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+                loginTask = new PostLogin(this,userEmailValue, userPassValue);
+            } catch (NetworkErrorException e) {
+                Toast.makeText(this, getString(R.string.no_network), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            if (Validator.isEmpty(result)) {
-                if (buttonPreesed == true) {
-                    Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+            String result = "";
+            if (loginTask != null) {
+                try {
+                    result = loginTask.execute().get();
+                    int i = 0;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
+            }
+            if (Validator.isEmpty(result)) {
+//                if (buttonPreesed == true) {
+//                    Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+//                }
             } else {
                 JSONObject resultJSON = null;
                 try {
@@ -207,10 +216,11 @@ public class LoginActivity extends ActionBarActivity {
                                 User userObj = new User( userId, userType, userEmailValue, user.getString("password"),  user.getString("first_name"), user.getString("last_name"), user.getString("phone"),  user.getString("city"), user.getString("avatar")) ;
                                 sessionData.setUser(userObj);
                                 FileHelper.writeFile(this, user.toString());
+
+                                goToHomePage(userId, userType);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            goToHomePage(userId, userType);
                         }
 
 
@@ -222,13 +232,13 @@ public class LoginActivity extends ActionBarActivity {
                         if (!Validator.isEmpty(message)) {
                             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                 } else {
                     if (buttonPreesed == true) {
-                        Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
                     }
                 }
 

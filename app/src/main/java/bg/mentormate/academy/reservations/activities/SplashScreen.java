@@ -87,7 +87,7 @@ public class SplashScreen extends Activity {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mLoginServiceReceiver);
             mLoginServiceReceiver = null;
         }
-
+        stopService();
         // Must always call the super method at the end.
         super.onDestroy();
     }

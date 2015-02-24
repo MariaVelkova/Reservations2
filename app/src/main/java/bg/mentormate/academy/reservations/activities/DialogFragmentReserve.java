@@ -1,5 +1,6 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.accounts.NetworkErrorException;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -145,15 +146,22 @@ public class DialogFragmentReserve extends DialogFragment implements View.OnClic
                     Calendar GMTCalendar = Calendar.getInstance();
                     GMTCalendar.setTime(date);
 
-                    PostMakeReservation reservationTask = new PostMakeReservation(userId, venueId, date.getTime() / 1000, people.getSelectedItemPosition() + 1, "");
-                    String result = "";
+                    PostMakeReservation reservationTask = null;
                     try {
-                        result = reservationTask.execute().get();
-                        int i = 0;
-                    } catch (InterruptedException e) {
+                        reservationTask = new PostMakeReservation(getActivity(), userId, venueId, date.getTime() / 1000, people.getSelectedItemPosition() + 1, "");
+                    } catch (NetworkErrorException e) {
                         e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
+                    }
+                    String result = "";
+                    if (reservationTask != null) {
+                        try {
+                            result = reservationTask.execute().get();
+                            int i = 0;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     }
                     if (Validator.isEmpty(result)) {
                         Toast.makeText(getActivity(), "Sorry!\nSomething went wrong\nPlease check your internet connection and try again", Toast.LENGTH_SHORT).show();
