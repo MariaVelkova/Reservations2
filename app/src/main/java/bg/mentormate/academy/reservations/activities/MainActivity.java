@@ -52,6 +52,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     //public static final String KEY_VENUE = SearchManager.SUGGEST_COLUMN_TEXT_1;
     //public static final String KEY_ADDRESS = SearchManager.SUGGEST_COLUMN_TEXT_2;
 
+    //http://it-ride.blogspot.com/2010/10/android-implementing-notification.html
     ArrayList<String> mLeftItems;
     ArrayAdapter mLeftAdapter;
     ListView mLeftDrawer;
