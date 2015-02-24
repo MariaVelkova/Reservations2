@@ -17,7 +17,6 @@ import bg.mentormate.academy.reservations.activities.VenueDetailActivity;
 import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.database.DBConstants;
-import bg.mentormate.academy.reservations.models.Venue;
 
 public class AdminVenuesList extends ActionBarActivity {
     ListView list;
@@ -28,6 +27,7 @@ public class AdminVenuesList extends ActionBarActivity {
         Log.d("Refreshed", "Yes");
         super.onCreate(savedInstanceState);
         VenuesAdapter venuesAdapter = new VenuesAdapter(this, "","","", sessionData.getUser().getId());
+
         if(venuesAdapter.getCount() == 0) {
             setContentView(R.layout.admin_empty_venues_list);
         } else {

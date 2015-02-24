@@ -2,9 +2,11 @@ package bg.mentormate.academy.reservations.activities.admin;
 
 import android.accounts.NetworkErrorException;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
@@ -16,14 +18,22 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.common.GetVenues;
 import bg.mentormate.academy.reservations.common.PostRequestVenue;
 import bg.mentormate.academy.reservations.common.SessionData;
+import bg.mentormate.academy.reservations.common.Validator;
+import bg.mentormate.academy.reservations.database.DBConstants;
 
 public class NewVenue extends ActionBarActivity {
     SessionData sessionData = SessionData.getInstance();
@@ -42,6 +52,7 @@ public class NewVenue extends ActionBarActivity {
     EditText workTimeField;
     String name;
     String city;
+    String type;
     String address;
     String hours;
     String phone;
@@ -115,17 +126,16 @@ public class NewVenue extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 name = nameField.getText().toString();
-                city = cityField.getText().toString();
+                city = cities.getSelectedItem().toString();
+                type = types.getSelectedItem().toString();
                 hours = hoursField.getText().toString();
                 phone = phoneField.getText().toString();
                 address = addressField.getText().toString();
-                latitude = latitudeField.getText().toString();
-                longitude = longitudeField.getText().toString();
                 capacity = capacityField.getText().toString();
                 workTime = workTimeField.getText().toString();
 
-                if (name.equals("") || city.equals("") || hours.equals("") || phone.equals("")
-                        || address.equals("") || latitude.equals("") || longitude.equals("") || capacity.equals("")
+                if (name.equals("") ||  hours.equals("") || phone.equals("")
+                        || address.equals("") || capacity.equals("")
                         || workTime.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please Fill Out All The Information", Toast.LENGTH_SHORT).show();
                 } else {
@@ -140,19 +150,103 @@ public class NewVenue extends ActionBarActivity {
 
                         PostRequestVenue postRequestVenue = null;
                         try {
-                            postRequestVenue = new PostRequestVenue(NewVenue.this, name, "1", phone, city, address, latitude, longitude,
-                                    workTime, capacity, (owner_id + " "), encodedImage);
+                            postRequestVenue = new PostRequestVenue(NewVenue.this, name, type, phone, city, address, "0", "0",
+                                    workTime, capacity, Integer.toString(owner_id), encodedImage);
                             int a =2;
                         } catch (NetworkErrorException e) {
                             e.printStackTrace();
                         }
+                        String result = "";
                         if (postRequestVenue != null) {
-                            postRequestVenue.execute();
+                            try {
+                                result = postRequestVenue.execute().get();
+                                updateVenueDB();
+                                Toast.makeText(getApplicationContext(), "Venue Created Successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
             }
         });
+    }
+
+    private void updateVenueDB() {
+        GetVenues getVenuesTask = null;
+        try {
+            getVenuesTask = new GetVenues(this, "", "", "", 0);
+        } catch (NetworkErrorException e) {
+            e.printStackTrace();
+        }
+        String venuesResult = "";
+        if (getVenuesTask != null) {
+            try {
+                venuesResult = getVenuesTask.execute().get();
+                int fi = 0;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!Validator.isEmpty(venuesResult)) {
+            JSONObject resultJSON = null;
+            try {
+                resultJSON = new JSONObject(venuesResult);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (resultJSON != null) {
+                JSONArray venues = null;
+                try {
+                    venues = resultJSON.getJSONArray("venues");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (venues != null) {
+                    for (int i = 0; i < venues.length(); i++) {
+
+                        JSONObject venue = null;
+                        try {
+                            venue = venues.getJSONObject(i);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (venue != null) {
+                            ContentValues values = new ContentValues();
+                            try {
+                                values.put(DBConstants.DB_TABLE_VENUES_ID, venue.getInt(DBConstants.DB_TABLE_VENUES_ID));
+                                values.put(DBConstants.DB_TABLE_VENUES_NAME, venue.getString(DBConstants.DB_TABLE_VENUES_NAME));
+                                values.put(DBConstants.DB_TABLE_VENUES_TYPE, venue.getString(DBConstants.DB_TABLE_VENUES_TYPE));
+                                values.put(DBConstants.DB_TABLE_VENUES_PHONE, venue.getString(DBConstants.DB_TABLE_VENUES_PHONE));
+                                values.put(DBConstants.DB_TABLE_VENUES_CITY, venue.getString(DBConstants.DB_TABLE_VENUES_CITY));
+                                values.put(DBConstants.DB_TABLE_VENUES_ADDRESS, venue.getString(DBConstants.DB_TABLE_VENUES_ADDRESS));
+                                values.put(DBConstants.DB_TABLE_VENUES_LAT, venue.getDouble(DBConstants.DB_TABLE_VENUES_LAT));
+                                values.put(DBConstants.DB_TABLE_VENUES_LON, venue.getDouble(DBConstants.DB_TABLE_VENUES_LON));
+                                values.put(DBConstants.DB_TABLE_VENUES_CAPCITY, venue.getInt(DBConstants.DB_TABLE_VENUES_CAPCITY));
+                                values.put(DBConstants.DB_TABLE_VENUES_WORKTIME, venue.getString(DBConstants.DB_TABLE_VENUES_WORKTIME));
+                                values.put(DBConstants.DB_TABLE_VENUES_OWNER_ID, venue.getInt(DBConstants.DB_TABLE_VENUES_OWNER_ID));
+                                values.put(DBConstants.DB_TABLE_VENUES_IMAGE, venue.getString(DBConstants.DB_TABLE_VENUES_IMAGE));
+                                values.put(DBConstants.DB_TABLE_VENUES_CREATED, venue.getInt(DBConstants.DB_TABLE_VENUES_CREATED));
+                                values.put(DBConstants.DB_TABLE_VENUES_LAST_UPDATED, venue.getInt(DBConstants.DB_TABLE_VENUES_LAST_UPDATED));
+                                String venueId = Integer.toString(venue.getInt(DBConstants.DB_TABLE_VENUES_ID));
+                                int row_count = getContentResolver().update(DBConstants.CONTENT_URI_VENUES, values, "id = ?", new String[]{venueId});
+                                if (row_count == 0) {
+                                    Uri uri = getContentResolver().insert(DBConstants.CONTENT_URI_VENUES, values);
+                                }
+                                int y = 0;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
