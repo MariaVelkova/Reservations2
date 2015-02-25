@@ -1,17 +1,14 @@
 package bg.mentormate.academy.reservations.activities;
 
 import android.accounts.NetworkErrorException;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -31,7 +28,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +42,8 @@ import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 
 public class RegistrationActivity extends ActionBarActivity {
-
+    public static final int REQUEST_CODE = 1;
+    Bitmap bitmap = null;
     private final String TAG = getClass().getSimpleName();
     private final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 
@@ -83,6 +83,25 @@ public class RegistrationActivity extends ActionBarActivity {
         userType = (CheckBox) findViewById(R.id.owner);
 
         userCity = (Spinner) findViewById(R.id.userCity);
+        avatarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT, null);
+                galleryIntent.setType("image/*");
+                galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+
+                Intent chooser = new Intent(Intent.ACTION_CHOOSER);
+                chooser.putExtra(Intent.EXTRA_INTENT, galleryIntent);
+                chooser.putExtra(Intent.EXTRA_TITLE, "Choose Action");
+
+                Intent[] intentArray = {cameraIntent};
+                chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+                startActivityForResult(chooser, REQUEST_CODE);
+            }
+        });
 /*
         // Create an ArrayAdapter using the string array and a default spinner layout
         List<String> list = new ArrayList<String>();
@@ -171,7 +190,7 @@ public class RegistrationActivity extends ActionBarActivity {
 
     }
 
-    public void openUploadImageDialog(View v) {
+   /* public void openUploadImageDialog(View v) {
         Log.d("RegistrationActivity","openUploadImageDialog");
 
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
@@ -199,41 +218,36 @@ public class RegistrationActivity extends ActionBarActivity {
             Log.d("RegistrationActivity","NO PackageManager.FEATURE_CAMERA");
             selectImage();
         }
-    }
+    }*/
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_IMAGE_OPEN:
-                    Log.d("onActivityResult","REQUEST_IMAGE_OPEN");
-                    try {
-                        avatar = getBitmapFromUri(data.getData());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data.getData() != null) {
+                try {
+                    if (bitmap != null) {
+                        bitmap.recycle();
                     }
-                    break;
-                case REQUEST_IMAGE_CAPTURE:
-                    Log.d("TAKE_PICTURE","Yep");
-                    Bundle extras = data.getExtras();
-                    avatar = (Bitmap) extras.get("data");
-                    break;
+
+                    InputStream stream = getContentResolver().openInputStream(data.getData());
+                    bitmap = BitmapFactory.decodeStream(stream);
+                    avatarImage.setImageBitmap(bitmap);
+                    stream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                bitmap = (Bitmap) data.getExtras().get("data");
+                avatarImage.setImageBitmap(bitmap);
             }
-        }
 
-        if (avatar != null) {
-
-           // avatar = rotateBitmap(avatar,90);
-
-            avatarImage.setImageBitmap(avatar);
-
-            ByteArrayOutputStream streamS = new ByteArrayOutputStream();
-            avatar.compress(Bitmap.CompressFormat.PNG, 100, streamS);
-            avatarByteArray = streamS.toByteArray();
-
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 
     public Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
         Matrix matrix = new Matrix();
@@ -255,7 +269,7 @@ public class RegistrationActivity extends ActionBarActivity {
         return rotatedBitmap;
     }
 
-    public void selectImage() {
+    /*public void selectImage() {
         Log.d(TAG,"selectImage");
 
         // Generate the Intent.
@@ -266,9 +280,9 @@ public class RegistrationActivity extends ActionBarActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_OPEN);
         }
-    }
+    }*/
 
-    private void takePicture() {
+  /*  private void takePicture() {
         Log.d(TAG,"takePicture");
 
         // Generate the Intent.
@@ -277,7 +291,7 @@ public class RegistrationActivity extends ActionBarActivity {
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
 
-    }
+    }*/
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor =
@@ -333,11 +347,10 @@ public class RegistrationActivity extends ActionBarActivity {
         } else {
             Log.d("REGISTRATION","VALID");
             userPasswordValue = Validator.md5(userPasswordValue);
-            String encodedImage = null;
-            if (avatarByteArray != null) {
-            encodedImage = Base64.encodeToString(avatarByteArray, Base64.URL_SAFE);
-          //  String yourText = new String(avatarByteArray, UTF8_CHARSET);
-            }
+            ByteArrayOutputStream streamS = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamS);
+            byte[] byteArray = streamS.toByteArray();
+            String encodedImage = Base64.encodeToString(byteArray, Base64.URL_SAFE);
             PostRequest registrationTask = null;
             try {
                 registrationTask = new PostRequest(RegistrationActivity.this, 0, userEmailValue, userPasswordValue, Integer.toString(userTypeValue) , userFirstNameValue, userLastNameValue, userCityValue, userPhoneValue, encodedImage);
