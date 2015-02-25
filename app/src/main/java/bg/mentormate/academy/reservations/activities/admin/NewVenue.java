@@ -145,7 +145,7 @@ public class NewVenue extends ActionBarActivity {
                     } else {
                         bitmap = Validator.rotateBitmap(bitmap,90);
                         ByteArrayOutputStream streamS = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, streamS);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamS);
                         byte[] byteArray = streamS.toByteArray();
                         encodedImage = Base64.encodeToString(byteArray, Base64.URL_SAFE);
 
