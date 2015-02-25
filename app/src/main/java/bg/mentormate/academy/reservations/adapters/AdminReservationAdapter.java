@@ -181,10 +181,14 @@ public class AdminReservationAdapter  extends BaseAdapter {
         String pictureArray = currentReservation.getVenue_image();
 
         pictureArray = pictureArray.trim();
-        byte[] imgbytes = Base64.decode(pictureArray, Base64.URL_SAFE);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
-        picture.setImageDrawable(bitmapDrawable);
+        if (!Validator.isEmpty(pictureArray)) {
+            byte[] imgbytes = Base64.decode(pictureArray, Base64.URL_SAFE);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
+            picture.setImageDrawable(bitmapDrawable);
+        } else {
+            picture.setImageDrawable(context.getResources().getDrawable(R.drawable.no_image));
+        }
         date.setText(currentReservation.getDateBookedString());
         peopleCount.setText("For " + currentReservation.getPeopleCount());
         userName.setText(currentReservation.getUser_first_name() + " " + currentReservation.getUser_last_name());

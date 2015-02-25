@@ -42,28 +42,28 @@
     <string name="action_filter">Filter Results</string>
 
     <string-array name="cities_array">
-        <item>Plovdiv</item>
-        <item>Varna</item>
-        <item>Burgas</item>
-        <item>Rousse</item>
-        <item>Stara Zagora</item>
-        <item>Pleven</item>
-        <item>Sliven</item>
-        <item>Dobrich</item>
-        <item>Kardzhali</item>
-        <item>Pernik</item>
-        <item>Shumen</item>
-        <item>Haskovo</item>
-        <item>Yambol</item>
-        <item>Pazardzhik</item>
-        <item>Blagoevgrad</item>
-        <item>Veliko Tarnovo</item>
-        <item>Vratsa</item>
-        <item>Gabrovo</item>
         <item>Asenovgrad</item>
-        <item>Vidin</item>
+        <item>Blagoevgrad</item>
+        <item>Burgas</item>
+        <item>Dobrich</item>
+        <item>Gabrovo</item>
+        <item>Haskovo</item>
+        <item>Kardzhali</item>
         <item>Kazanlak</item>
+        <item>Pazardzhik</item>
+        <item>Pernik</item>
+        <item>Pleven</item>
+        <item>Plovdiv</item>
+        <item>Rousse</item>
+        <item>Shumen</item>
+        <item>Sliven</item>
         <item>Sofia</item>
+        <item>Stara Zagora</item>
+        <item>Varna</item>
+        <item>Veliko Tarnovo</item>
+        <item>Vidin</item>
+        <item>Vratsa</item>
+        <item>Yambol</item>
     </string-array>
     <string-array name="venue_types_array">
         <item>All</item>
@@ -85,14 +85,14 @@
     <string name="userEmail">Email</string>
     <string name="title_activity_authorised_base">AuthorisedBaseActivity</string>
     <string name="no_network">No network connection available.</string>
-    <string name="empty_email_error">Email is empty</string>
+    <string name="empty_email_error">Empty Email</string>
     <string name="invalid_email_error">Invalid Email</string>
     <string name="empty_pass_error">Empty Pass</string>
     <string name="different_pass_error">Passwords do not match</string>
     <string name="empty_fname_error">Empty First Name</string>
     <string name="empty_lname_error">Empty Last Name</string>
     <string name="empty_phone_error">Empty Phone Number</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_splash_screen">Reservations</string>
     <string name="loging">Logging In</string>
     <string name="loading">Loading Data</string>
     <string name="address_label">Address:</string>
@@ -145,23 +145,6 @@ By continuing to access or use our Service after those revisions become effectiv
 bound by the revised terms. If you do not agree to the new terms, please stop using the Service.
 Contact Us\n
 If you have any questions about these Terms, please contact us</string>
-    <string name="google_maps_key_instructions" templateMergeStrategy="replace">
-        <!--
-    TODO: Before you run your application, you need a Google Maps API key.
-
-    To get one, follow this link, follow the directions and press "Create" at the end:
-
-https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=2D:3B:09:17:40:95:03:43:1C:11:7E:9A:41:65:0F:4D:94:9E:24:CB%3Bbg.mentormate.academy.reservations
-
-    You can also add your credentials to an existing key, using this line:
-    2D:3B:09:17:40:95:03:43:1C:11:7E:9A:41:65:0F:4D:94:9E:24:CB;bg.mentormate.academy.reservations
-
-    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
-    string in this file.
-        -->
-    </string>
-    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyAthpOoxah7GXTGW8eq7oSnNY86D1Q4RyU</string>
-    <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_privacy">Terms and Conditions</string>
     <string name="title_activity_about">About Us</string>
     <string name="about"></string>

@@ -87,20 +87,9 @@ public class SplashScreen extends Activity {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mLoginServiceReceiver);
             mLoginServiceReceiver = null;
         }
-        stopService();
+        //stopService();
         // Must always call the super method at the end.
         super.onDestroy();
-    }
-
-    /*
-     * This callback is invoked when the system is stopping the Activity. It stops
-     * background threads.
-     */
-    @Override
-    protected void onStop() {
-
-        // Cancel all the running threads managed by the PhotoManager
-        super.onStop();
     }
 
 }

@@ -20,7 +20,10 @@
         <activity
             android:name=".activities.SplashScreen"
             android:label="@string/title_activity_splash_screen"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:noHistory="true">
+            <!--android:alwaysRetainTaskState="true">-->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

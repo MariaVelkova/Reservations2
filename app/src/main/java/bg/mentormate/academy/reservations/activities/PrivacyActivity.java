@@ -1,14 +1,16 @@
 package bg.mentormate.academy.reservations.activities;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
-import android.widget.TextView;
-import android.content.res.Resources;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.activities.admin.AdminActivity;
+import bg.mentormate.academy.reservations.common.SessionData;
 
 public class PrivacyActivity extends ActionBarActivity {
 
@@ -84,6 +86,24 @@ public class PrivacyActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_blank, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent;
+                if (SessionData.getInstance().getUser().getType() == 1) {
+                    upIntent = new Intent(this,MainActivity.class);
+                } else {
+                    upIntent = new Intent(this,AdminActivity.class);
+                }
+                startActivity(upIntent);
+                //NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

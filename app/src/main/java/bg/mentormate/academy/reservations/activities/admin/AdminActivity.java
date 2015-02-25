@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +19,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.activities.AboutActivity;
 import bg.mentormate.academy.reservations.activities.LoginActivity;
+import bg.mentormate.academy.reservations.activities.PrivacyActivity;
 import bg.mentormate.academy.reservations.adapters.AdminReservationAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.SessionData;
@@ -181,13 +184,13 @@ public class AdminActivity extends ActionBarActivity {
                 break;
             case 4:
                 // Create a new Intent
-                intent = new Intent(this, AdminAboutActivity.class);
+                intent = new Intent(this, AboutActivity.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
             case 5:
                 // Create a new Intent
-                intent = new Intent(this, AdminTermsActivity.class);
+                intent = new Intent(this, PrivacyActivity.class);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
@@ -209,5 +212,16 @@ public class AdminActivity extends ActionBarActivity {
             SelectItem(position);
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mDrawerLayout.isDrawerOpen(mLeftDrawer)) {
+                mDrawerLayout.closeDrawer(mLeftDrawer);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

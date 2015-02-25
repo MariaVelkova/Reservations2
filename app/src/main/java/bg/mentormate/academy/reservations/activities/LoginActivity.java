@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -24,13 +25,16 @@ import bg.mentormate.academy.reservations.common.FileHelper;
 import bg.mentormate.academy.reservations.common.PostLogin;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
-import bg.mentormate.academy.reservations.models.City;
 import bg.mentormate.academy.reservations.models.User;
 
 public class LoginActivity extends ActionBarActivity {
 
     String userEmailValue = "";
     String userPassValue = "";
+
+    EditText userEmail;
+    EditText userPass;
+
     long currentGMTTime = Validator.getCurrentGMTTime();
     JSONObject userJsonObject = null;
     SessionData sessionData = SessionData.getInstance();
@@ -40,49 +44,21 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        String userEmailValue = "";
+        userEmail = (EditText) findViewById(R.id.userEmail);
+        userPass = (EditText) findViewById(R.id.userPass);
+
         Intent callerIntent = getIntent();
         if (callerIntent != null) {
             userEmailValue = callerIntent.getStringExtra("userEmail");
         }
-        EditText userEmail = (EditText) findViewById(R.id.userEmail);
+
         userEmail.setText(userEmailValue);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*
-        String fileContent = FileHelper.readFile(this);
-        Log.d("USER",fileContent);
-        if (!Validator.isEmpty(fileContent)) {
-
-            try {
-                userJsonObject = new JSONObject(fileContent);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (userJsonObject != null) {
-                try {
-                    userEmailValue = userJsonObject.getString("email");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    userPassValue = userJsonObject.getString("password");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                login(false);
-            }
-        }
-        */
-    }
 
 
     public void userLogin(View v) {
-        EditText userEmail = (EditText) findViewById(R.id.userEmail);
-        EditText userPass = (EditText) findViewById(R.id.userPass);
+
         userEmailValue = userEmail.getText().toString();
         userPassValue = userPass.getText().toString();
 
@@ -90,20 +66,20 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void userRegistration(View v) {
-            Intent intent = new Intent(this, RegistrationActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(this, RegistrationActivity.class);
+        startActivity(intent);
     }
 
     public void login(Boolean buttonPreesed) {
         ArrayList<String> errors = new ArrayList<String>();
 
         if (Validator.isEmpty(userEmailValue)) {
-            errors.add("Empty Email");
+            errors.add(getResources().getString(R.string.empty_email_error));
         } else if (!Validator.validateEmailAddress(userEmailValue)) {
-            errors.add("Invalid Email");
+            errors.add(getResources().getString(R.string.invalid_email_error));
         }
         if (Validator.isEmpty(userPassValue)) {
-            errors.add("Empty Password");
+            errors.add(getResources().getString(R.string.empty_pass_error));
         }
 
         if (errors.size() > 0) {
@@ -126,6 +102,7 @@ public class LoginActivity extends ActionBarActivity {
             if (loginTask != null) {
                 try {
                     result = loginTask.execute().get();
+                    Log.d("Post Login", result);
                     int i = 0;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -163,7 +140,7 @@ public class LoginActivity extends ActionBarActivity {
                             e.printStackTrace();
                         }
                     } else {
-
+/*
                         try {
                             cities = resultJSON.getJSONArray("cities");
                         } catch (JSONException e) {
@@ -191,7 +168,7 @@ public class LoginActivity extends ActionBarActivity {
                             }
                             sessionData.setCities(citiesList);
                         }
-
+*/
                         try {
                             user = resultJSON.getJSONObject("user");
                             int g = 0;
@@ -222,10 +199,6 @@ public class LoginActivity extends ActionBarActivity {
                                 e.printStackTrace();
                             }
                         }
-
-
-                        //dismiss();
-
                     }
 
                     if (buttonPreesed == true) {
@@ -260,13 +233,13 @@ public class LoginActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        Log.d("ATTENTION", "IMPLEMENT LOGIN HERE");
         if (userType == 1) {
             intent = new Intent(this,MainActivity.class);
         } else {
             intent = new Intent(this, AdminActivity.class);
         }
         startActivity(intent);
+        finish();
     }
 
 
@@ -276,6 +249,15 @@ public class LoginActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_blank, menu);
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

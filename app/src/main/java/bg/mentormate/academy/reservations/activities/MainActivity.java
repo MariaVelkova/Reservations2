@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,26 +25,17 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.activities.user_account.UserAccountActivity;
 import bg.mentormate.academy.reservations.adapters.VenuesAdapter;
 import bg.mentormate.academy.reservations.common.FileHelper;
-import bg.mentormate.academy.reservations.common.GetCities;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.database.DBConstants;
-import bg.mentormate.academy.reservations.models.City;
 import bg.mentormate.academy.reservations.models.CustomActionBarDrawerToggle;
 import bg.mentormate.academy.reservations.models.User;
-import bg.mentormate.academy.reservations.models.Venue;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -185,8 +177,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         venueCityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         venueCitySpinner.setAdapter(venueCityAdapter);
         */
-        if (!Validator.isEmpty(user.getCity())) {
-            int spinnerPostion = venueCityAdapter.getPosition(user.getCity());
+        if (!Validator.isEmpty(venueCity)) {
+            int spinnerPostion = venueCityAdapter.getPosition(venueCity);
             venueCitySpinner.setSelection(spinnerPostion);
             spinnerPostion = 0;
         }
@@ -328,7 +320,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 Uri data = Uri.withAppendedPath(DBConstants.CONTENT_URI_VENUES,
                         String.valueOf(id));
                 Log.d("ID1",String.valueOf(id));
-                Log.d("ID",String.valueOf(parent.getSelectedItemId()));
+                Log.d("ID", String.valueOf(parent.getSelectedItemId()));
                 Log.d("URI", data.toString());
                 intent.setData(data);
 //                Venue venue = (Venue) parent.getAdapter().getItem(position);
@@ -445,6 +437,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 FileHelper.writeFile(this, "");
                 // Create a new Intent
                 intent = new Intent(this,LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // Launch the Activity
                 this.startActivity(intent);
                 break;
@@ -485,5 +478,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         public void onItemClick(AdapterView<?> parent, View view, int position,  long id) {
             SelectItem(position);
         }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mDrawerLayout.isDrawerOpen(mRightDrawer)) {
+                mDrawerLayout.closeDrawer(mRightDrawer);
+                return true;
+            }
+            if (mDrawerLayout.isDrawerOpen(mLeftDrawer)) {
+                mDrawerLayout.closeDrawer(mLeftDrawer);
+                return true;
+            }
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

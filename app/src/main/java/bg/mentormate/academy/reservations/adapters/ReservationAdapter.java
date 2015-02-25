@@ -176,6 +176,8 @@ public class ReservationAdapter extends BaseAdapter {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(userAvatarBytes);
             BitmapDrawable venueImageDrawable  = new BitmapDrawable(byteArrayInputStream);
             picture.setImageDrawable(venueImageDrawable);
+        } else {
+            picture.setImageDrawable(context.getResources().getDrawable(R.drawable.no_image));
         }
         date.setText(currentReservation.getDateBookedString() + " / for " + currentReservation.getPeopleCount());
         //peopleCount.setText("For " + currentReservation.getPeopleCount());

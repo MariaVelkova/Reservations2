@@ -5,6 +5,8 @@ package bg.mentormate.academy.reservations.common;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -60,15 +62,9 @@ public class Validator {
     }
 
     public static boolean validateMobileNumber(String mobileNumber) {
-        Pattern regexPattern;
-        Matcher regMatcher;
-        regexPattern = Pattern.compile("^\\+[0-9]{2,3}+-[0-9]{10}$");
-        regMatcher   = regexPattern.matcher(mobileNumber);
-        if(regMatcher.matches()){
-            return true;
-        } else {
-            return false;
-        }
+        //validate phone numbers of format "1234567890"
+        if (mobileNumber.matches("\\d{10}")) return true;
+        else return false;
     }
 
     public static String md5(String input) {
@@ -199,5 +195,25 @@ public class Validator {
 
         networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
+        Matrix matrix = new Matrix();
+
+        matrix.postRotate(degrees);
+
+        int originalWidth = bitmap.getWidth();
+        int originalHeight = bitmap.getHeight();
+        int maxTargetWidth = 120; // your arbitrary fixed limit
+        int maxTargetHeight = 120;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(originalWidth/maxTargetWidth, originalHeight/maxTargetHeight);
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, originalWidth/scaleFactor, originalHeight/scaleFactor, true);
+
+        Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);
+
+        return rotatedBitmap;
     }
 }

@@ -224,6 +224,8 @@ public class VenuesAdapter extends BaseAdapter {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
             venueImage.setImageDrawable(bitmapDrawable);
+        } else {
+            venueImage.setImageDrawable(resources.getDrawable(R.drawable.no_image));
         }
         venueName.setText(currentVenue.getName());
         venueAddress.setText(currentVenue.getAddress());

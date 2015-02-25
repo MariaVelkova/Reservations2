@@ -143,7 +143,7 @@ public class NewVenue extends ActionBarActivity {
                     if (bitmap == null) {
                         Toast.makeText(getApplicationContext(), "Please choose a picture", Toast.LENGTH_SHORT).show();
                     } else {
-
+                        bitmap = Validator.rotateBitmap(bitmap,90);
                         ByteArrayOutputStream streamS = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, streamS);
                         byte[] byteArray = streamS.toByteArray();

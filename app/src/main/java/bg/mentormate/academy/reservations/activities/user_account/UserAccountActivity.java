@@ -2,26 +2,17 @@ package bg.mentormate.academy.reservations.activities.user_account;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import android.view.MenuItem;
 
 import bg.mentormate.academy.reservations.R;
-import bg.mentormate.academy.reservations.common.PostRequest;
-import bg.mentormate.academy.reservations.common.Validator;
+import bg.mentormate.academy.reservations.activities.MainActivity;
+import bg.mentormate.academy.reservations.activities.admin.AdminActivity;
+import bg.mentormate.academy.reservations.common.SessionData;
 
 public class UserAccountActivity extends ActionBarActivity implements UserAccountFragment.OnFragmentInteractionListener {
 
@@ -46,6 +37,24 @@ public class UserAccountActivity extends ActionBarActivity implements UserAccoun
     @Override
     public void onFragmentInteraction(Uri uri) {
         Log.d("onFragmentInteraction",uri.toString());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent;
+                if (SessionData.getInstance().getUser().getType() == 1) {
+                    upIntent = new Intent(this,MainActivity.class);
+                } else {
+                    upIntent = new Intent(this,AdminActivity.class);
+                }
+                startActivity(upIntent);
+                //NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

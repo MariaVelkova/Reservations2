@@ -1,12 +1,15 @@
 package bg.mentormate.academy.reservations.activities;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.activities.admin.AdminActivity;
+import bg.mentormate.academy.reservations.common.SessionData;
 
 public class AboutActivity extends ActionBarActivity {
 
@@ -37,18 +40,22 @@ public class AboutActivity extends ActionBarActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent;
+                if (SessionData.getInstance().getUser().getType() == 1) {
+                    upIntent = new Intent(this,MainActivity.class);
+                } else {
+                    upIntent = new Intent(this,AdminActivity.class);
+                }
+                startActivity(upIntent);
+                //NavUtils.navigateUpFromSameTask(this);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

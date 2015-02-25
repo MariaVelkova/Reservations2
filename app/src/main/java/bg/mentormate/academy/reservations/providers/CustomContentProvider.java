@@ -82,7 +82,7 @@ public class CustomContentProvider extends ContentProvider {
                 queryBuilder.setTables(DBConstants.DB_TABLE_VENUES);
                 if (sortOrder == null || sortOrder == ""){
                     // No sorting-> sort on names by default
-                    sortOrder = DBConstants.DB_TABLE_VENUES_ID;
+                    sortOrder = DBConstants.DB_TABLE_VENUES_NAME;
                 }
                 break;
 //            case DBConstants.TAG_SEARCH_SUGGEST:
@@ -233,7 +233,7 @@ public class CustomContentProvider extends ContentProvider {
     private Cursor getSearchResults(String selection, String[] selectionArgs, String[] columns) {
         Log.d("getSearchResults", columns.toString());
         Cursor cursor = query(DBConstants.CONTENT_URI_VENUES,
-                columns, selection, selectionArgs, DBConstants.DB_TABLE_VENUES_ID);
+                columns, selection, selectionArgs, DBConstants.DB_TABLE_VENUES_NAME);
 
         if (cursor == null) {
             return null;

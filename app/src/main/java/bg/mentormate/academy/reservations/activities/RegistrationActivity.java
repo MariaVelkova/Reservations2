@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -26,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,16 +33,13 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.FileHelper;
-import bg.mentormate.academy.reservations.common.GetCities;
 import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
-import bg.mentormate.academy.reservations.models.City;
 
 public class RegistrationActivity extends ActionBarActivity {
 
@@ -54,19 +49,19 @@ public class RegistrationActivity extends ActionBarActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_IMAGE_OPEN = 2;
 
-    Bitmap avatar = null;
     ImageView avatarImage;
-
     EditText userFirstName;
     EditText userLastName;
-    CheckBox userType;
     EditText userPassword;
     EditText userPassword2;
-    Spinner userCity;
-    EditText userPhone;
     EditText userEmail;
+    EditText userPhone;
+    CheckBox userType;
+    Spinner userCity;
+
     Button registerButton;
 
+    Bitmap avatar = null;
     byte[] avatarByteArray = null;
 
     SessionData sessionData = SessionData.getInstance();
@@ -83,7 +78,6 @@ public class RegistrationActivity extends ActionBarActivity {
         userPassword2 = (EditText) findViewById(R.id.userPassword2);
         userEmail = (EditText) findViewById(R.id.userEmail);
         userPhone = (EditText) findViewById(R.id.userPhone);
-        registerButton = (Button) findViewById(R.id.registerButton);
         userType = (CheckBox) findViewById(R.id.owner);
 
         userCity = (Spinner) findViewById(R.id.userCity);
@@ -173,6 +167,7 @@ public class RegistrationActivity extends ActionBarActivity {
         // Apply the adapter to the spinner
         userCity.setAdapter(cityAdapter);
 
+        registerButton = (Button) findViewById(R.id.registerButton);
     }
 
     public void openUploadImageDialog(View v) {
@@ -228,7 +223,7 @@ public class RegistrationActivity extends ActionBarActivity {
 
         if (avatar != null) {
 
-            avatar = rotateBitmap(avatar,90);
+            avatar = Validator.rotateBitmap(avatar,90);
 
             avatarImage.setImageBitmap(avatar);
 
@@ -238,7 +233,7 @@ public class RegistrationActivity extends ActionBarActivity {
 
         }
     }
-
+/*
     public Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
         Matrix matrix = new Matrix();
 
@@ -258,7 +253,7 @@ public class RegistrationActivity extends ActionBarActivity {
 
         return rotatedBitmap;
     }
-
+*/
     public void selectImage() {
         Log.d(TAG,"selectImage");
 
@@ -309,28 +304,27 @@ public class RegistrationActivity extends ActionBarActivity {
         if (owner) {
             userTypeValue = 2;
         }
-        if (emptyString.equals(userEmailValue)) {
-            errors.add("Empty Email");
+        if (Validator.isEmpty(userEmailValue)) {
+            errors.add(getResources().getString(R.string.empty_email_error));
         } else if (!Validator.validateEmailAddress(userEmailValue)) {
-            errors.add("Invalid Email");
+            errors.add(getResources().getString(R.string.invalid_email_error));
         }
-        if (emptyString.equals(userPasswordValue)) {
-            errors.add("Empty Password");
+        if (Validator.isEmpty(userPasswordValue)) {
+            errors.add(getResources().getString(R.string.empty_pass_error));
         } else if (!userPassword2Value.equals(userPasswordValue)) {
-            errors.add("Passwords do not match");
+            errors.add(getResources().getString(R.string.different_pass_error));
         }
-        if (emptyString.equals(userFirstNameValue)) {
-            errors.add("Empty First Name");
+        if (Validator.isEmpty(userFirstNameValue)) {
+            errors.add(getResources().getString(R.string.empty_fname_error));
         }
-        if (emptyString.equals(userLastNameValue)) {
-            errors.add("Empty Last Name");
+        if (Validator.isEmpty(userLastNameValue)) {
+            errors.add(getResources().getString(R.string.empty_lname_error));
         }
-        if (emptyString.equals(userPhoneValue)) {
-            errors.add("Empty Phone");
+        if (Validator.isEmpty(userPhoneValue)) {
+            errors.add(getResources().getString(R.string.empty_phone_error));
+        } else if(!Validator.validateMobileNumber(userPhoneValue)) {
+            errors.add("Invalid Phone. Phone number should be 10 digits");
         }
-//        else if(!Validator.validateMobileNumber(userPhoneValue)) {
-//            errors.add("Invalid Phone");
-//        }
         if (errors.size() > 0) {
             String validationString = TextUtils.join("\n", errors);
             Toast.makeText(this, validationString, Toast.LENGTH_SHORT).show();
@@ -339,8 +333,8 @@ public class RegistrationActivity extends ActionBarActivity {
             userPasswordValue = Validator.md5(userPasswordValue);
             String encodedImage = null;
             if (avatarByteArray != null) {
-            encodedImage = Base64.encodeToString(avatarByteArray, Base64.URL_SAFE);
-          //  String yourText = new String(avatarByteArray, UTF8_CHARSET);
+                encodedImage = Base64.encodeToString(avatarByteArray, Base64.URL_SAFE);
+            //  String yourText = new String(avatarByteArray, UTF8_CHARSET);
             }
             PostRequest registrationTask = null;
             try {
@@ -372,7 +366,6 @@ public class RegistrationActivity extends ActionBarActivity {
                     int userId = 0;
                     int code = 0;
                     String message = "";
-                    JSONObject data = null;
                     try {
                         code = resultJSON.getInt("code");
                     } catch (JSONException e) {
@@ -407,7 +400,7 @@ public class RegistrationActivity extends ActionBarActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Intent intent = new Intent(this, LoginActivity.class);
+                        Intent intent = new Intent(this, SplashScreen.class);
                         startActivity(intent);
                     }
                 } else {

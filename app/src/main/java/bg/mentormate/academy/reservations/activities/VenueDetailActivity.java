@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.view.Menu;
@@ -18,12 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 
 import bg.mentormate.academy.reservations.R;
+import bg.mentormate.academy.reservations.activities.admin.AdminVenuesList;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
 import bg.mentormate.academy.reservations.database.DBConstants;
@@ -34,6 +31,7 @@ public class VenueDetailActivity extends ActionBarActivity implements View.OnCli
     Venue venue = null;
     DialogFragment reservationDialog = null;
     SessionData sessionData = SessionData.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,5 +167,22 @@ public class VenueDetailActivity extends ActionBarActivity implements View.OnCli
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent;
+                if (sessionData.getUser().getType() == 1) {
+                    upIntent = new Intent(this,MainActivity.class);
+                } else {
+                    upIntent = new Intent(this,AdminVenuesList.class);
+                }
+                startActivity(upIntent);
+                //NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

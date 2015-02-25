@@ -25,14 +25,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
-import bg.mentormate.academy.reservations.models.City;
 import bg.mentormate.academy.reservations.models.User;
 
 /**
@@ -56,6 +54,7 @@ public class UserAccountFragment extends Fragment {
     Spinner userCity;
     EditText userPassword;
     EditText userPassword2;
+    ImageView userAvatar;
 
     byte[] avatarByteArray = null;
 
@@ -138,6 +137,7 @@ public class UserAccountFragment extends Fragment {
 //        }
 
 
+        userAvatar = (ImageView) activity.findViewById(R.id.userAvatar);
         userAvatarValue = user.getAvatar();
         userAvatarValue = userAvatarValue.trim();
 
@@ -145,7 +145,7 @@ public class UserAccountFragment extends Fragment {
             byte[] userAvatarBytes = Base64.decode(userAvatarValue, Base64.URL_SAFE);
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(userAvatarBytes);
             BitmapDrawable avatar  = new BitmapDrawable(byteArrayInputStream);
-            ImageView userAvatar = (ImageView) activity.findViewById(R.id.userAvatar);
+
             userAvatar.setImageDrawable(avatar);
         }
 
@@ -217,10 +217,9 @@ public class UserAccountFragment extends Fragment {
                         }
                         if (emptyString.equals(userPhoneValue)) {
                             errors.add("Empty Phone");
+                        } else if(!Validator.validateMobileNumber(userPhoneValue)) {
+                            errors.add("Invalid Phone. Phone number should be 10 digits");
                         }
-                //        else if(!Validator.validateMobileNumber(userPhoneValue)) {
-                //            errors.add("Invalid Phone");
-                //        }
                         if (errors.size() > 0) {
                             String validationString = TextUtils.join("\n", errors);
                             Toast.makeText(activity, validationString, Toast.LENGTH_SHORT).show();

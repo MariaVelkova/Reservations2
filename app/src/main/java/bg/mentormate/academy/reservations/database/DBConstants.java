@@ -20,7 +20,7 @@ public class DBConstants {
         public static final String AUTHORITY                = "bg.mentormate.academy.reservations.providers.CustomContentProvider";
         //public static final String SUGGESTION_AUTHORITY     = "bg.mentormate.academy.reservations.providers.CustomSearchRecentSuggestionsProvider";
         public static final String DB_NAME                  = "Reservations.db";
-        public static final int DB_VERSION                  = 6;
+        public static final int DB_VERSION                  = 8;
 
         // MIME types used for searching venues
         public static final String VENUES_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE +
