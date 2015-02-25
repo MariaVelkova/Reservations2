@@ -193,6 +193,7 @@ public class AdminReservationAdapter  extends BaseAdapter {
         if(currentReservation.getStatusString().equals("Rejected") ||currentReservation.getStatusString().equals("Accepted")) {
             yes.setVisibility(View.INVISIBLE);
             no.setVisibility(View.INVISIBLE);
+            String status = currentReservation.getStatusString();
             if (currentReservation.getStatusString().equals("Accepted")) {
                 background.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
             } else {

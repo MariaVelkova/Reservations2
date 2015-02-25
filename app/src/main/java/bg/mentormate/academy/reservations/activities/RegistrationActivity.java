@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,16 +34,13 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import bg.mentormate.academy.reservations.R;
 import bg.mentormate.academy.reservations.common.FileHelper;
-import bg.mentormate.academy.reservations.common.GetCities;
 import bg.mentormate.academy.reservations.common.PostRequest;
 import bg.mentormate.academy.reservations.common.SessionData;
 import bg.mentormate.academy.reservations.common.Validator;
-import bg.mentormate.academy.reservations.models.City;
 
 public class RegistrationActivity extends ActionBarActivity {
 
@@ -228,7 +224,7 @@ public class RegistrationActivity extends ActionBarActivity {
 
         if (avatar != null) {
 
-            avatar = rotateBitmap(avatar,90);
+           // avatar = rotateBitmap(avatar,90);
 
             avatarImage.setImageBitmap(avatar);
 

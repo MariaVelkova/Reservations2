@@ -3,6 +3,8 @@ package bg.mentormate.academy.reservations.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -219,12 +221,16 @@ public class VenuesAdapter extends BaseAdapter {
         Resources resources = convertView.getResources();
         final Venue currentVenue = getItem(position);
         String pictureArray = currentVenue.getImage();
-        if (!Validator.isEmpty(pictureArray)) {
+
             byte[] imgbytes = Base64.decode(pictureArray, Base64.URL_SAFE);
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imgbytes);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(byteArrayInputStream);
             venueImage.setImageDrawable(bitmapDrawable);
-        }
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imgbytes, 0, imgbytes.length);
+        Bitmap bmp  =bitmapDrawable.getBitmap();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = true;
+        Bitmap ds = BitmapFactory.decodeByteArray(imgbytes, 0, imgbytes.length, options);
         venueName.setText(currentVenue.getName());
         venueAddress.setText(currentVenue.getAddress());
         venuePhone.setText(currentVenue.getPhone());

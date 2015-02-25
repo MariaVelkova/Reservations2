@@ -15,7 +15,7 @@ public class RejectedReservations extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager(),2);
+        AdminReservationAdapter adapter = new AdminReservationAdapter(this, getSupportFragmentManager(),-1);
         if(adapter.getCount() == 0) {
             setContentView(R.layout.empty_list_view);
             TextView emptyListText = (TextView) findViewById(R.id.emptyListText);
